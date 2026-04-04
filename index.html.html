@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vellum Visuals - Catálogo de Elite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --soft-gold: #f1d592;
+            --black-bg: #0a0a0a;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--black-bg);
+            color: #d1d1d1;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .playfair { font-family: 'Playfair Display', serif; }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+
+        .gold-text { color: var(--gold); }
+        
+        .exp-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .exp-card:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-8px);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 1.5rem 0;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            margin-top: 1rem;
+        }
+
+        .cta-gold {
+            display: inline-block;
+            padding: 1.25rem 3rem;
+            background: var(--gold);
+            color: black;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .cta-gold:hover {
+            background: var(--soft-gold);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .jornada-modern-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- HERO -->
+    <header class="min-h-screen flex items-center justify-center text-center px-6">
+        <div class="reveal">
+            <span class="text-[0.6rem] tracking-[0.6em] uppercase text-gray-500 mb-6 block">Vellum Visuals</span>
+            <h1 class="text-5xl md:text-8xl font-bold mb-6 gold-text">Curadoria de Marca & <br> Identidade de Elite</h1>
+            <p class="playfair italic text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
+                "Onde a fluidez da seda encontra a estrutura da autoridade. <br class="hidden md:block"> Design que não grita, mas impõe respeito."
+            </p>
+            <div class="mt-12">
+                <!-- Ajuste B do Mentor: Link para o formulário (HREF deve ser a URL do seu formulário) -->
+                <a href="#form-link-aqui" class="cta-gold">Solicitar Diagnóstico</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MANIFESTO -->
+    <section class="py-24 px-6 bg-white/[0.01]">
+        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div class="reveal">
+                <h2 class="text-gold playfair italic text-4xl mb-4">O Luxo é Silencioso.</h2>
+                <div class="w-16 h-[1px] bg-gold mx-auto md:mx-0"></div>
+            </div>
+            <div class="reveal">
+                <p class="text-lg font-light leading-relaxed text-gray-300">
+                    Acreditamos que o excesso é ruído. Na Vellum, transformamos visões em legados visuais através de uma curadoria rigorosa. Não entregamos apenas estética; entregamos o respiro necessário para que sua marca seja percebida como única.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIÊNCIAS -->
+    <section id="experiencias" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-bold text-white uppercase tracking-widest">Presença Digital</h2>
+            </div>
+
+            <div class="space-y-8">
+                <!-- EXP 01 -->
+                <div class="reveal exp-card">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div>
+                            <span class="gold-text playfair italic text-xl block mb-2">01.</span>
+                            <h3 class="text-2xl font-bold text-white uppercase">Curadoria Essencial</h3>
+                        </div>
+                        <div class="md:col-span-2">
+                            <p class="text-sm text-gray-400 mb-6 italic">O despertar da sua presença visual imediata.</p>
+                            <ul class="grid sm:grid-cols-2 gap-4 text-sm">
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> 15 Matrizes de Conteúdo (Templates Canva)</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Ecossistema Cromático Oficial (HEX)</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Arquitetura Tipográfica de Autoridade</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Manual de Uso Rápido (Harmonia e Respiro)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXP 02 -->
+                <div class="reveal exp-card border-gold/40">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div>
+                            <span class="gold-text playfair italic text-xl block mb-2">02.</span>
+                            <h3 class="text-2xl font-bold text-white uppercase">Identidade de Autoridade</h3>
+                        </div>
+                        <div class="md:col-span-2">
+                            <p class="text-sm text-gray-400 mb-6 italic">O selo de confiança e o símbolo de poder da marca.</p>
+                            <ul class="grid sm:grid-cols-2 gap-4 text-sm">
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Assinatura Visual Minimalista (Logo & Ícone)</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Moodboard Estratégico de Referências</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Brandbook Institucional de Aplicação</li>
+                                <!-- Ajuste 3.A do Mentor -->
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Arquivos Master em Vetor e Alta Definição</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXP 03 -->
+                <div class="reveal exp-card bg-white/[0.04]">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div>
+                            <span class="gold-text playfair italic text-xl block mb-2">03.</span>
+                            <h3 class="text-2xl font-bold text-white uppercase">Direção Exclusive</h3>
+                        </div>
+                        <div class="md:col-span-2">
+                            <p class="text-sm text-gray-400 mb-6 italic">A gestão completa e a experiência sensorial do seu legado.</p>
+                            <ul class="grid sm:grid-cols-2 gap-4 text-sm">
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Identidade Profunda + Patterns Exclusivos</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Papelaria de Prestígio (Digital & Assinatura)</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Pack de 30 Matrizes de Conteúdo Mensais</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Análise Quinzenal de Posicionamento</li>
+                                <li class="flex items-start"><span class="gold-text mr-3">✦</span> Curadoria Tátil (Papéis e Acabamentos)</li>
+                                <!-- Ajuste 3.B do Mentor -->
+                                <li class="flex items-start sm:col-span-2"><span class="gold-text mr-3">✦</span> Canal Exclusivo: Acesso Direto à Diretora Criativa</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- METHOD -->
+    <section class="py-24 px-6 bg-black/50 text-center">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl gold-text jornada-modern-title mb-12">A Jornada Vellum</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="reveal p-6 bg-white/[0.02] border border-white/5 rounded-xl">
+                    <span class="gold-text text-xs uppercase block mb-3">Imersão</span>
+                    <p class="text-xs text-gray-400">Diagnóstico da essência.</p>
+                </div>
+                <div class="reveal p-6 bg-white/[0.02] border border-white/5 rounded-xl">
+                    <span class="gold-text text-xs uppercase block mb-3">Curadoria</span>
+                    <p class="text-xs text-gray-400">Seleção de elementos.</p>
+                </div>
+                <div class="reveal p-6 bg-white/[0.02] border border-white/5 rounded-xl">
+                    <span class="gold-text text-xs uppercase block mb-3">Refino</span>
+                    <p class="text-xs text-gray-400">A estratégia ganha forma.</p>
+                </div>
+                <div class="reveal p-6 bg-white/[0.02] border border-white/5 rounded-xl">
+                    <span class="gold-text text-xs uppercase block mb-3">Entrega</span>
+                    <p class="text-xs text-gray-400">O novo posicionamento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-24 px-6">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-white text-center playfair italic mb-12">Claridade & Confiança</h2>
+            <div class="reveal">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="flex justify-between items-center text-sm uppercase tracking-widest">
+                        <span>Tempo de maturação do projeto?</span>
+                        <span class="gold-text">+</span>
+                    </div>
+                    <div class="faq-answer">Variamos de 15 a 30 dias úteis para garantir o refino necessário.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="flex justify-between items-center text-sm uppercase tracking-widest">
+                        <span>Suporte pós-entrega?</span>
+                        <span class="gold-text">+</span>
+                    </div>
+                    <div class="faq-answer">Oferecemos suporte direto para garantir uma transição de imagem impecável.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="flex justify-between items-center text-sm uppercase tracking-widest">
+                        <span>Investimento personalizado?</span>
+                        <span class="gold-text">+</span>
+                    </div>
+                    <div class="faq-answer">Sim, o valor final é definido após o nosso Diagnóstico de Posicionamento.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-24 px-6 text-center reveal">
+        <h2 class="text-4xl font-bold text-white mb-8 playfair italic">O Próximo Passo do seu Legado.</h2>
+        <!-- Ajuste B do Mentor: Link para o formulário -->
+        <a href="#form-link-aqui" class="cta-gold">Solicitar Diagnóstico</a>
+        <p class="mt-16 text-[0.6rem] tracking-[0.4em] text-gray-600 uppercase">Vellum Visuals © 2026</p>
+    </footer>
+
+    <script>
+        function toggleFaq(el) {
+            el.classList.toggle('active');
+        }
+
+        const reveals = document.querySelectorAll('.reveal');
+        const handleScroll = () => {
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) el.classList.add('active');
+            });
+        };
+        window.addEventListener('scroll', handleScroll);
+        window.onload = handleScroll;
+
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let lines = [];
+        const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Line {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.speed = 0.5;
+                this.length = 200;
+                this.opacity = 0.05;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + 50, this.y + 100);
+                ctx.strokeStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.stroke();
+                this.x += this.speed; this.y += this.speed;
+                if (this.x > canvas.width || this.y > canvas.height) this.reset();
+            }
+        }
+        for(let i=0; i<20; i++) lines.push(new Line());
+        function animate() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            lines.forEach(l => l.draw());
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
