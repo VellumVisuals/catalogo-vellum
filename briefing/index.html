@@ -255,7 +255,7 @@
         animate();
 
         // INTEGRAÇÃO GOOGLE SHEETS
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxrFnn9mN0C0dCEGJtxzpb3vm3UJbNYndAlz65gwLN16B5WurEGknZy4LiMyxxVWqOR/exec; 
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxrFnn9mN0C0dCEGJtxzpb3vm3UJbNYndAlz65gwLN16B5WurEGknZy4LiMyxxVWqOR/exec"; 
 
         const form = document.getElementById('briefingForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -286,7 +286,7 @@
                 const file1 = document.getElementById('file_catalogo').files[0];
                 const file2 = document.getElementById('file_print').files[0];
 
-                const data = {
+               const data = {
                     contato_nome: formData.get('cliente_nome'),
                     contato_email: formData.get('cliente_email'),
                     contato_whatsapp: formData.get('cliente_whatsapp'),
@@ -295,6 +295,8 @@
                     diferencial: formData.get('diferencial'),
                     faturamento_meta: formData.get('faturamento_meta'),
                     outros: formData.get('outros_detalhes'),
+                    cliente_ideal: formData.get('cliente_ideal'), // linha nova
+                    por_que_voce: formData.get('por_que_voce'),   // linha nova
                     sentimento: formData.get('sentimento_3_palavras'),
                     inspira_marcas: formData.get('inspira_3_marcas'),
                     arquivo_catalogo: await getFileData(file1),
