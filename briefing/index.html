@@ -102,7 +102,6 @@
                         <label class="text-sm font-light text-gray-400">WhatsApp para Contato Direto</label>
                         <input type="text" name="cliente_whatsapp" required class="gold-border p-4 rounded-xl" placeholder="(00) 00000-0000">
                     </div>
-                    <!-- Ajuste A: Campo de E-mail agora com gold-border (Consistência Visual) -->
                     <div class="space-y-2 md:col-span-2">
                         <label class="text-sm font-light text-gray-400">Melhor E-mail Profissional</label>
                         <input type="email" name="cliente_email" required class="gold-border p-4 rounded-xl" placeholder="exemplo@marca.com">
@@ -133,7 +132,6 @@
                         <textarea name="diferencial" rows="3" class="gold-border p-4 rounded-xl resize-none"></textarea>
                     </div>
 
-                    <!-- Ajuste B: Campo "Outros" agora é um textarea para maior conforto do cliente -->
                     <div class="space-y-2">
                         <label class="text-sm font-light text-gray-400">Observações Adicionais / Outros Detalhes</label>
                         <textarea name="outros_detalhes" rows="2" class="gold-border p-4 rounded-xl resize-none" placeholder="Algo mais que queira descrever?"></textarea>
@@ -159,7 +157,6 @@
                         <textarea name="por_que_voce" rows="2" class="gold-border p-4 rounded-xl resize-none"></textarea>
                     </div>
 
-                    <!-- Ajuste C: Micro-copy de Elite para faturamento -->
                     <div class="space-y-2">
                         <label class="text-sm font-light text-gray-400">Qual o estágio atual do seu negócio?</label>
                         <select name="faturamento_meta" required class="gold-border p-4 rounded-xl cursor-pointer">
@@ -255,7 +252,8 @@
         animate();
 
         // INTEGRAÇÃO GOOGLE SHEETS
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxrFnn9mN0C0dCEGJtxzpb3vm3UJbNYndAlz65gwLN16B5WurEGknZy4LiMyxxVWqOR/exec"; 
+        // SUBSTITUA A URL ABAIXO PELA SUA URL QUE TERMINA EM /exec
+        const GOOGLE_SCRIPT_URL = "SUA_URL_AQUI"; 
 
         const form = document.getElementById('briefingForm');
         const submitBtn = document.getElementById('submitBtn');
@@ -268,25 +266,30 @@
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => resolve({ base64: reader.result.split(',')[1], type: file.type, name: file.name });
+            reader.onerror = () => resolve(null);
         });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             if (GOOGLE_SCRIPT_URL === "SUA_URL_AQUI") {
-                statusMsg.innerText = "Configuração pendente: URL do Script não encontrada.";
-                statusMsg.className = "text-center text-sm text-gray-500 mt-4";
+                statusMsg.innerText = "Erro: URL do Google Script não configurada.";
+                statusMsg.className = "text-center text-sm text-red-400 mt-4";
                 statusMsg.classList.remove('hidden');
                 return;
             }
 
-            submitBtn.disabled = true; spinner.classList.remove('hidden'); btnText.innerText = "Sincronizando...";
+            submitBtn.disabled = true; 
+            spinner.classList.remove('hidden'); 
+            btnText.innerText = "Sincronizando...";
+            statusMsg.classList.add('hidden');
 
             try {
                 const formData = new FormData(form);
                 const file1 = document.getElementById('file_catalogo').files[0];
                 const file2 = document.getElementById('file_print').files[0];
 
-               const data = {
+                const data = {
                     contato_nome: formData.get('cliente_nome'),
                     contato_email: formData.get('cliente_email'),
                     contato_whatsapp: formData.get('cliente_whatsapp'),
@@ -295,33 +298,39 @@
                     diferencial: formData.get('diferencial'),
                     faturamento_meta: formData.get('faturamento_meta'),
                     outros: formData.get('outros_detalhes'),
-                    cliente_ideal: formData.get('cliente_ideal'), // linha nova
-                    por_que_voce: formData.get('por_que_voce'),   // linha nova
+                    cliente_ideal: formData.get('cliente_ideal'),
+                    por_que_voce: formData.get('por_que_voce'),
                     sentimento: formData.get('sentimento_3_palavras'),
                     inspira_marcas: formData.get('inspira_3_marcas'),
                     arquivo_catalogo: await getFileData(file1),
                     arquivo_print: await getFileData(file2),
-                    timestamp: new Date().toLocaleString()
+                    timestamp: new Date().toLocaleString('pt-BR')
                 };
 
                 await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST', mode: 'no-cors', cache: 'no-cache',
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
 
                 statusMsg.innerText = "✓ Enviado com sucesso. Sua nova era começa agora.";
-                statusMsg.className = "text-center text-sm text-yellow-500 font-bold mt-4";
+                statusMsg.className = "text-center text-sm text-yellow-500 font-bold mt-4 animate-bounce";
                 statusMsg.classList.remove('hidden');
+                
                 form.reset();
                 document.getElementById('label_catalogo').innerText = "Upload PDF/Imagem";
                 document.getElementById('label_print').innerText = "Upload Screenshot";
+                
             } catch (err) {
                 statusMsg.innerText = "Erro ao enviar. Tente novamente ou contacte via WhatsApp.";
                 statusMsg.className = "text-center text-sm text-red-500 mt-4";
                 statusMsg.classList.remove('hidden');
             } finally {
-                submitBtn.disabled = false; spinner.classList.add('hidden'); btnText.innerText = "Enviar para Vellum Visuals";
+                submitBtn.disabled = false; 
+                spinner.classList.add('hidden'); 
+                btnText.innerText = "Enviar para Vellum Visuals";
             }
         });
     </script>
