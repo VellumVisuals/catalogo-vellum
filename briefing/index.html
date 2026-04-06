@@ -7,318 +7,138 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #D4AF37;
-            --dark-gold: #996515;
-            --black-bg: #0a0a0a;
-        }
-
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--black-bg);
-            color: #e5e5e5;
-            overflow-x: hidden;
-        }
-
+        :root { --gold: #D4AF37; --dark-gold: #996515; --black-bg: #0a0a0a; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--black-bg); color: #e5e5e5; overflow-x: hidden; }
         h1, h2, .playfair { font-family: 'Playfair Display', serif; }
-
-        #bg-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
-        }
-
-        .gold-border {
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.02);
-            color: white;
-            outline: none;
-            width: 100%;
-        }
-
-        .gold-border:focus {
-            border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.05);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
-        }
-
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
+        .gold-border { border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.3s ease; background: rgba(255, 255, 255, 0.02); color: white; outline: none; width: 100%; }
+        .gold-border:focus { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); }
         .gold-text { color: var(--gold); }
         .gold-gradient-bg { background: linear-gradient(135deg, var(--dark-gold) 0%, var(--gold) 50%, var(--dark-gold) 100%); }
-
-        .custom-file-upload {
-            border: 1px dashed rgba(212, 175, 55, 0.3);
-            display: block; padding: 20px; cursor: pointer; text-align: center; border-radius: 12px; transition: all 0.3s;
-        }
-
+        .custom-file-upload { border: 1px dashed rgba(212, 175, 55, 0.3); display: block; padding: 20px; cursor: pointer; text-align: center; border-radius: 12px; transition: all 0.3s; }
         .custom-file-upload:hover { background: rgba(212, 175, 55, 0.08); border-color: var(--gold); }
-
-        .loading-spinner {
-            border: 3px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: black;
-            width: 20px; height: 20px; animation: spin 1s linear infinite;
-        }
+        .loading-spinner { border: 3px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: black; width: 20px; height: 20px; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         ::placeholder { color: #4b5563; }
-
-        select.gold-border {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23D4AF37'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1em;
-            padding-right: 2.5rem;
-        }
     </style>
 </head>
 <body class="min-h-screen py-16 px-4">
-
     <canvas id="bg-canvas"></canvas>
-
     <div class="max-w-4xl mx-auto bg-black/40 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/5">
-        
-        <!-- Header -->
         <div class="p-12 text-center border-b border-white/5">
             <span class="text-[0.65rem] tracking-[0.4em] uppercase text-gray-500 mb-4 block">Vellum Visuals</span>
             <h1 class="text-4xl md:text-6xl font-bold mb-6 gold-text leading-tight">Bem-vinda à sua nova era visual.</h1>
-            <p class="text-gray-300 font-light max-w-xl mx-auto italic leading-relaxed">
-                Este é o ponto de partida para materializarmos a autoridade da sua marca. Reserve 15 minutos de silêncio para responder com a alma.
-            </p>
         </div>
 
         <form id="briefingForm" class="p-8 md:p-16 space-y-16">
-            
-            <!-- Bloco 00 - Identificação -->
             <section class="space-y-8">
-                <div class="flex flex-col items-center text-center space-y-2">
-                    <span class="gold-text playfair italic text-lg">Bloco 00</span>
-                    <h2 class="text-3xl font-medium text-white tracking-tight">Identificação & Contato</h2>
-                </div>
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Seu Nome Completo</label>
-                        <input type="text" name="cliente_nome" required class="gold-border p-4 rounded-xl" placeholder="Ex: Ana Silva">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">WhatsApp para Contato Direto</label>
-                        <input type="text" name="cliente_whatsapp" required class="gold-border p-4 rounded-xl" placeholder="(00) 00000-0000">
-                    </div>
-                    <div class="space-y-2 md:col-span-2">
-                        <label class="text-sm font-light text-gray-400">Melhor E-mail Profissional</label>
-                        <input type="email" name="cliente_email" required class="gold-border p-4 rounded-xl" placeholder="exemplo@marca.com">
-                    </div>
+                    <input type="text" name="cliente_nome" required class="gold-border p-4 rounded-xl" placeholder="Seu Nome Completo">
+                    <input type="text" name="cliente_whatsapp" required class="gold-border p-4 rounded-xl" placeholder="WhatsApp">
+                    <input type="email" name="cliente_email" required class="gold-border p-4 rounded-xl md:col-span-2" placeholder="E-mail Profissional">
                 </div>
             </section>
 
-            <!-- Bloco 01: A Essência -->
             <section class="space-y-8">
-                <div class="flex flex-col items-center text-center space-y-2">
-                    <span class="gold-text playfair italic text-lg">Bloco 01</span>
-                    <h2 class="text-3xl font-medium text-white tracking-tight">A Essência (O Coração)</h2>
-                </div>
-                
-                <div class="space-y-6">
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Qual o nome da sua marca/negócio?</label>
-                        <input type="text" name="marca_nome" required class="gold-border p-4 rounded-xl">
-                    </div>
-                    
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Se sua marca fosse uma pessoa, como ela se vestiria e falaria?</label>
-                        <textarea name="marca_persona" rows="3" placeholder='Ex: "Clássica e firme", "Moderna e acolhedora"' class="gold-border p-4 rounded-xl resize-none"></textarea>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Qual é o maior diferencial do seu serviço hoje?</label>
-                        <textarea name="diferencial" rows="3" class="gold-border p-4 rounded-xl resize-none"></textarea>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Observações Adicionais / Outros Detalhes</label>
-                        <textarea name="outros_detalhes" rows="2" class="gold-border p-4 rounded-xl resize-none" placeholder="Algo mais que queira descrever?"></textarea>
-                    </div>
-                </div>
+                <input type="text" name="marca_nome" required class="gold-border p-4 rounded-xl" placeholder="Nome da sua Marca">
+                <textarea name="marca_persona" rows="3" placeholder="Sua marca como pessoa..." class="gold-border p-4 rounded-xl resize-none"></textarea>
+                <textarea name="diferencial" rows="3" placeholder="Seu maior diferencial..." class="gold-border p-4 rounded-xl resize-none"></textarea>
+                <textarea name="outros_detalhes" rows="2" class="gold-border p-4 rounded-xl resize-none" placeholder="Observações adicionais"></textarea>
             </section>
 
-            <!-- Bloco 02: O Público & Qualificação -->
             <section class="space-y-8">
-                <div class="flex flex-col items-center text-center space-y-2">
-                    <span class="gold-text playfair italic text-lg">Bloco 02</span>
-                    <h2 class="text-3xl font-medium text-white tracking-tight">O Público & Qualificação</h2>
-                </div>
-                
-                <div class="space-y-6">
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Quem é o seu cliente ideal hoje?</label>
-                        <textarea name="cliente_ideal" rows="3" class="gold-border p-4 rounded-xl resize-none"></textarea>
-                    </div>
-                    
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Por que ele escolheria você e não o concorrente mais barato?</label>
-                        <textarea name="por_que_voce" rows="2" class="gold-border p-4 rounded-xl resize-none"></textarea>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Qual o estágio atual do seu negócio?</label>
-                        <select name="faturamento_meta" required class="gold-border p-4 rounded-xl cursor-pointer">
-                            <option value="" disabled selected>Selecione uma categoria</option>
-                            <option value="entrada">Posicionamento de Entrada (Até R$ 10k/mês)</option>
-                            <option value="expansao">Expansão de Autoridade (R$ 10k a R$ 30k/mês)</option>
-                            <option value="elite">Escala de Elite (Acima de R$ 50k/mês)</option>
-                        </select>
-                        <p class="text-[0.65rem] text-gray-500 mt-2 italic">*Isso ajuda a Vellum a mensurar o ROI estratégico do seu novo design.</p>
-                    </div>
-                </div>
+                <textarea name="cliente_ideal" rows="3" class="gold-border p-4 rounded-xl resize-none" placeholder="Quem é seu cliente ideal?"></textarea>
+                <select name="faturamento_meta" required class="gold-border p-4 rounded-xl bg-black">
+                    <option value="" disabled selected>Estágio do Negócio</option>
+                    <option value="entrada">Até R$ 10k/mês</option>
+                    <option value="expansao">R$ 10k a R$ 30k/mês</option>
+                    <option value="elite">Acima de R$ 50k/mês</option>
+                </select>
             </section>
 
-            <!-- Bloco 03: Estética -->
             <section class="space-y-8">
-                <div class="flex flex-col items-center text-center space-y-2">
-                    <span class="gold-text playfair italic text-lg">Bloco 03</span>
-                    <h2 class="text-3xl font-medium text-white tracking-tight">Estética & Sentimento</h2>
-                </div>
-                
-                <div class="space-y-6">
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">3 palavras que definem o sentimento que você quer causar</label>
-                        <input type="text" name="sentimento_3_palavras" class="gold-border p-4 rounded-xl" placeholder="Ex: Segurança, Leveza, Exclusividade">
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Cite perfis ou marcas de luxo que te inspiram visualmente</label>
-                        <textarea name="inspira_3_marcas" rows="2" class="gold-border p-4 rounded-xl resize-none"></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                        <div class="space-y-2">
-                            <span class="text-[0.6rem] uppercase tracking-widest text-gray-500 font-bold">Catálogos/Identidade</span>
-                            <label for="file_catalogo" class="custom-file-upload">
-                                <span class="text-xs text-gray-400 block" id="label_catalogo">Upload PDF/Imagem</span>
-                                <input type="file" id="file_catalogo" class="hidden" onchange="document.getElementById('label_catalogo').innerText = this.files[0].name">
-                            </label>
-                        </div>
-                        <div class="space-y-2">
-                            <span class="text-[0.6rem] uppercase tracking-widest text-gray-500 font-bold">Screenshot Atual</span>
-                            <label for="file_print" class="custom-file-upload">
-                                <span class="text-xs text-gray-400 block" id="label_print">Upload Screenshot</span>
-                                <input type="file" id="file_print" class="hidden" onchange="document.getElementById('label_print').innerText = this.files[0].name">
-                            </label>
-                        </div>
-                    </div>
+                <input type="text" name="sentimento_3_palavras" class="gold-border p-4 rounded-xl" placeholder="3 palavras definidoras">
+                <textarea name="inspira_3_marcas" rows="2" class="gold-border p-4 rounded-xl resize-none" placeholder="Marcas que te inspiram"></textarea>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <label class="custom-file-upload">
+                        <span id="label_catalogo" class="text-xs text-gray-400">Upload Catálogo</span>
+                        <input type="file" id="file_catalogo" class="hidden" onchange="document.getElementById('label_catalogo').innerText = this.files[0].name">
+                    </label>
+                    <label class="custom-file-upload">
+                        <span id="label_print" class="text-xs text-gray-400">Upload Screenshot</span>
+                        <input type="file" id="file_print" class="hidden" onchange="document.getElementById('label_print').innerText = this.files[0].name">
+                    </label>
                 </div>
             </section>
 
-            <!-- Submit -->
             <div class="pt-8 space-y-6">
-                <button type="submit" id="submitBtn" class="w-full gold-gradient-bg text-black py-5 px-8 rounded-2xl font-bold uppercase tracking-[0.2em] hover:scale-[1.01] transition-all shadow-2xl shadow-[#D4AF37]/20 flex items-center justify-center space-x-3">
+                <button type="submit" id="submitBtn" class="w-full gold-gradient-bg text-black py-5 px-8 rounded-2xl font-bold uppercase tracking-[0.2em] flex items-center justify-center space-x-3">
                     <span id="btnText">Enviar para Vellum Visuals</span>
                     <div id="spinner" class="loading-spinner hidden"></div>
                 </button>
-                <div class="p-6 border border-white/5 rounded-2xl bg-white/5 text-center">
-                    <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed">
-                        Iniciaremos a análise estratégica assim que o envio for concluído. <br>
-                        <span class="gold-text">Sua proposta personalizada será apresentada em até 48 horas úteis.</span>
-                    </p>
-                </div>
                 <p id="statusMsg" class="text-center text-sm hidden"></p>
             </div>
         </form>
     </div>
 
     <script>
-        // Fundo Animado
+        // Fundo Animado Simplificado para Performance
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        let lines = [];
         const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-        window.addEventListener('resize', resize);
-        resize();
+        window.addEventListener('resize', resize); resize();
 
-        class Line {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-                this.speed = 0.6; this.length = 150; this.opacity = 0.1;
-            }
-            draw() {
-                ctx.beginPath(); ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x + 50, this.y + 80);
-                ctx.strokeStyle = `rgba(212, 175, 55, ${this.opacity})`; ctx.stroke();
-                this.x += this.speed; this.y += this.speed;
-                if (this.x > canvas.width || this.y > canvas.height) this.reset();
-            }
-        }
-        for (let i = 0; i < 30; i++) lines.push(new Line());
-        const animate = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); lines.forEach(l => l.draw()); requestAnimationFrame(animate); };
-        animate();
-
-        // INTEGRAÇÃO GOOGLE SHEETS
-        // SUBSTITUA A URL ABAIXO PELA SUA URL QUE TERMINA EM /exec
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWnGFVBl8SyoO__E-Y-_7elXjNOuXSWCvt23mqF1qCBET7W3gPVJ2CQvuOP2oVKkAhZg/exec"; 
-
-      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxrFnn9mN0c0dCEGJtxzpb3vm3UjBNYndAlz65gwLN16B5WurEGknZy4LiMyxxVWqOR/exec"; 
+        // INTEGRAÇÃO GOOGLE
+        const GOOGLE_SCRIPT_URL = "COLE_AQUI_O_NOVO_LINK_EXEC"; 
 
         const form = document.getElementById('briefingForm');
         const submitBtn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('spinner');
+        const btnText = document.getElementById('btnText');
         const statusMsg = document.getElementById('statusMsg');
+
+        const getFileData = file => new Promise((resolve) => {
+            if(!file) return resolve(null);
+            const reader = new FileReader();
+            reader.onload = () => resolve({ base64: reader.result.split(',')[1], type: file.type, name: file.name });
+            reader.readAsDataURL(file);
+        });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            submitBtn.disabled = true;
-            statusMsg.innerText = "Sincronizando com a base Vellum...";
-            statusMsg.classList.remove('hidden');
+            submitBtn.disabled = true; spinner.classList.remove('hidden'); btnText.innerText = "Sincronizando...";
 
-            const formData = new FormData(form);
-            const data = {};
-            const files = [];
-
-            // Captura todos os campos de texto e arquivos
-            for (let [key, value] of formData.entries()) {
-                if (value instanceof File && value.name) {
-                    files.push({ file: value, key: key });
-                } else {
-                    data[key] = value;
-                }
-            }
-
-            // Função para ler arquivos e enviar tudo junto
-            if (files.length > 0) {
-                const filePromises = files.map(item => {
-                    return new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve({
-                            base64: reader.result.split(',')[1],
-                            nome: item.file.name,
-                            tipo: item.file.type,
-                            campo: item.key
-                        });
-                        reader.readAsDataURL(item.file);
-                    });
-                });
-
-                const processedFiles = await Promise.all(filePromises);
-                data.arquivos = processedFiles; // Envia a lista de arquivos
-            }
-
-            await enviarDados(data);
-        });
-
-        async function enviarDados(data) {
             try {
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(data)
-                });
+                const formData = new FormData(form);
+                const data = {
+                    contato_nome: formData.get('cliente_nome'),
+                    contato_whatsapp: formData.get('cliente_whatsapp'),
+                    contato_email: formData.get('cliente_email'),
+                    marca: formData.get('marca_nome'),
+                    persona: formData.get('marca_persona'),
+                    diferencial: formData.get('diferencial'),
+                    outros: formData.get('outros_detalhes'),
+                    faturamento_meta: formData.get('faturamento_meta'),
+                    sentimento: formData.get('sentimento_3_palavras'),
+                    inspira_marcas: formData.get('inspira_3_marcas'),
+                    arquivo_catalogo: await getFileData(document.getElementById('file_catalogo').files[0]),
+                    arquivo_print: await getFileData(document.getElementById('file_print').files[0])
+                };
+
+                await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
 
                 statusMsg.innerText = "✓ Enviado com sucesso. Sua nova era começa agora.";
-                statusMsg.style.color = "#D4AF37"; // Cor Champagne Gold da Vellum
+                statusMsg.style.color = "#D4AF37";
+                statusMsg.classList.remove('hidden');
                 form.reset();
-            } catch (error) {
-                statusMsg.innerText = "Erro na conexão. Verifique o link do script.";
+            } catch (err) {
+                statusMsg.innerText = "Erro ao enviar. Tente novamente.";
+                statusMsg.style.color = "red";
+                statusMsg.classList.remove('hidden');
             } finally {
-                submitBtn.disabled = false;
+                submitBtn.disabled = false; spinner.classList.add('hidden'); btnText.innerText = "Enviar para Vellum Visuals";
             }
-        }
+        });
     </script>
 </body>
 </html>
