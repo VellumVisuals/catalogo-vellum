@@ -255,64 +255,68 @@
         // SUBSTITUA A URL ABAIXO PELA SUA URL QUE TERMINA EM /exec
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWnGFVBl8SyoO__E-Y-_7elXjNOuXSWCvt23mqF1qCBET7W3gPVJ2CQvuOP2oVKkAhZg/exec"; 
 
-      const form = document.getElementById('briefingForm');
+      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxrFnn9mN0c0dCEGJtxzpb3vm3UjBNYndAlz65gwLN16B5WurEGknZy4LiMyxxVWqOR/exec"; 
+
+        const form = document.getElementById('briefingForm');
+        const submitBtn = document.getElementById('submitBtn');
         const statusMsg = document.getElementById('statusMsg');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            statusMsg.style.display = 'block';
+            submitBtn.disabled = true;
             statusMsg.innerText = "Sincronizando com a base Vellum...";
+            statusMsg.classList.remove('hidden');
 
             const formData = new FormData(form);
             const data = {};
+            const files = [];
 
-            // Converte os dados do formulário
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-
-            // Tratamento especial para o arquivo (Foto)
-            const fileInput = document.getElementById('foto_perfil');
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = async function() {
-                    data.foto_base64 = reader.result.split(',')[1];
-                    data.foto_nome = file.name;
-                    data.foto_tipo = file.type;
-                    await enviarParaGoogle(data);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                await enviarParaGoogle(data);
+            // Captura todos os campos de texto e arquivos
+            for (let [key, value] of formData.entries()) {
+                if (value instanceof File && value.name) {
+                    files.push({ file: value, key: key });
+                } else {
+                    data[key] = value;
+                }
             }
+
+            // Função para ler arquivos e enviar tudo junto
+            if (files.length > 0) {
+                const filePromises = files.map(item => {
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve({
+                            base64: reader.result.split(',')[1],
+                            nome: item.file.name,
+                            tipo: item.file.type,
+                            campo: item.key
+                        });
+                        reader.readAsDataURL(item.file);
+                    });
+                });
+
+                const processedFiles = await Promise.all(filePromises);
+                data.arquivos = processedFiles; // Envia a lista de arquivos
+            }
+
+            await enviarDados(data);
         });
 
-        async function enviarParaGoogle(data) {
-            // O link que você copiou do Apps Script (Verifique se é o mais atual!)
-            const GOOGLE_SCRIPT_URL = "SUA_URL_AQUI"; 
-
+        async function enviarDados(data) {
             try {
-                // Usando o modo 'no-cors' para evitar o erro de travamento
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors', 
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'no-cors',
                     body: JSON.stringify(data)
                 });
 
-                // Como usamos 'no-cors', não conseguimos ler a resposta, 
-                // então assumimos o sucesso se não cair no 'catch'
-                statusMsg.className = 'status-success';
                 statusMsg.innerText = "✓ Enviado com sucesso. Sua nova era começa agora.";
+                statusMsg.style.color = "#D4AF37"; // Cor Champagne Gold da Vellum
                 form.reset();
-
             } catch (error) {
-                console.error('Erro:', error);
-                statusMsg.className = 'status-error';
-                statusMsg.innerText = "Erro ao enviar. Por favor, tente novamente.";
+                statusMsg.innerText = "Erro na conexão. Verifique o link do script.";
+            } finally {
+                submitBtn.disabled = false;
             }
         }
     </script>
