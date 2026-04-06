@@ -254,7 +254,6 @@
         const btnText = document.getElementById('btnText');
         const statusMsg = document.getElementById('statusMsg');
 
-        // Função para converter arquivo em Base64 (Pixels -> Texto)
         const getFileData = file => new Promise((resolve) => {
             if(!file) return resolve(null);
             const reader = new FileReader();
@@ -288,6 +287,8 @@
                     marca: formData.get('marca_nome'),
                     persona: formData.get('marca_persona'),
                     diferencial: formData.get('diferencial'),
+                    cliente_ideal: formData.get('cliente_ideal'), // ADICIONADO
+                    por_que_voce: formData.get('por_que_voce'),   // ADICIONADO
                     faturamento_meta: formData.get('faturamento_meta'),
                     outros: formData.get('outros_detalhes'),
                     sentimento: formData.get('sentimento_3_palavras'),
