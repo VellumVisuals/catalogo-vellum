@@ -255,84 +255,66 @@
         // SUBSTITUA A URL ABAIXO PELA SUA URL QUE TERMINA EM /exec
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWnGFVBl8SyoO__E-Y-_7elXjNOuXSWCvt23mqF1qCBET7W3gPVJ2CQvuOP2oVKkAhZg/exec"; 
 
-        const form = document.getElementById('briefingForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const spinner = document.getElementById('spinner');
-        const btnText = document.getElementById('btnText');
+      const form = document.getElementById('briefingForm');
         const statusMsg = document.getElementById('statusMsg');
-
-        const getFileData = file => new Promise((resolve) => {
-            if(!file) return resolve(null);
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve({ base64: reader.result.split(',')[1], type: file.type, name: file.name });
-            reader.onerror = () => resolve(null);
-        });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            if (GOOGLE_SCRIPT_URL === "SUA_URL_AQUI") {
-                statusMsg.innerText = "Erro: URL do Google Script não configurada.";
-                statusMsg.className = "text-center text-sm text-red-400 mt-4";
-                statusMsg.classList.remove('hidden');
-                return;
-            }
+            statusMsg.style.display = 'block';
+            statusMsg.innerText = "Sincronizando com a base Vellum...";
 
-            submitBtn.disabled = true; 
-            spinner.classList.remove('hidden'); 
-            btnText.innerText = "Sincronizando...";
-            statusMsg.classList.add('hidden');
+            const formData = new FormData(form);
+            const data = {};
+
+            // Converte os dados do formulário
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Tratamento especial para o arquivo (Foto)
+            const fileInput = document.getElementById('foto_perfil');
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = async function() {
+                    data.foto_base64 = reader.result.split(',')[1];
+                    data.foto_nome = file.name;
+                    data.foto_tipo = file.type;
+                    await enviarParaGoogle(data);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                await enviarParaGoogle(data);
+            }
+        });
+
+        async function enviarParaGoogle(data) {
+            // O link que você copiou do Apps Script (Verifique se é o mais atual!)
+            const GOOGLE_SCRIPT_URL = "SUA_URL_AQUI"; 
 
             try {
-                const formData = new FormData(form);
-                const file1 = document.getElementById('file_catalogo').files[0];
-                const file2 = document.getElementById('file_print').files[0];
-
-                const data = {
-                    contato_nome: formData.get('cliente_nome'),
-                    contato_email: formData.get('cliente_email'),
-                    contato_whatsapp: formData.get('cliente_whatsapp'),
-                    marca: formData.get('marca_nome'),
-                    persona: formData.get('marca_persona'),
-                    diferencial: formData.get('diferencial'),
-                    faturamento_meta: formData.get('faturamento_meta'),
-                    outros: formData.get('outros_detalhes'),
-                    cliente_ideal: formData.get('cliente_ideal'),
-                    por_que_voce: formData.get('por_que_voce'),
-                    sentimento: formData.get('sentimento_3_palavras'),
-                    inspira_marcas: formData.get('inspira_3_marcas'),
-                    arquivo_catalogo: await getFileData(file1),
-                    arquivo_print: await getFileData(file2),
-                    timestamp: new Date().toLocaleString('pt-BR')
-                };
-
+                // Usando o modo 'no-cors' para evitar o erro de travamento
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    mode: 'no-cors', 
                     cache: 'no-cache',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
 
+                // Como usamos 'no-cors', não conseguimos ler a resposta, 
+                // então assumimos o sucesso se não cair no 'catch'
+                statusMsg.className = 'status-success';
                 statusMsg.innerText = "✓ Enviado com sucesso. Sua nova era começa agora.";
-                statusMsg.className = "text-center text-sm text-yellow-500 font-bold mt-4 animate-bounce";
-                statusMsg.classList.remove('hidden');
-                
                 form.reset();
-                document.getElementById('label_catalogo').innerText = "Upload PDF/Imagem";
-                document.getElementById('label_print').innerText = "Upload Screenshot";
-                
-            } catch (err) {
-                statusMsg.innerText = "Erro ao enviar. Tente novamente ou contacte via WhatsApp.";
-                statusMsg.className = "text-center text-sm text-red-500 mt-4";
-                statusMsg.classList.remove('hidden');
-            } finally {
-                submitBtn.disabled = false; 
-                spinner.classList.add('hidden'); 
-                btnText.innerText = "Enviar para Vellum Visuals";
+
+            } catch (error) {
+                console.error('Erro:', error);
+                statusMsg.className = 'status-error';
+                statusMsg.innerText = "Erro ao enviar. Por favor, tente novamente.";
             }
-        });
+        }
     </script>
 </body>
 </html>
