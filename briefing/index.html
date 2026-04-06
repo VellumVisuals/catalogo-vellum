@@ -245,8 +245,7 @@
         const animate = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); lines.forEach(l => l.draw()); requestAnimationFrame(animate); };
         animate();
 
-        // INTEGRAÇÃO GOOGLE SHEETS
-        // AQUI: Coloque o seu URL novo gerado pela Implantação
+        // INTEGRAÇÃO GOOGLE SHEETS E DRIVE
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxgYPzkQ3ejd9ZMFUpU6qQZZ4Dx7BdfNajCd6FiNxImLrf5DUnEFMpnmV_EctKsK8UwoQ/exec"; 
 
         const form = document.getElementById('briefingForm');
@@ -255,16 +254,33 @@
         const btnText = document.getElementById('btnText');
         const statusMsg = document.getElementById('statusMsg');
 
+        // Função para converter arquivo em Base64 (Pixels -> Texto)
+        const getFileData = file => new Promise((resolve) => {
+            if(!file) return resolve(null);
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve({ 
+                base64: reader.result.split(',')[1], 
+                type: file.type, 
+                name: file.name 
+            });
+        });
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             submitBtn.disabled = true; 
             spinner.classList.remove('hidden'); 
-            btnText.innerText = "Sincronizando...";
+            btnText.innerText = "Sincronizando arquivos...";
 
             try {
                 const formData = new FormData(form);
-                
+                const file1 = document.getElementById('file_catalogo').files[0];
+                const file2 = document.getElementById('file_print').files[0];
+
+                const arquivo1 = await getFileData(file1);
+                const arquivo2 = await getFileData(file2);
+
                 const data = {
                     contato_nome: formData.get('cliente_nome'),
                     contato_email: formData.get('cliente_email'),
@@ -276,6 +292,8 @@
                     outros: formData.get('outros_detalhes'),
                     sentimento: formData.get('sentimento_3_palavras'),
                     inspira_marcas: formData.get('inspira_3_marcas'),
+                    arquivo_catalogo: arquivo1,
+                    arquivo_print: arquivo2,
                     timestamp: new Date().toLocaleString()
                 };
 
@@ -295,7 +313,7 @@
                 document.getElementById('label_print').innerText = "Upload Screenshot";
                 
             } catch (err) {
-                statusMsg.innerText = "Erro ao enviar. Verifique sua conexão.";
+                statusMsg.innerText = "Erro ao enviar. Verifique o tamanho dos arquivos.";
                 statusMsg.className = "text-center text-sm text-red-500 mt-4";
                 statusMsg.classList.remove('hidden');
             } finally {
