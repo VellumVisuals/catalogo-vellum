@@ -6,6 +6,7 @@
     <title>Vellum Visuals - Diagnóstico Criativo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://www.vellumvisuals.com.br/res/scripts/logominimalista.js"></script>
     <style>
         :root {
             --gold: #D4AF37;
@@ -30,16 +31,22 @@
         .gold-border {
             border: 1px solid rgba(212, 175, 55, 0.2);
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.02);
-            color: white;
+            background: rgba(0, 0, 0, 0.3) !important;
+            color: white !important;
             outline: none;
             width: 100%;
+            -webkit-appearance: none;
         }
 
         .gold-border:focus {
             border-color: var(--gold);
-            background: rgba(212, 175, 55, 0.05);
+            background: rgba(212, 175, 55, 0.05) !important;
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+        }
+
+        select.gold-border option {
+            background-color: #1a1a1a;
+            color: white;
         }
 
         .gold-text { color: var(--gold); }
@@ -48,6 +55,7 @@
         .custom-file-upload {
             border: 1px dashed rgba(212, 175, 55, 0.3);
             display: block; padding: 20px; cursor: pointer; text-align: center; border-radius: 12px; transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.2);
         }
 
         .custom-file-upload:hover { background: rgba(212, 175, 55, 0.08); border-color: var(--gold); }
@@ -67,6 +75,14 @@
             background-size: 1em;
             padding-right: 2.5rem;
         }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="min-h-screen py-16 px-4">
@@ -75,11 +91,15 @@
 
     <div class="max-w-4xl mx-auto bg-black/40 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/5">
         
-        <div class="p-12 text-center border-b border-white/5">
-            <span class="text-[0.65rem] tracking-[0.4em] uppercase text-gray-500 mb-4 block">Vellum Visuals</span>
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 gold-text leading-tight">Bem-vinda à sua nova era visual.</h1>
+        <!-- Identificador do Topo para ser ocultado no sucesso -->
+        <div id="mainHeader" class="p-12 text-center border-b border-white/5">
+            <div class="gold-text font-bold tracking-[0.5em] text-sm mb-12 uppercase">
+                <script>mostrarLogo();</script>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 gold-text leading-tight">Protocolo de Curadoria.</h1>
             <p class="text-gray-300 font-light max-w-xl mx-auto italic leading-relaxed">
-                Este é o ponto de partida para materializarmos a autoridade da sua marca. Reserve 15 minutos de silêncio para responder com a alma.
+                Este diagnóstico identifica os pilares de autoridade da sua marca. <br>
+                Responda com precisão; cada detalhe moldará a sua nova engenharia visual.
             </p>
         </div>
 
@@ -120,12 +140,12 @@
                     </div>
                     
                     <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Se sua marca fosse uma pessoa, como ela se vestiria e falaria?</label>
+                        <label class="text-sm font-light text-gray-400">Arquétipo e Presença: Se sua marca fosse uma estrutura arquitetônica, ela seria clássica, moderna, minimalista ou imponente? Como ela se comunica?</label>
                         <textarea name="marca_persona" rows="3" placeholder='Ex: "Clássica e firme", "Moderna e acolhedora"' class="gold-border p-4 rounded-xl resize-none"></textarea>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Qual é o maior diferencial do seu serviço hoje?</label>
+                        <label class="text-sm font-light text-gray-400">Pilar de Diferenciação: Por que sua audiência deve te considerar a única opção lógica, ignorando concorrentes mais baratos?</label>
                         <textarea name="diferencial" rows="3" class="gold-border p-4 rounded-xl resize-none"></textarea>
                     </div>
 
@@ -144,7 +164,7 @@
                 
                 <div class="space-y-6">
                     <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">Quem é o seu cliente ideal hoje?</label>
+                        <label class="text-sm font-light text-gray-400">O Cliente de Elite: Descreva o perfil que valoriza exclusividade e não questiona o investimento em autoridade.</label>
                         <textarea name="cliente_ideal" rows="3" class="gold-border p-4 rounded-xl resize-none"></textarea>
                     </div>
                     
@@ -157,9 +177,9 @@
                         <label class="text-sm font-light text-gray-400">Qual o estágio atual do seu negócio?</label>
                         <select name="faturamento_meta" required class="gold-border p-4 rounded-xl cursor-pointer">
                             <option value="" disabled selected>Selecione uma categoria</option>
-                            <option value="entrada">Posicionamento de Entrada (Até R$ 10k/mês)</option>
-                            <option value="expansao">Expansão de Autoridade (R$ 10k a R$ 30k/mês)</option>
-                            <option value="elite">Escala de Elite (Acima de R$ 50k/mês)</option>
+                            <option value="entrada">Posicionamento de Entrada (Consolidação de Imagem)</option>
+                            <option value="expansao">Expansão de Autoridade (Domínio de Mercado)</option>
+                            <option value="elite">Escala de Elite (Presença de Luxo/Liderança)</option>
                         </select>
                         <p class="text-[0.65rem] text-gray-500 mt-2 italic">*Isso ajuda a Vellum a mensurar o ROI estratégico do seu novo design.</p>
                     </div>
@@ -174,7 +194,7 @@
                 
                 <div class="space-y-6">
                     <div class="space-y-2">
-                        <label class="text-sm font-light text-gray-400">3 palavras que definem o sentimento que você quer causar</label>
+                        <label class="text-sm font-light text-gray-400">Atmosfera Visual: Quais são os 3 sentimentos inegociáveis que sua nova marca deve transmitir ao primeiro toque?</label>
                         <input type="text" name="sentimento_3_palavras" class="gold-border p-4 rounded-xl" placeholder="Ex: Segurança, Leveza, Exclusividade">
                     </div>
 
@@ -204,7 +224,7 @@
 
             <div class="pt-8 space-y-6">
                 <button type="submit" id="submitBtn" class="w-full gold-gradient-bg text-black py-5 px-8 rounded-2xl font-bold uppercase tracking-[0.2em] hover:scale-[1.01] transition-all shadow-2xl shadow-[#D4AF37]/20 flex items-center justify-center space-x-3">
-                    <span id="btnText">Enviar para Vellum Visuals</span>
+                    <span id="btnText">Submeter para Diagnóstico de Autoridade</span>
                     <div id="spinner" class="loading-spinner hidden"></div>
                 </button>
                 <div class="p-6 border border-white/5 rounded-2xl bg-white/5 text-center">
@@ -216,6 +236,24 @@
                 <p id="statusMsg" class="text-center text-sm hidden"></p>
             </div>
         </form>
+
+        <!-- Card de Confirmação Elegante -->
+        <div id="successCard" class="hidden p-16 text-center space-y-8 animate-fade-in">
+            <div class="flex justify-center">
+                <div class="w-16 h-16 rounded-full border border-[var(--gold)] flex items-center justify-center">
+                    <span class="gold-text text-2xl">✓</span>
+                </div>
+            </div>
+            <h2 class="text-3xl font-bold text-white playfair italic">Diagnóstico em Análise.</h2>
+            <p class="text-gray-400 max-w-md mx-auto leading-relaxed">
+                Suas informações foram integradas ao nosso ecossistema com sucesso. <br>
+                Aguarde o contato da nossa curadoria em até 48 horas úteis para a validação estratégica do seu projeto.
+            </p>
+            <a href="javascript:location.reload()" class="inline-block text-[0.6rem] tracking-[0.4em] text-gray-400 uppercase hover:text-white transition-colors border-b border-gold/20 pb-1">
+                Voltar ao Início
+            </a>
+        </div>
+
     </div>
 
     <script>
@@ -245,14 +283,16 @@
         const animate = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); lines.forEach(l => l.draw()); requestAnimationFrame(animate); };
         animate();
 
-        // INTEGRAÇÃO GOOGLE SHEETS E DRIVE
+        // INTEGRAÇÃO GOOGLE SHEETS
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxgYPzkQ3ejd9ZMFUpU6qQZZ4Dx7BdfNajCd6FiNxImLrf5DUnEFMpnmV_EctKsK8UwoQ/exec";
 
         const form = document.getElementById('briefingForm');
+        const mainHeader = document.getElementById('mainHeader');
         const submitBtn = document.getElementById('submitBtn');
         const spinner = document.getElementById('spinner');
         const btnText = document.getElementById('btnText');
         const statusMsg = document.getElementById('statusMsg');
+        const successCard = document.getElementById('successCard');
 
         const getFileData = file => new Promise((resolve) => {
             if(!file) return resolve(null);
@@ -287,8 +327,8 @@
                     marca: formData.get('marca_nome'),
                     persona: formData.get('marca_persona'),
                     diferencial: formData.get('diferencial'),
-                    cliente_ideal: formData.get('cliente_ideal'), // ADICIONADO
-                    por_que_voce: formData.get('por_que_voce'),   // ADICIONADO
+                    cliente_ideal: formData.get('cliente_ideal'),
+                    por_que_voce: formData.get('por_que_voce'),
                     faturamento_meta: formData.get('faturamento_meta'),
                     outros: formData.get('outros_detalhes'),
                     sentimento: formData.get('sentimento_3_palavras'),
@@ -306,21 +346,19 @@
                     body: JSON.stringify(data)
                 });
 
-                statusMsg.innerText = "✓ Enviado com sucesso. Sua nova era começa agora.";
-                statusMsg.className = "text-center text-sm text-yellow-500 font-bold mt-4";
-                statusMsg.classList.remove('hidden');
-                form.reset();
-                document.getElementById('label_catalogo').innerText = "Upload PDF/Imagem";
-                document.getElementById('label_print').innerText = "Upload Screenshot";
+                mainHeader.classList.add('hidden');
+                form.classList.add('hidden');
+                successCard.classList.remove('hidden');
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 
             } catch (err) {
                 statusMsg.innerText = "Erro ao enviar. Verifique o tamanho dos arquivos.";
                 statusMsg.className = "text-center text-sm text-red-500 mt-4";
                 statusMsg.classList.remove('hidden');
-            } finally {
                 submitBtn.disabled = false; 
                 spinner.classList.add('hidden'); 
-                btnText.innerText = "Enviar para Vellum Visuals";
+                btnText.innerText = "Submeter para Diagnóstico de Autoridade";
             }
         });
     </script>
