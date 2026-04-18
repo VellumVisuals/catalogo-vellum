@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria Luxuosa 3D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Container da Galeria com Perspectiva */
+        .gallery-container {
+            perspective: 1000px;
+            display: flex;
+            gap: 20px;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            padding: 50px;
+        }
+
+        /* Ajuste para Mobile: Quebra de linha e centralização */
+        @media (max-width: 768px) {
+            .gallery-container {
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 20px;
+            }
+        }
+
+        /* Estilo das Imagens com inclinação Windows 10 */
+        .image-card {
+            position: relative;
+            width: 250px;
+            height: 350px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 4px;
+            /* Inclinação base tipo Windows 10 */
+            transform: rotateY(-25deg) rotateX(10deg);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: -15px 15px 30px rgba(0, 0, 0, 0.8), 
+                        0 0 1px rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            filter: grayscale(40%);
+        }
+
+        /* Ajustes de tamanho e inclinação para Mobile */
+        @media (max-width: 768px) {
+            .image-card {
+                width: 140px;
+                height: 200px;
+                transform: rotateY(-15deg) rotateX(5deg);
+            }
+        }
+
+        /* Efeito de sombra projetada no chão/fundo */
+        .image-card::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 5%;
+            width: 90%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            filter: blur(15px);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Hover: Fica maior e "foca" */
+        .image-card:hover {
+            transform: rotateY(0deg) rotateX(0deg) scale(1.15);
+            filter: grayscale(0%);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 1), 
+                        0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Feedback de clique */
+        .image-card:active {
+            transform: scale(0.98);
+            transition: transform 0.1s;
+        }
+
+        /* Texto minimalista */
+        .lux-text {
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-8">
+
+    <!-- Título Minimalista -->
+    <header class="mb-16 text-center">
+        <h1 class="text-4xl md:text-5xl font-light lux-text mb-2">Essentialism</h1>
+        <div class="h-px w-12 bg-white mx-auto opacity-30"></div>
+    </header>
+
+    <!-- Galeria Interativa -->
+    <main class="w-full flex justify-center items-center overflow-visible py-20" id="scene">
+        <div class="gallery-container" id="gallery">
+            <!-- Imagem 1 - Redireciona para /lessence -->
+            <div class="image-card" data-url="/lessence" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=500&auto=format&fit=crop');"></div>
+            <!-- Imagem 2 - Redireciona para /vora -->
+            <div class="image-card" data-url="/vora" style="background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=500&auto=format&fit=crop');"></div>
+            <!-- Imagem 3 -->
+            <div class="image-card" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=500&auto=format&fit=crop');"></div>
+            <!-- Imagem 4 -->
+            <div class="image-card" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=500&auto=format&fit=crop');"></div>
+        </div>
+    </main>
+
+    <!-- Texto Inferior -->
+    <footer class="mt-16 max-w-xl text-center">
+        <p class="text-sm font-light leading-relaxed opacity-50 lux-text">
+            A beleza reside na simplicidade e no equilíbrio das formas. <br>
+            Explore a perspectiva do novo luxo digital.
+        </p>
+    </footer>
+
+    <script>
+        const scene = document.getElementById('scene');
+        const gallery = document.getElementById('gallery');
+        const cards = document.querySelectorAll('.image-card');
+
+        // Movimentação suave da galeria baseada na posição do mouse
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const width = window.innerWidth;
+            
+            // Calcula o deslocamento (de -50px a 50px por exemplo)
+            const moveX = ((x / width) - 0.5) * -100; 
+            
+            gallery.style.transform = `translateX(${moveX}px)`;
+        });
+
+        // Fallback para toque em dispositivos móveis
+        document.addEventListener('touchmove', (e) => {
+            const x = e.touches[0].clientX;
+            const width = window.innerWidth;
+            const moveX = ((x / width) - 0.5) * -100;
+            gallery.style.transform = `translateX(${moveX}px)`;
+        });
+
+        // Lógica de clique com animação
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const url = card.getAttribute('data-url');
+                
+                if (url) {
+                    // Pequeno delay para permitir que o usuário veja o efeito de clique/escala
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 400);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
