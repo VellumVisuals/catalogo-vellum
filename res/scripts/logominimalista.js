@@ -39,9 +39,12 @@
     /**
      * Função para mostrar o logotipo na tela
      * @param {number} escala - Porcentagem do tamanho original (ex: 50 para metade)
-     * @param {string} seletorPai - (Opcional) ID ou classe do elemento onde o logo será inserido. Se vazio, adiciona ao body.
+     * @param {string} seletorPai - (Opcional) ID ou classe do elemento onde o logo será inserido.
      */
     window.mostrarLogo = function(escala = 100, seletorPai = null) {
+        // Captura o script atual no momento da execução para saber a posição da chamada
+        const scriptAtual = document.currentScript;
+
         // Tamanho base de referência (baseado no text-9xl ~128px)
         const tamanhoBase = 128;
         const tamanhoCalculado = (tamanhoBase * (escala / 100)).toFixed(2);
@@ -62,13 +65,11 @@
         if (seletorPai) {
             const pai = document.querySelector(seletorPai);
             if (pai) pai.appendChild(container);
+        } else if (scriptAtual && scriptAtual.parentNode) {
+            // Insere o logo exatamente antes do bloco de script que chamou a função
+            scriptAtual.parentNode.insertBefore(container, scriptAtual);
         } else {
-            // Se não houver pai, fixa o logo temporariamente no centro da tela para visualização
-            container.style.position = 'fixed';
-            container.style.top = '50%';
-            container.style.left = '50%';
-            container.style.transform = 'translate(-50%, -50%)';
-            container.style.zIndex = '10000';
+            // Fallback caso não consiga detectar o script (ex: chamado via console ou async)
             document.body.appendChild(container);
         }
         
