@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Essence | Haute Joaillerie & Visual Engineering</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-eggplant: #1A1821;
+            --grayish-lavender: #9A94BC;
+            --polished-silver: #E2E2E2;
+            --soft-off-white: #FBFBFB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--deep-eggplant);
+            color: var(--soft-off-white);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .technical-label {
+            font-size: clamp(8px, 1.2vw, 10px);
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--grayish-lavender);
+            font-weight: 700;
+        }
+
+        .finesse-title {
+            letter-spacing: 0.3em;
+            filter: blur(8px);
+            opacity: 0;
+            transition: letter-spacing 2s cubic-bezier(0.19, 1, 0.22, 1), 
+                        filter 1.5s ease-out, 
+                        opacity 1.5s ease-out;
+        }
+
+        .active .finesse-title {
+            letter-spacing: -0.02em;
+            filter: blur(0px);
+            opacity: 1;
+        }
+
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.05;
+            display: flex;
+            justify-content: space-around;
+        }
+        .grid-line {
+            width: 1px;
+            height: 100%;
+            background: var(--polished-silver);
+        }
+
+        main {
+            position: relative;
+            z-index: 10;
+        }
+
+        .img-wrapper {
+            position: relative;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+            filter: brightness(0.8) contrast(1.1);
+        }
+
+        .img-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-button {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: white;
+            color: var(--deep-eggplant);
+            border-color: white;
+        }
+
+        .section-num {
+            font-size: clamp(5rem, 15vw, 12rem);
+            font-weight: 100;
+            opacity: 0.03;
+            position: absolute;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        nav {
+            background: linear-gradient(to bottom, var(--deep-eggplant) 20%, transparent 100%);
+        }
+
+        /* Custom Toast for Demo */
+        #demo-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(200%); /* Esconde completamente para baixo */
+            background: white;
+            color: var(--deep-eggplant);
+            padding: 15px 30px;
+            border-radius: 2px;
+            z-index: 300;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            opacity: 0;
+            pointer-events: none;
+            width: max-content;
+            max-width: 90vw;
+            text-align: center;
+        }
+
+        #demo-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Menu Link - Tamanho Fixo para Desktop */
+        .menu-link {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px; /* Tamanho fixo em pixels para consistência */
+            color: white;
+            opacity: 0.4;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            line-height: 1.2;
+        }
+
+        /* Ajuste apenas para Mobile */
+        @media (max-width: 767px) {
+            .menu-link {
+                font-size: 24px;
+            }
+        }
+
+        .menu-link:hover {
+            opacity: 1;
+            padding-left: 20px;
+            font-style: italic;
+        }
+
+        /* Menu Scrollbar Styling */
+        #modal-content-container::-webkit-scrollbar {
+            width: 2px;
+        }
+        #modal-content-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #modal-content-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Grid de Fundo -->
+    <div class="grid-bg">
+        <div class="grid-line"></div>
+        <div class="grid-line hidden md:block"></div>
+        <div class="grid-line hidden md:block"></div>
+        <div class="grid-line"></div>
+    </div>
+
+    <!-- Navegação -->
+    <nav class="fixed top-0 w-full z-[100] px-6 py-8 md:px-12 flex justify-between items-center transition-all duration-500" id="navbar">
+        <div class="flex items-center gap-4 cursor-pointer group" onclick="toggleModal()">
+            <div class="w-8 h-[1px] bg-white group-hover:w-12 transition-all"></div>
+            <span class="technical-label text-white">Coleções</span>
+        </div>
+        
+        <div class="flex flex-col items-center">
+            <span class="serif text-lg md:text-2xl tracking-[0.4em] font-light">L'ESSENCE</span>
+            <span class="text-[7px] tracking-[0.5em] opacity-50 hidden md:block">HAUTE JOAILLERIE</span>
+        </div>
+
+        <div class="technical-label opacity-40 hidden sm:block">
+            [ EST. 2024 ]
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="min-h-screen flex flex-col items-center justify-center pt-32 pb-12 px-6 overflow-hidden">
+            <div class="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-5 flex flex-col items-start hero-content reveal active">
+                    <span class="technical-label mb-6 text-lavender-400">[ CATEGORIA : LAPIDAÇÃO ]</span>
+                    <h1 class="serif text-5xl md:text-7xl lg:text-8xl leading-[1.1] mb-8 finesse-title">
+                        Geometria <br> da <span class="italic">Pureza</span>.
+                    </h1>
+                    <p class="max-w-xs text-xs md:text-sm opacity-60 font-light mb-10 leading-loose">
+                        Transformamos o carbono em poesia visual. Onde a precisão do corte encontra a alma de pedras raras sob a luz zenital.
+                    </p>
+                    <button class="cta-button" onclick="toggleModal()">Ver Coleção Privée</button>
+                </div>
+
+                <div class="lg:col-span-7 w-full aspect-[4/5] md:aspect-video lg:aspect-square">
+                    <div class="img-wrapper w-full h-full shadow-2xl reveal active" style="transition-delay: 0.3s;">
+                        <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=2000" alt="Diamante em close-up">
+                        <div class="absolute bottom-6 right-6 technical-label text-[8px] opacity-40">REF_PEDRA: DIAMANTE_VVS1 / 4.2 CT</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 01: O ATELIER -->
+        <section class="py-24 md:py-48 relative overflow-hidden">
+            <span class="section-num top-0 right-0">01</span>
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                    
+                    <div class="lg:col-span-7 order-2 lg:order-1">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="img-wrapper aspect-[3/4] reveal">
+                                <img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&q=80&w=1000" alt="Processo de design de joias">
+                            </div>
+                            <div class="img-wrapper aspect-[3/4] mt-12 reveal" style="transition-delay: 0.2s;">
+                                <img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?auto=format&fit=crop&q=80&w=1000" alt="Joia de ouro detalhada">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 order-1 lg:order-2 reveal">
+                        <span class="technical-label">[ O ATELIER ]</span>
+                        <h2 class="serif text-4xl md:text-6xl mt-6 mb-8 ultra-thin">A Forja <br> <span class="italic opacity-70">da Luz</span>.</h2>
+                        <p class="text-sm opacity-50 font-light leading-relaxed mb-8">
+                            No coração do nosso atelier, mãos artesãs aplicam séculos de tradição a metais nobres. Cada cravação é um ato de fé na durabilidade do design e na raridade dos elementos.
+                        </p>
+                        <div class="w-12 h-[1px] bg-white opacity-20"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 02: CURADORIA -->
+        <section class="py-24 bg-black relative">
+            <span class="section-num bottom-0 left-0">02</span>
+            <div class="container mx-auto px-6">
+                <div class="mb-16 reveal">
+                    <span class="technical-label">ESTRUTURA_E_FORMA</span>
+                    <h2 class="serif text-4xl md:text-6xl mt-4 ultra-thin">Peças Icônicas</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    <!-- Peça 01 -->
+                    <div class="reveal">
+                        <div class="img-wrapper aspect-square mb-6">
+                            <img src="https://www.vellumvisuals.com.br/res/images/lessence/2.jpg" alt="Joia Icônica L'Essence">
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <h3 class="serif text-xl italic">Rivière d'Aube</h3>
+                                <span class="text-[8px] tracking-widest opacity-40">PLATINA & BRILHANTES</span>
+                            </div>
+                            <span class="technical-label text-[8px]">COL_01</span>
+                        </div>
+                    </div>
+
+                    <!-- Peça 02 -->
+                    <div class="reveal" style="transition-delay: 0.2s;">
+                        <div class="img-wrapper aspect-square mb-6">
+                            <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=1200" alt="Colar de diamantes luxuoso">
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <h3 class="serif text-xl italic">L'Heure Bleue</h3>
+                                <span class="text-[8px] tracking-widest opacity-40">SAFIRA & TITÂNIO</span>
+                            </div>
+                            <span class="technical-label text-[8px]">COL_02</span>
+                        </div>
+                    </div>
+
+                    <!-- Peça 03 -->
+                    <div class="reveal" style="transition-delay: 0.4s;">
+                        <div class="img-wrapper aspect-square mb-6">
+                            <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=800" alt="Anel de rubi">
+                        </div>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <h3 class="serif text-xl italic">Céleste Rouge</h3>
+                                <span class="text-[8px] tracking-widest opacity-40">OURO ROSÉ & RUBI</span>
+                            </div>
+                            <span class="technical-label text-[8px]">COL_03</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-20 border-t border-white border-opacity-5">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-12">
+                <div class="max-w-xs">
+                    <h2 class="serif text-3xl italic mb-6">L'Essence</h2>
+                    <p class="text-[9px] tracking-widest opacity-30 leading-loose uppercase">
+                        Joalheria de Alta Performance. Design não replicável.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-16">
+                    <div class="flex flex-col gap-4">
+                        <span class="technical-label">Atelier</span>
+                        <span class="text-[10px] opacity-50">Place Vendôme, Paris</span>
+                        <span class="text-[10px] opacity-50">Bahnhofstrasse, Zurique</span>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <span class="technical-label">Protocolo</span>
+                        <span class="text-[10px] opacity-50">Certificação GIA</span>
+                        <span class="text-[10px] opacity-50">Privée Line</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-24 pt-8 border-t border-white border-opacity-5 flex justify-between items-center opacity-20 text-[7px] tracking-[0.5em]">
+                <span>© 2024 L'ESSENCE JOAILLERIE</span>
+                <span class="hidden sm:block">CURATED BY VISUAL ENGINEERING</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE NAVEGAÇÃO AJUSTADO -->
+    <div id="modal" class="fixed inset-0 bg-black/98 z-[200] hidden flex-col backdrop-blur-3xl">
+        <!-- Header fixo do Modal -->
+        <div class="w-full flex justify-between items-center px-6 py-8 md:px-12 md:py-12 shrink-0 z-10 bg-black/50 backdrop-blur-md">
+            <span class="technical-label text-lavender-400 opacity-60">L'ESSENCE DIRECTORY</span>
+            <button onclick="toggleModal()" class="text-white hover:text-lavender-400 transition-colors technical-label bg-white/5 px-4 py-2 rounded-full md:bg-transparent">
+                [ FECHAR_X ]
+            </button>
+        </div>
+            
+        <!-- Área de conteúdo com scroll e padding-top para não sobrepor -->
+        <div id="modal-content-container" class="flex-1 overflow-y-auto px-6 pb-24 md:px-24">
+            <div class="w-full flex flex-col items-start pt-12 md:pt-24 reveal">
+                <div class="flex flex-col gap-4 md:gap-6"> <!-- Gap reduzido acompanhando o texto menor -->
+                <a class="menu-link" onclick="triggerDemo('Coleções Privées')">Coleções Privées</a>
+                <a class="menu-link" onclick="triggerDemo('Alta Joalheria')">Alta Joalheria</a>
+                    <a class="menu-link" onclick="triggerDemo('Diamantes Raros')">Diamantes Raros</a>
+                <a class="menu-link" onclick="triggerDemo('O Atelier')">O Atelier</a>
+                    <a class="menu-link" onclick="triggerDemo('Processo Criativo')">Processo Criativo</a>
+                <a class="menu-link" onclick="triggerDemo('Relojoaria de Luxo')">Relojoaria de Luxo</a>
+                    <a class="menu-link" onclick="triggerDemo('Herança e História')">Herança e História</a>
+                    <a class="menu-link" onclick="triggerDemo('Garantia Vitalícia')">Garantia Vitalícia</a>
+                <a class="menu-link" onclick="triggerDemo('Agendar Consultoria')">Agendar Consultoria</a>
+                    <a class="menu-link" onclick="triggerDemo('Localizar Boutique')">Localizar Boutique</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Demonstração -->
+    <div id="demo-toast">Apenas demonstração. Obrigado pela visita!</div>
+
+    <script>
+        // Reveal Logic
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Modal Toggle
+        function toggleModal() {
+            const modal = document.getElementById('modal');
+            const isHidden = modal.classList.contains('hidden');
+            
+            if (isHidden) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('modal-content-container').scrollTop = 0;
+                setTimeout(() => modal.querySelector('.reveal').classList.add('active'), 10);
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+                modal.querySelector('.reveal').classList.remove('active');
+            }
+        }
+
+        // Demo Toast Trigger
+        function triggerDemo(sectionName) {
+            console.log(`Navegando para: ${sectionName}`);
+            const toast = document.getElementById('demo-toast');
+            toast.classList.add('show');
+            
+            // Fecha o modal após o clique para mostrar o site
+            setTimeout(() => {
+                toggleModal();
+            }, 300);
+
+            // Remove o toast após 3 segundos
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(26, 24, 33, 0.95)';
+                nav.style.paddingTop = '1.2rem';
+                nav.style.paddingBottom = '1.2rem';
+                nav.style.backdropFilter = 'blur(10px)';
+            } else {
+                nav.style.background = 'linear-gradient(to bottom, var(--deep-eggplant) 20%, transparent 100%)';
+                nav.style.paddingTop = '2rem';
+                nav.style.paddingBottom = '2rem';
+                nav.style.backdropFilter = 'none';
+            }
+        });
+    </script>
+    
+    <!-- Script de Disclaimer Importado conforme instruções -->
+    <script src="https://www.vellumvisuals.com.br/res/scripts/disclaimer.js"></script>
+</body>
+</html>

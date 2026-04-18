@@ -1,0 +1,733 @@
+<html lang="pt-br"><head><script>(function(firebaseConfig, initialAuthToken, appId) {
+        window.__firebase_config = firebaseConfig;
+        window.__initial_auth_token = initialAuthToken;
+        window.__app_id = appId;
+            })("\n{\n  \"apiKey\": \"AIzaSyCqyCcs2R2e7AegGjvFAwG98wlamtbHvZY\",\n  \"authDomain\": \"bard-frontend.firebaseapp.com\",\n  \"projectId\": \"bard-frontend\",\n  \"storageBucket\": \"bard-frontend.firebasestorage.app\",\n  \"messagingSenderId\": \"175205271074\",\n  \"appId\": \"1:175205271074:web:2b7bd4d34d33bf38e6ec7b\"\n}\n","eyJhbGciOiJSUzI1NiIsImtpZCI6IjU1ODA5YzI0OTlhNDMxNDcyMjY2ZDljOTY0ZWRiZjAyZTJhMjYwNjgiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay1mYnN2Y0BiYXJkLWZyb250ZW5kLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwiYXVkIjoiaHR0cHM6Ly9pZGVudGl0eXRvb2xraXQuZ29vZ2xlYXBpcy5jb20vZ29vZ2xlLmlkZW50aXR5LmlkZW50aXR5dG9vbGtpdC52MS5JZGVudGl0eVRvb2xraXQiLCJ1aWQiOiIwMDk0MDAzNjExOTAzOTQ5OTY0NCIsImlzcyI6ImZpcmViYXNlLWFkbWluc2RrLWZic3ZjQGJhcmQtZnJvbnRlbmQuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJjbGFpbXMiOnsiYXBwSWQiOiJjXzIzMTA1ZTgwNWM1NTVlZmRfaW5kZXguaHRtbC03ODYifSwiZXhwIjoxNzc2MTk2NTg2LCJpYXQiOjE3NzYxOTI5ODYsImFsZyI6IlJTMjU2In0.LTOF2C_8TNy2fnHhWugat7S_zRgP17IDa5URZmT1uV61mpo1ThqwNVFG6ko-5KtWnDaYMCva0HnEQsSg-r2f-WfI4Z-wCyW0doqVrh_17fjjcaqY-L4XfM9-meI12JizySZ0-Ve7FJKD0DeRErYO6j2bMUzk_Swu0E5nSJRoLzuh0S7QIhNDH549SbJIREvpYkjZNVkpp10xhb2H2HGIGV9vKdzXAUWwMJOLrqb4y1md2eazdgxb761wwOdEmfiTLOoJfUrjKIwN-woQjqPWxtkJc0Cg3RGh16J_30cImijFVIUiQbGmqqRYdxXWLSEVnLWhjkSrg9lN8RkdIME3cQ","c_23105e805c555efd_index.html-786")</script><script>(function(){'use strict';var h=typeof Object.defineProperties=="function"?Object.defineProperty:function(a,b,d){if(a==Array.prototype||a==Object.prototype)return a;a[b]=d.value;return a};function l(a){a=["object"==typeof globalThis&&globalThis,a,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var b=0;b<a.length;++b){var d=a[b];if(d&&d.Math==Math)return d}throw Error("Cannot find global object");}var n=l(this);
+function p(a,b){if(b)a:{var d=n;a=a.split(".");for(var c=0;c<a.length-1;c++){var e=a[c];if(!(e in d))break a;d=d[e]}a=a[a.length-1];c=d[a];b=b(c);b!=c&&b!=null&&h(d,a,{configurable:!0,writable:!0,value:b})}}function r(a){function b(c){return a.next(c)}function d(c){return a.throw(c)}return new Promise(function(c,e){function f(g){g.done?c(g.value):Promise.resolve(g.value).then(b,d).then(f,e)}f(a.next())})}function t(a){return r(a())}
+p("Object.values",function(a){return a?a:function(b){var d=[],c;for(c in b)Object.prototype.hasOwnProperty.call(b,c)&&d.push(b[c]);return d}});p("Array.prototype.includes",function(a){return a?a:function(b,d){var c=this;c instanceof String&&(c=String(c));var e=c.length;d=d||0;for(d<0&&(d=Math.max(d+e,0));d<e;d++){var f=c[d];if(f===b||Object.is(f,b))return!0}return!1}});/*
+
+ MIT License
+
+ Copyright (c) 2017-2023 W.Y.
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+
+*/
+function u(a,b){const d=a.style;b.backgroundColor&&(d.backgroundColor=b.backgroundColor);b.width&&(d.width=`${b.width}px`);b.height&&(d.height=`${b.height}px`);const c=b.style;c!=null&&Object.keys(c).forEach(e=>{d[e]=c[e]})};var v=(()=>{let a=0;return()=>{a+=1;return`u${`0000${(Math.random()*1679616<<0).toString(36)}`.slice(-4)}${a}`}})();function w(a){const b=[];for(let d=0,c=a.length;d<c;d++)b.push(a[d]);return b}let x=null;function y(a={}){return x?x:a.l?x=a.l:x=w(window.getComputedStyle(document.documentElement))}function z(a,b){return(a=(a.ownerDocument.defaultView||window).getComputedStyle(a).getPropertyValue(b))?parseFloat(a.replace("px","")):0}
+function A(a,b={}){var d;if(!(d=b.width)){d=z(a,"border-left-width");var c=z(a,"border-right-width");d=a.clientWidth+d+c}(b=b.height)||(b=z(a,"border-top-width"),c=z(a,"border-bottom-width"),b=a.clientHeight+b+c);return{width:d,height:b}}function B(a){return new Promise((b,d)=>{const c=new Image;c.onload=()=>{c.decode().then(()=>{requestAnimationFrame(()=>b(c))})};c.onerror=d;c.crossOrigin="anonymous";c.decoding="async";c.src=a})}
+function C(a){return t(function*(){return Promise.resolve().then(()=>(new XMLSerializer).serializeToString(a)).then(encodeURIComponent).then(b=>`data:image/svg+xml;charset=utf-8,${b}`)})}
+function D(a,b,d){return t(function*(){const c=document.createElementNS("http://www.w3.org/2000/svg","svg"),e=document.createElementNS("http://www.w3.org/2000/svg","foreignObject");c.setAttribute("width",`${b}`);c.setAttribute("height",`${d}`);c.setAttribute("viewBox",`0 0 ${b} ${d}`);e.setAttribute("width","100%");e.setAttribute("height","100%");e.setAttribute("x","0");e.setAttribute("y","0");e.setAttribute("externalResourcesRequired","true");c.appendChild(e);e.appendChild(a);return C(c)})}
+var E=(a,b)=>{if(a instanceof b)return!0;a=Object.getPrototypeOf(a);return a===null?!1:a.constructor.name===b.name||E(a,b)};function F(a,b){return y(b).map(d=>{const c=a.getPropertyValue(d),e=a.getPropertyPriority(d);return`${d}: ${c}${e?" !important":""};`}).join(" ")}
+function G(a,b,d,c){a=window.getComputedStyle(a,d);var e=a.getPropertyValue("content");if(e!==""&&e!=="none"){var f=v();try{b.className=`${b.className} ${f}`}catch(k){return}e=document.createElement("style");var g=e.appendChild;d=`.${f}:${d}`;a.cssText?(c=a.getPropertyValue("content"),c=`${a.cssText} content: '${c.replace(/'|"/g,"")}';`):c=F(a,c);g.call(e,document.createTextNode(`${d}{${c}}`));b.appendChild(e)}};function H(a){return a.search(/^(data:)/)!==-1}function I(a,b,d){return t(function*(){const c=yield fetch(a,b);if(c.status===404)throw Error(`Resource "${c.url}" not found`);const e=yield c.blob();return new Promise((f,g)=>{const k=new FileReader;k.onerror=g;k.onloadend=()=>{try{f(d({o:c,result:k.result}))}catch(m){g(m)}};k.readAsDataURL(e)})})}const J={};function K(a,b,d){let c=a.replace(/\?.*/,"");d&&(c=a);/ttf|otf|eot|woff2?/i.test(c)&&(c=c.replace(/.*\//,""));return b?`[${b}]${c}`:c}
+function L(a,b,d){return t(function*(){const c=K(a,b,d.C);if(J[c]!=null)return J[c];d.u&&(a+=(/\?/.test(a)?"&":"?")+(new Date).getTime());let e;try{const f=yield I(a,d.i,({o:g,result:k})=>{b||(b=g.headers.get("Content-Type")||"");return k.split(/,/)[1]});e=`data:${b};base64,${f}`}catch(f){e=d.B||""}return J[c]=e})};const M={P:"application/font-woff",R:"application/font-woff",N:"application/font-truetype",v:"application/vnd.ms-fontobject",H:"image/png",F:"image/jpeg",D:"image/jpeg",A:"image/gif",M:"image/tiff",L:"image/svg+xml",O:"image/webp"};function N(a){return(a=/\.([^./]*?)$/g.exec(a))?a[1]:""};function O(a){return t(function*(){const b=a.toDataURL();return b==="data:,"?a.cloneNode(!1):B(b)})}function aa(a,b){return t(function*(){if(a.currentSrc){var d=document.createElement("canvas");const c=d.getContext("2d");d.width=a.clientWidth;d.height=a.clientHeight;c==null||c.drawImage(a,0,0,d.width,d.height);d=d.toDataURL();return B(d)}d=a.poster;d=yield L(d,M[N(d).toLowerCase()]||"",b);return B(d)})}
+function ba(a,b){return t(function*(){try{let d;if(a==null?0:(d=a.contentDocument)==null?0:d.body)return yield P(a.contentDocument.body,b,!0)}catch(d){}return a.cloneNode(!1)})}function ca(a,b){return t(function*(){return E(a,HTMLCanvasElement)?O(a):E(a,HTMLVideoElement)?aa(a,b):E(a,HTMLIFrameElement)?ba(a,b):a.cloneNode(a.tagName!=null&&a.tagName.toUpperCase()==="SVG")})}
+function da(a,b,d){return t(function*(){if(b.tagName!=null&&b.tagName.toUpperCase()==="SVG")return b;let c=[];if(a.tagName!=null&&a.tagName.toUpperCase()==="SLOT"&&a.assignedNodes)c=w(a.assignedNodes());else{let e;if(E(a,HTMLIFrameElement)&&((e=a.contentDocument)==null?0:e.body))c=w(a.contentDocument.body.childNodes);else{let f;c=w(((f=a.shadowRoot)!=null?f:a).childNodes)}}if(c.length===0||E(a,HTMLVideoElement))return b;yield c.reduce((e,f)=>e.then(()=>P(f,d)).then(g=>{g&&b.appendChild(g)}),Promise.resolve());
+return b})}function ea(a,b,d){const c=b.style;if(c){var e=window.getComputedStyle(a);e.cssText?(c.cssText=e.cssText,c.transformOrigin=e.transformOrigin):y(d).forEach(f=>{let g=e.getPropertyValue(f);f==="font-size"&&g.endsWith("px")&&(g=`${Math.floor(parseFloat(g.substring(0,g.length-2)))-.1}px`);E(a,HTMLIFrameElement)&&f==="display"&&g==="inline"&&(g="block");f==="d"&&b.getAttribute("d")&&(g=`path(${b.getAttribute("d")})`);c.setProperty(f,g,e.getPropertyPriority(f))})}}
+function fa(a,b){E(a,HTMLSelectElement)&&(b=Array.from(b.children).find(d=>a.value===d.getAttribute("value")))&&b.setAttribute("selected","")}
+function ha(a,b){return t(function*(){var d=a.querySelectorAll?a.querySelectorAll("use"):[];if(d.length===0)return a;var c={};for(var e=0;e<d.length;e++){var f=d[e].getAttribute("xlink:href");if(f){const g=document.querySelector(f);a.querySelector(f)||!g||c[f]||(c[f]=yield P(g,b,!0))}}d=Object.values(c);if(d.length){c=document.createElementNS("http://www.w3.org/1999/xhtml","svg");c.setAttribute("xmlns","http://www.w3.org/1999/xhtml");c.style.position="absolute";c.style.width="0";c.style.height="0";
+c.style.overflow="hidden";c.style.display="none";e=document.createElementNS("http://www.w3.org/1999/xhtml","defs");c.appendChild(e);for(f=0;f<d.length;f++)e.appendChild(d[f]);a.appendChild(c)}return a})}
+function P(a,b,d){return t(function*(){return d||!b.filter||b.filter(a)?Promise.resolve(a).then(c=>ca(c,b)).then(c=>da(a,c,b)).then(c=>{E(c,Element)&&(ea(a,c,b),G(a,c,":before",b),G(a,c,":after",b),E(a,HTMLTextAreaElement)&&(c.textContent=a.value),E(a,HTMLInputElement)&&c.setAttribute("value",a.value),fa(a,c));return c}).then(c=>ha(c,b)):null})};const Q=/url\((['"]?)([^'"]+?)\1\)/g,ia=/url\([^)]+\)\s*format\((["']?)([^"']+)\1\)/g,ja=/src:\s*(?:url\([^)]+\)\s*format\([^)]+\)[,;]\s*)+/g;function ka(a){const b=[];a.replace(Q,(d,c,e)=>{b.push(e);return d});return b.filter(d=>!H(d))}
+function la(a,b,d,c){return t(function*(){try{const e=d?(new URL(b,d||void 0)).toString():b;let f;f=yield L(e,M[N(b).toLowerCase()]||"",c);return a.replace(new RegExp(`(url\\(['"]?)(${b.replace(/([.*+?^${}()|\[\]\/\\])/g,"\\$1")})(['"]?\\))`,"g"),`$1${f}$3`)}catch(e){}return a})}function ma(a,{I:b}){return b?a.replace(ja,d=>{for(;;){const [c,,e]=ia.exec(d)||[],f=c,g=e;if(!g)return"";if(g===b)return`src: ${f};`}}):a}
+function R(a,b,d){return t(function*(){if(a.search(Q)===-1)return a;const c=ma(a,d);return ka(c).reduce((e,f)=>e.then(g=>la(g,f,b,d)),Promise.resolve(c))})};function S(a,b,d){return t(function*(){var c;const e=(c=b.style)==null?void 0:c.getPropertyValue(a);return e?(c=yield R(e,null,d),b.style.setProperty(a,c,b.style.getPropertyPriority(a)),!0):!1})}function na(a,b){return t(function*(){(yield S("background",a,b))||(yield S("background-image",a,b));(yield S("mask",a,b))||(yield S("-webkit-mask",a,b))||(yield S("mask-image",a,b))||(yield S("-webkit-mask-image",a,b))})}
+function oa(a,b){return t(function*(){const d=E(a,HTMLImageElement);if(d&&!H(a.src)||E(a,SVGImageElement)&&!H(a.href.baseVal)){var c=d?a.src:a.href.baseVal,e=yield L(c,M[N(c).toLowerCase()]||"",b);yield new Promise((f,g)=>{a.onload=f;a.onerror=b.m?(...k)=>{try{f(b.m(...k))}catch(m){g(m)}}:g;a.decode&&(a.decode=f);a.loading==="lazy"&&(a.loading="eager");d?(a.srcset="",a.src=e):a.href.baseVal=e})}})}
+function pa(a,b){return t(function*(){const d=w(a.childNodes).map(c=>T(c,b));yield Promise.all(d).then(()=>a)})}function T(a,b){return t(function*(){E(a,Element)&&(yield na(a,b),yield oa(a,b),yield pa(a,b))})};const U={};function V(a){return t(function*(){var b=U[a];if(b!=null)return b;b=yield(yield fetch(a)).text();b={url:a,cssText:b};return U[a]=b})}function W(a,b){return t(function*(){let d=a.cssText;const c=/url\(["']?([^"')]+)["']?\)/g,e=(d.match(/url\([^)]+\)/g)||[]).map(f=>t(function*(){let g=f.replace(c,"$1");g.startsWith("https://")||(g=(new URL(g,a.url)).href);return I(g,b.i,({result:k})=>{d=d.replace(f,`url(${k})`);return[f,k]})}));return Promise.all(e).then(()=>d)})}
+function X(a){if(a==null)return[];const b=[];a=a.replace(/(\/\*[\s\S]*?\*\/)/gi,"");for(var d=RegExp("((@.*?keyframes [\\s\\S]*?){([\\s\\S]*?}\\s*?)})","gi");;){var c=d.exec(a);if(c===null)break;b.push(c[0])}a=a.replace(d,"");d=/@import[\s\S]*?url\([^)]*\)[\s\S]*?;/gi;for(c=RegExp("((\\s*?(?:\\/\\*[\\s\\S]*?\\*\\/)?\\s*?@media[\\s\\S]*?){([\\s\\S]*?)}\\s*?})|(([\\s\\S]*?){([\\s\\S]*?)})","gi");;){let e=d.exec(a);if(e===null)if(e=c.exec(a),e===null)break;else d.lastIndex=c.lastIndex;else c.lastIndex=
+d.lastIndex;b.push(e[0])}return b}
+function qa(a,b){return t(function*(){const d=[],c=[];a.forEach(e=>{if("cssRules"in e)try{w(e.cssRules||[]).forEach((f,g)=>{if(f.type===CSSRule.IMPORT_RULE){let k=g+1;f=V(f.href).then(m=>W(m,b)).then(m=>X(m).forEach(q=>{try{e.insertRule(q,q.startsWith("@import")?k+=1:e.cssRules.length)}catch(Da){}})).catch(()=>{});c.push(f)}})}catch(f){const g=a.find(k=>k.href==null)||document.styleSheets[0];e.href!=null&&c.push(V(e.href).then(k=>W(k,b)).then(k=>X(k).forEach(m=>{g.insertRule(m,g.cssRules.length)})).catch(()=>
+{}))}});return Promise.all(c).then(()=>{a.forEach(e=>{if("cssRules"in e)try{w(e.cssRules||[]).forEach(f=>{d.push(f)})}catch(f){}});return d})})}function ra(a){return a.filter(b=>b.type===CSSRule.FONT_FACE_RULE).filter(b=>b.style.getPropertyValue("src").search(Q)!==-1)}function sa(a,b){return t(function*(){if(a.ownerDocument==null)throw Error("Provided element is not within a Document");var d=w(a.ownerDocument.styleSheets);d=yield qa(d,b);return ra(d)})}
+function ta(a){function b(c){(c.style.fontFamily||getComputedStyle(c).fontFamily).split(",").forEach(e=>{d.add(e.trim().replace(/["']/g,""))});Array.from(c.children).forEach(e=>{e instanceof HTMLElement&&b(e)})}const d=new Set;b(a);return d}function ua(a,b){return t(function*(){const d=yield sa(a,b),c=ta(a);return(yield Promise.all(d.filter(e=>c.has(e.style.fontFamily.trim().replace(/["']/g,""))).map(e=>R(e.cssText,e.parentStyleSheet?e.parentStyleSheet.href:null,b)))).join("\n")})}
+function va(a,b){return t(function*(){const d=b.j!=null?b.j:b.K?null:yield ua(a,b);if(d){const c=document.createElement("style");c.appendChild(document.createTextNode(d));a.firstChild?a.insertBefore(c,a.firstChild):a.appendChild(c)}})};function wa(a,b={}){return t(function*(){const {width:d,height:c}=A(a,b),e=yield P(a,b,!0);yield va(e,b);yield T(e,b);u(e,b);return yield D(e,d,c)})}
+function xa(a,b={}){return t(function*(){const {width:d,height:c}=A(a,b);var e=yield wa(a,b);e=yield B(e);const f=document.createElement("canvas"),g=f.getContext("2d"),k=b.G||window.devicePixelRatio||1,m=b.h||d,q=b.g||c;f.width=m*k;f.height=q*k;!b.J&&(f.width>16384||f.height>16384)&&(f.width>16384&&f.height>16384?f.width>f.height?(f.height*=16384/f.width,f.width=16384):(f.width*=16384/f.height,f.height=16384):f.width>16384?(f.height*=16384/f.width,f.width=16384):(f.width*=16384/f.height,f.height=
+16384));f.style.width=`${m}`;f.style.height=`${q}`;b.backgroundColor&&(g.fillStyle=b.backgroundColor,g.fillRect(0,0,f.width,f.height));g.drawImage(e,0,0,f.width,f.height);return f})}function ya(a,b={}){return t(function*(){return(yield xa(a,b)).toDataURL()})};const za=["gemini.google.com","corp.google.com","proxy.googlers.com"];function Y(){return document.body.querySelectorAll('[class*="animate"]').length>0}function Z(a){return t(function*(){try{return yield ya(a,{h:a.offsetWidth,g:a.offsetHeight})}catch(d){var b=a.offsetHeight;const c=document.createElement("canvas");c.width=a.offsetWidth;c.height=b;return c.toDataURL("image/png")}})}
+function Aa(){return t(function*(){const a=document.body.offsetWidth,b=document.body.offsetHeight,d=document.body.cloneNode(!0);d.querySelectorAll('[class*="animate"]').forEach(c=>{c.classList.remove(...Array.from(c.classList).filter(e=>e.startsWith("animate")))});d.style.width=`${a}px`;d.style.height=`${b}px`;return d})}
+function Ba(a){return t(function*(){let b=document.body;if(Y()){var d=yield Aa();b=d;document.body.appendChild(d)}d=yield Z(b);Y()&&document.body.removeChild(b);window.parent.postMessage({type:"SEND_SCREENSHOT",image:d,topOffset:document.documentElement.scrollTop},a.origin)})}function Ca(a){return t(function*(){const b={type:"SEND_SCREENSHOT_FOR_DATA_VISUALIZATION",image:yield Z(document.body),topOffset:0};window.parent.postMessage(b,a.origin)})}
+window.addEventListener("message",a=>t(function*(){if(za.some(d=>a.origin.includes(d))){var b=a.data;b&&(b.type==="MAKE_SCREENSHOT"&&(yield Ba(a)),b.type==="MAKE_SCREENSHOT_FOR_DATA_VISUALIZATION"&&(yield Ca(a)))}}));
+})();</script><script>(function() {
+  // Ensure this script is executed only once
+  if (window.firebaseAuthBridgeScriptLoaded) {
+    return;
+  }
+  window.firebaseAuthBridgeScriptLoaded = true;
+
+  let nextTokenPromiseId = 0;
+
+  // Stores { resolve, reject } for ongoing token requests
+  const pendingTokenPromises = {};
+
+  // Listen for messages from the Host Application
+  window.addEventListener('message', function(event) {
+
+    const messageData = event.data;
+
+  if (messageData && messageData.type === 'RESOLVE_NEW_FIREBASE_TOKEN') {
+      const { success, token, error, promiseId } = messageData ?? {};
+      if (pendingTokenPromises[promiseId]) {
+        if (success) {
+          pendingTokenPromises[promiseId].resolve(token);
+        } else {
+          pendingTokenPromises[promiseId].reject(new Error(error || 'Token refresh failed from host.'));
+        }
+        delete pendingTokenPromises[promiseId];
+      }
+    }
+  });
+
+  // Expose a function for the Generated App to request a new Firebase token
+  window.requestNewFirebaseToken = function() {
+    const currentPromiseId = nextTokenPromiseId++;
+    const promise = new Promise((resolve, reject) => {
+      pendingTokenPromises[currentPromiseId] = { resolve, reject };
+    });
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({
+        type: 'REQUEST_NEW_FIREBASE_TOKEN',
+        promiseId: currentPromiseId
+      }, '*');
+    } else {
+      pendingTokenPromises[currentPromiseId].reject(new Error('No parent window to request token from.'));
+      delete pendingTokenPromises[currentPromiseId];
+    }
+    return promise;
+  };
+})();</script>
+
+
+
+
+
+
+
+
+<script>(function(){'use strict';function a(){window.parent.postMessage({type:"interaction"},"*")}window.addEventListener("click",a,{capture:!0,passive:!0});window.addEventListener("touchstart",a,{capture:!0,passive:!0});window.addEventListener("keydown",a,{capture:!0,passive:!0});}).call(this);
+</script><script>(function() {
+  const originalConsoleLog = console.log;
+  const originalConsoleError = console.error;
+
+    /**
+   * Normalizes an error event or a promise rejection reason into a structured error object.
+   * @param {*} errorEventOrReason The error object or reason.
+   * @return {object} Structured error data { message, name, stack }.
+   */
+  function getErrorObject(errorEventOrReason) {
+    if (errorEventOrReason instanceof Error) {
+      return {
+        message: errorEventOrReason.message,
+        name: errorEventOrReason.name,
+        stack: errorEventOrReason.stack,
+      };
+    }
+    // Fallback for non-Error objects.
+    try {
+      return {
+        message: JSON.stringify(errorEventOrReason),
+        name: 'UnknownErrorType',
+        stack: null,
+      };
+    } catch (e) {
+      return {
+        message: String(errorEventOrReason),
+        name: 'UnknownErrorTypeNonStringifiable',
+        stack: null,
+      };
+    }
+  }
+
+  /**
+   * Converts an array of arguments (from log/error) into a single string.
+   * Handles Error objects specially to include their message and stack.
+   * @param {Array<*>} args - Arguments passed to console methods.
+   * @return {string} A string representation of the arguments.
+   */
+  function stringifyArgs(args) {
+    return args
+      .map((arg) => {
+        if (arg instanceof Error) {
+          const {message, stack} = arg;
+          return `Error: ${message}${stack ? ('\nStack: ' + stack) : ''}`;
+        }
+        if (typeof arg === 'object' && arg !== null) {
+          try {
+            return JSON.stringify(arg);
+          } catch (error) {
+            return '[Circular Object]';
+          }
+        } else {
+          return String(arg);
+        }
+      })
+      .join(' ');
+  }
+
+  console.log = function(...args) {
+    const logString = stringifyArgs(args);
+    window.parent.postMessage({ type: 'log', message: logString }, '*');
+    originalConsoleLog.apply(console, args);
+  };
+
+  console.error = function(...args) {
+    let errorData;
+    if (args.length > 0 && args[0] instanceof Error) {
+      const err = args[0];
+      // If the first arg is an Error, capture its details.
+      errorData = {
+        type: 'error',
+        source: 'CONSOLE_ERROR',
+        ...getErrorObject(err),
+        rawArgsString: stringifyArgs(args.slice(1)),
+        timestamp: new Date().toISOString(),
+      };
+    } else {
+      // If not an Error object, treat all args as a general error message.
+      errorData = {
+        type: 'error',
+        source: 'CONSOLE_ERROR',
+        message: stringifyArgs(args),
+        name: 'ConsoleLoggedError',
+        stack: null,
+        timestamp: new Date().toISOString(),
+      };
+    }
+    window.parent.postMessage(errorData, '*');
+    originalConsoleError.apply(console, args);
+  };
+
+  // Listen for global unhandled synchronous errors.
+  window.addEventListener('error', function(event) {
+    const errorDetails = event.error ? getErrorObject(event.error) : {
+      message: event.message,
+      name: 'GlobalError',
+      stack: null,
+      filename: event.filename,
+      lineno: event.lineno,
+      colno: event.colno,
+    };
+
+    window.parent.postMessage({
+      type: 'error',
+      source: 'global',
+      ...errorDetails,
+      message: errorDetails.message || event.message,
+      timestamp: new Date().toISOString(),
+    }, '*');
+  });
+
+  // Listen for unhandled promise rejections (asynchronous errors).
+  window.addEventListener('unhandledrejection', function(event) {
+    const errorDetails = getErrorObject(event.reason);
+
+    window.parent.postMessage({
+      type: 'error',
+      source: 'unhandledrejection',
+      ...errorDetails,
+      message: errorDetails.message || 'Unhandled Promise Rejection',
+      timestamp: new Date().toISOString(),
+    }, '*');
+  });
+
+})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORA | Business Strategy Playbook</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;family=Montserrat:wght@300;400;600&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vora-black': '#121212',
+                        'vora-offwhite': '#F4F4F4',
+                        'vora-taupe': '#A0A0A0',
+                        'vora-silver': '#C0C0C0',
+                        'vora-chrome': '#E5E4E2',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        display: ['Playfair Display', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F4F4F4;
+            color: #121212;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Texture Overlay - Papel Granulado */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .sidebar-link {
+            transition: all 0.3s ease;
+            border-left: 2px solid transparent;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            border-left: 2px solid #C0C0C0;
+            padding-left: 1.5rem;
+            color: #C0C0C0;
+        }
+
+        /* Brushed Chrome / Silver Metallic Effect */
+        .btn-chrome {
+            background: linear-gradient(135deg, #A9A9A9 0%, #E5E4E2 50%, #A9A9A9 100%);
+            background-size: 200% 200%;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(192, 192, 192, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Shimmer effect for Chrome Button */
+        .btn-chrome::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(45deg);
+            transition: 0.6s;
+        }
+
+        .btn-chrome:hover::after {
+            left: 100%;
+        }
+
+        .btn-chrome:hover {
+            box-shadow: 0 6px 25px rgba(192, 192, 192, 0.4);
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            background-position: right center;
+        }
+
+        .chrome-text {
+            background: linear-gradient(135deg, #707070 0%, #E5E4E2 50%, #707070 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(192, 192, 192, 0.2);
+        }
+
+        .letter-spacing-widest {
+            letter-spacing: 0.25em;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F4F4F4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #A0A0A0;
+        }
+
+        .text-justify-custom {
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        /* Noise Texture for dark sections */
+        .noise-bg {
+            position: relative;
+        }
+        .noise-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/pinstripe.png");
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        /* LUXURY SVG EFFECTS */
+        .effect-glow { filter: drop-shadow(0 0 12px currentColor); }
+        .effect-pulse { animation: vora-pulse 3s infinite ease-in-out; }
+        .effect-floating { animation: vora-float 4s infinite ease-in-out; }
+        .effect-3d { transform: perspective(1000px) rotateX(15deg) rotateY(-10deg); filter: drop-shadow(5px 5px 15px rgba(0,0,0,0.5)); }
+        .effect-shadow { filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4)); }
+        
+        /* New Aesthetic Effects */
+        .effect-shimmer { 
+            mask-image: linear-gradient(-75deg, rgba(0,0,0,0.6) 30%, #000 50%, rgba(0,0,0,0.6) 70%);
+            mask-size: 200%;
+            animation: vora-shimmer 3s infinite;
+        }
+        .effect-glass-reflection {
+            filter: drop-shadow(0 0 1px rgba(255,255,255,0.3));
+            animation: vora-glass 5s infinite;
+        }
+        .effect-editorial {
+            filter: contrast(1.1) brightness(1.2) drop-shadow(0 10px 10px rgba(0,0,0,0.2));
+            letter-spacing: 0.5em;
+        }
+
+        /* NEW TECHNICAL EFFECTS */
+        .effect-bevel { filter: url(#vora-bevel-filter); }
+        .effect-emboss { filter: url(#vora-emboss-filter); }
+        .effect-custom-shadow { filter: url(#vora-custom-shadow-filter); }
+
+        @keyframes vora-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.03); }
+        }
+        @keyframes vora-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        @keyframes vora-shimmer {
+            from { mask-position: 150%; }
+            to { mask-position: -50%; }
+        }
+        @keyframes vora-glass {
+            0%, 100% { opacity: 0.95; filter: drop-shadow(0 0 2px rgba(255,255,255,0.2)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
+        }
+
+        #hero-logo-container svg {
+            width: 100%;
+            height: auto;
+            max-height: 140px;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Admin Range Styling */
+        input[type=range] {
+            accent-color: #C0C0C0;
+            height: 4px;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Montserrat, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.-bottom-6{bottom:-1.5rem}.-left-6{left:-1.5rem}.-top-3{top:-0.75rem}.left-0{left:0px}.left-1\/2{left:50%}.top-0{top:0px}.z-10{z-index:10}.z-\[60\]{z-index:60}.order-1{order:1}.order-2{order:2}.mx-auto{margin-left:auto;margin-right:auto}.my-12{margin-top:3rem;margin-bottom:3rem}.mb-12{margin-bottom:3rem}.mb-16{margin-bottom:4rem}.mb-2{margin-bottom:0.5rem}.mb-20{margin-bottom:5rem}.mb-24{margin-bottom:6rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mt-12{margin-top:3rem}.mt-16{margin-top:4rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mt-8{margin-top:2rem}.mt-auto{margin-top:auto}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.aspect-\[4\/5\]{aspect-ratio:4/5}.aspect-square{aspect-ratio:1 / 1}.h-1{height:0.25rem}.h-20{height:5rem}.h-8{height:2rem}.h-\[1px\]{height:1px}.h-\[2px\]{height:2px}.h-auto{height:auto}.h-full{height:100%}.h-px{height:1px}.h-screen{height:100vh}.max-h-\[70vh\]{max-height:70vh}.min-h-screen{min-height:100vh}.w-12{width:3rem}.w-16{width:4rem}.w-24{width:6rem}.w-32{width:8rem}.w-64{width:16rem}.w-\[1px\]{width:1px}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.max-w-5xl{max-width:64rem}.max-w-6xl{max-width:72rem}.max-w-7xl{max-width:80rem}.flex-grow{flex-grow:1}.-translate-x-1\/2{--tw-translate-x:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-12{gap:3rem}.gap-20{gap:5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.rounded-sm{border-radius:0.125rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-l-4{border-left-width:4px}.border-r{border-right-width:1px}.border-t{border-top-width:1px}.border-none{border-style:none}.border-vora-black\/10{border-color:rgb(18 18 18 / 0.1)}.border-vora-offwhite\/10{border-color:rgb(244 244 244 / 0.1)}.border-vora-silver{--tw-border-opacity:1;border-color:rgb(192 192 192 / var(--tw-border-opacity, 1))}.border-vora-silver\/10{border-color:rgb(192 192 192 / 0.1)}.border-vora-silver\/20{border-color:rgb(192 192 192 / 0.2)}.border-vora-silver\/30{border-color:rgb(192 192 192 / 0.3)}.border-vora-silver\/40{border-color:rgb(192 192 192 / 0.4)}.border-vora-taupe\/10{border-color:rgb(160 160 160 / 0.1)}.border-vora-taupe\/20{border-color:rgb(160 160 160 / 0.2)}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.border-white\/5{border-color:rgb(255 255 255 / 0.05)}.bg-transparent{background-color:transparent}.bg-vora-black{--tw-bg-opacity:1;background-color:rgb(18 18 18 / var(--tw-bg-opacity, 1))}.bg-vora-black\/20{background-color:rgb(18 18 18 / 0.2)}.bg-vora-offwhite{--tw-bg-opacity:1;background-color:rgb(244 244 244 / var(--tw-bg-opacity, 1))}.bg-vora-silver{--tw-bg-opacity:1;background-color:rgb(192 192 192 / var(--tw-bg-opacity, 1))}.bg-vora-taupe\/5{background-color:rgb(160 160 160 / 0.05)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/10{background-color:rgb(255 255 255 / 0.1)}.bg-white\/5{background-color:rgb(255 255 255 / 0.05)}.bg-\[url\(\'https\:\/\/images\.unsplash\.com\/photo-1486406146926-c627a92ad1ab\?auto\=format\&fit\=crop\&q\=80\'\)\]{background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80')}.bg-cover{background-size:cover}.bg-center{background-position:center}.object-cover{object-fit:cover}.p-10{padding:2.5rem}.p-12{padding:3rem}.p-2{padding:0.5rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-12{padding-left:3rem;padding-right:3rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-10{padding-top:2.5rem;padding-bottom:2.5rem}.py-24{padding-top:6rem;padding-bottom:6rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-32{padding-top:8rem;padding-bottom:8rem}.pb-4{padding-bottom:1rem}.pt-2{padding-top:0.5rem}.pt-8{padding-top:2rem}.text-center{text-align:center}.font-display{font-family:Playfair Display, serif}.font-sans{font-family:Montserrat, sans-serif}.font-serif{font-family:Cormorant Garamond, serif}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-6xl{font-size:3.75rem;line-height:1}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[8px\]{font-size:8px}.text-\[9px\]{font-size:9px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-light{font-weight:300}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-\[0\.2em\]{letter-spacing:0.2em}.tracking-\[0\.3em\]{letter-spacing:0.3em}.tracking-\[0\.4em\]{letter-spacing:0.4em}.tracking-\[0\.5em\]{letter-spacing:0.5em}.tracking-tighter{letter-spacing:-0.05em}.tracking-wide{letter-spacing:0.025em}.tracking-widest{letter-spacing:0.1em}.text-vora-black{--tw-text-opacity:1;color:rgb(18 18 18 / var(--tw-text-opacity, 1))}.text-vora-black\/70{color:rgb(18 18 18 / 0.7)}.text-vora-black\/80{color:rgb(18 18 18 / 0.8)}.text-vora-offwhite{--tw-text-opacity:1;color:rgb(244 244 244 / var(--tw-text-opacity, 1))}.text-vora-offwhite\/60{color:rgb(244 244 244 / 0.6)}.text-vora-silver{--tw-text-opacity:1;color:rgb(192 192 192 / var(--tw-text-opacity, 1))}.text-vora-taupe{--tw-text-opacity:1;color:rgb(160 160 160 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-30{opacity:0.3}.opacity-60{opacity:0.6}.opacity-80{opacity:0.8}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.grayscale{--tw-grayscale:grayscale(100%);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-1000{transition-duration:1000ms}.duration-500{transition-duration:500ms}.duration-700{transition-duration:700ms}.hover\:border-vora-silver\/40:hover{border-color:rgb(192 192 192 / 0.4)}.hover\:bg-vora-black:hover{--tw-bg-opacity:1;background-color:rgb(18 18 18 / var(--tw-bg-opacity, 1))}.hover\:text-vora-silver:hover{--tw-text-opacity:1;color:rgb(192 192 192 / var(--tw-text-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:grayscale-0:hover{--tw-grayscale:grayscale(0);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.group:hover .group-hover\:w-24{width:6rem}.group:hover .group-hover\:scale-110{--tw-scale-x:1.1;--tw-scale-y:1.1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\:bg-vora-black{--tw-bg-opacity:1;background-color:rgb(18 18 18 / var(--tw-bg-opacity, 1))}.group:hover .group-hover\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.group:hover .group-hover\:grayscale-0{--tw-grayscale:grayscale(0);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}@media (min-width: 768px){.md\:order-1{order:1}.md\:order-2{order:2}.md\:col-span-5{grid-column:span 5 / span 5}.md\:col-span-7{grid-column:span 7 / span 7}.md\:col-span-8{grid-column:span 8 / span 8}.md\:col-start-3{grid-column-start:3}.md\:ml-64{margin-left:16rem}.md\:flex{display:flex}.md\:grid-cols-12{grid-template-columns:repeat(12, minmax(0, 1fr))}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:px-24{padding-left:6rem;padding-right:6rem}.md\:text-5xl{font-size:3rem;line-height:1}.md\:text-8xl{font-size:6rem;line-height:1}.md\:text-sm{font-size:0.875rem;line-height:1.25rem}}@media (min-width: 1024px){.lg\:block{display:block}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}</style></head>
+<body class="font-sans antialiased"> 
+
+    
+
+    <!-- Sidebar Navigation -->
+    <nav class="fixed left-0 top-0 h-screen w-64 bg-vora-black text-vora-offwhite p-8 hidden md:flex flex-col z-[60] border-r border-vora-silver/10">
+        <div class="mb-12">
+            <div class="text-2xl font-serif tracking-[0.3em] border-b border-vora-silver/30 pb-4">VORA</div>
+            <div class="text-[10px] uppercase tracking-[0.2em] mt-2 text-vora-taupe">Business Strategy</div>
+        </div>
+        
+        <div class="flex-grow space-y-6 text-sm uppercase tracking-widest font-light">
+            <a href="#inicio" class="sidebar-link block active">Início</a>
+            <a href="#manifesto" class="sidebar-link block">01. Manifesto</a>
+            <a href="#sumario" class="sidebar-link block">02. Sumário</a>
+            <a href="#fundamentos" class="sidebar-link block">03. Fundamentos</a>
+            <a href="#posicionamento" class="sidebar-link block">04. Posicionamento</a>
+            <a href="#engenharia" class="sidebar-link block">05. Engenharia</a>
+            <a href="#escala" class="sidebar-link block">06. Escala</a>
+        </div>
+
+        <div class="mt-auto pt-8 border-t border-vora-taupe/20">
+            <p class="text-[10px] text-vora-taupe">EDITION 2026</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="md:ml-64 min-h-screen">
+        
+        <!-- Header / Hero Section -->
+        <section id="inicio" class="h-screen flex items-center justify-center relative overflow-hidden bg-vora-black noise-bg">
+            <div class="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;q=80')] bg-cover bg-center"></div>
+            
+            <div class="relative z-10 text-center px-4 w-full max-w-2xl mx-auto">
+                <!-- Hero Logo Container -->
+                <div id="hero-logo-container" class="mb-4 flex justify-center"><svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" width="2001.3083mm" height="380.37616mm" viewBox="0 0 2001.3083 380.37616" version="1.1" id="svg1" xml:space="preserve" sodipodi:docname="Vora_SVG.svg" inkscape:version="1.4.2 (f4327f4, 2025-05-13)" style="color: rgb(255, 255, 255);" class="effect-custom-shadow"><sodipodi:namedview id="namedview1" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.25" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:document-units="mm" inkscape:zoom="0.040394145" inkscape:cx="2450.8503" inkscape:cy="-779.81599" inkscape:window-width="1366" inkscape:window-height="715" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="layer1"></sodipodi:namedview><defs id="defs1"><linearGradient id="vora-dynamic-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"></stop>
+                <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1"></stop>
+            </linearGradient><filter id="vora-bevel-filter">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="0.25" result="blur"></feGaussianBlur>
+                <feSpecularLighting in="blur" surfaceScale="1" specularConstant="1" specularExponent="20" lighting-color="#ffffff" result="spec">
+                    <fePointLight x="-5000" y="-10000" z="20000"></fePointLight>
+                </feSpecularLighting>
+                <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut"></feComposite>
+                <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"></feComposite>
+            </filter><filter id="vora-emboss-filter">
+                <feDiffuseLighting in="SourceGraphic" surfaceScale="1" diffuseConstant="1" lighting-color="#ffffff">
+                    <feDistantLight azimuth="45" elevation="35"></feDistantLight>
+                </feDiffuseLighting>
+            </filter><filter id="vora-custom-shadow-filter" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="11" stdDeviation="12" flood-color="black" flood-opacity="0.6"></feDropShadow>
+            </filter></defs><g inkscape:label="Camada 1" inkscape:groupmode="layer" id="layer1" transform="translate(1007.9894,-866.4704)"><g id="g27" transform="translate(-74.17343,931.67285)" style="fill:#000000"><path style="fill: url(&quot;#vora-dynamic-grad&quot;); stroke: none;" d="m -232.80241,315.01341 c -11.25044,-0.53969 -22.72272,-2.32543 -36.64479,-5.70404 -4.91318,-1.19234 -12.97911,-3.73785 -18.38854,-5.80322 -2.18282,-0.83342 -4.5014,-1.7059 -5.15241,-1.93884 -3.82001,-1.36687 -17.45342,-8.72597 -24.86837,-13.42355 -22.77963,-14.43155 -42.41457,-36.32905 -55.03657,-61.3785 -4.15539,-8.24673 -8.48784,-19.58106 -11.27652,-29.50105 -2.1052,-7.48871 -3.43392,-13.21675 -4.35759,-18.78541 -0.13276,-0.80037 -0.41622,-2.46724 -0.62993,-3.70417 -0.4631,-2.68037 -1.28379,-9.09761 -1.9118,-14.94896 l -0.45436,-4.23333 0.0132,-11.24479 0.0132,-11.24479 0.56489,-5.82084 c 1.01737,-10.48324 2.02087,-16.3578 4.20327,-24.60625 2.44737,-9.249914 4.29042,-15.227652 6.77079,-21.960415 4.07626,-11.064666 7.51863,-17.657117 15.33544,-29.36875 17.02355,-25.505738 42.93876,-47.1971896 72.15661,-60.3962471 3.35307,-1.5147389 7.12755,-3.1061779 10.45104,-4.4064879 1.74625,-0.683218 3.47266,-1.366996 3.83646,-1.519507 2.21725,-0.929501 10.29402,-3.679193 13.62604,-4.638909 14.94178,-4.303652 28.35976,-6.833673 41.14271,-7.757643 11.95767,-0.864317 16.59353,-0.971104 22.88646,-0.52719 8.69611,0.613438 11.32027,0.837156 14.15521,1.206774 4.74469,0.618611 10.01906,1.434395 11.90625,1.841532 0.94588,0.204063 2.13651,0.4405 2.64583,0.525416 1.26905,0.21158 3.77027,0.789796 7.54063,1.743194 1.74625,0.441569 3.65125,0.921458 4.23333,1.06642 12.46522,3.104335 31.64664,12.126565 46.0375,21.65433979 31.903871,21.12262921 57.019496,57.08129221 66.258938,94.86455821 0.320268,1.309688 0.686877,2.797969 0.814686,3.307292 0.432016,1.721593 2.20723,11.126543 2.497047,13.229163 0.0702,0.50933 0.305764,2.05714 0.523468,3.43959 0.217704,1.38245 0.666385,4.65666 0.997068,7.27604 l 0.601243,4.7625 9.1e-5,12.56771 9.1e-5,12.56771 -0.342522,2.64583 c -0.188387,1.45521 -0.51208,4.13411 -0.719317,5.95312 -0.66973,5.87853 -1.775575,12.00739 -3.580451,19.84375 -1.399506,6.07634 -3.739641,13.81268 -6.202538,20.50521 -0.374868,1.01865 -0.782738,2.14974 -0.906378,2.51355 -2.434854,7.16442 -10.980053,23.12489 -17.423856,32.54375 -7.274186,10.63262 -21.58566,26.57988 -29.94986,33.3731 -5.12484,4.16228 -16.53808,12.50015 -20.10833,14.69 -12.84271,7.87722 -23.06913,13.24914 -31.75,16.6782 -0.94589,0.37364 -2.21087,0.89821 -2.81108,1.16572 -1.27644,0.5689 -9.07463,3.10167 -12.13788,3.94225 -1.16417,0.31946 -4.02167,1.15515 -6.35,1.8571 -7.1401,2.15258 -11.99409,3.26398 -21.29896,4.87674 -11.19253,1.93993 -25.48964,2.82013 -36.90938,2.27233 z m 42.73021,-13.85986 c 11.5496,-1.60411 21.33218,-4.24792 30.95625,-8.36616 17.71714,-7.58134 31.87773,-18.26426 43.49999,-32.81692 8.20804,-10.2776 15.05365,-22.25323 20.115373,-35.18959 0.540923,-1.38245 1.106365,-2.8112 1.256539,-3.175 0.150174,-0.3638 0.431383,-1.13771 0.62491,-1.71979 0.193527,-0.58208 0.605392,-1.77271 0.915255,-2.64583 0.768,-2.16405 2.327813,-7.08846 2.807542,-8.86354 0.216303,-0.80037 0.69899,-2.58631 1.072639,-3.96875 1.633693,-6.04444 3.160394,-13.42144 3.915099,-18.91771 0.199818,-1.45521 0.486603,-3.53881 0.637301,-4.63021 0.150698,-1.09141 0.487537,-4.18703 0.748531,-6.87917 l 0.474535,-4.89479 v -14.55208 -14.55209 l -0.467861,-5.02708 c -0.257323,-2.7649 -0.640161,-6.45583 -0.850751,-8.20208 -0.210591,-1.74625 -0.454154,-3.82985 -0.541252,-4.63021 -0.266196,-2.44614 -1.571212,-9.63328 -2.378084,-13.09688 -0.203401,-0.87312 -0.613912,-2.65906 -0.912247,-3.96875 -1.677419,-7.36386 -4.805538,-17.685818 -7.416951,-24.473957 -0.653421,-1.698512 -2.291319,-6.053063 -2.802078,-7.449667 -3.6772,-10.054828 -15.85037,-29.916706 -24.63627,-40.196814 -8.34668,-9.766187 -21.84677,-21.371142 -31.43201,-27.0195963 -0.7276,-0.4287675 -2.09682,-1.248851 -3.04271,-1.8224079 -9.86226,-5.9801847 -21.60563,-10.7926886 -33.46979,-13.7161287 -4.70784,-1.1600561 -5.33598,-1.2960771 -8.46667,-1.8334321 -6.29013,-1.079645 -8.2506,-1.365402 -11.24479,-1.639031 -1.67349,-0.152934 -4.23333,-0.386803 -5.68854,-0.519709 -3.51757,-0.321261 -17.83289,-0.31293 -21.16667,0.01232 -1.45521,0.141973 -3.95552,0.379328 -5.55625,0.527457 -1.60073,0.148128 -3.98198,0.447878 -5.29167,0.666111 -4.58733,0.764387 -8.48615,1.494182 -10.71562,2.005786 -1.23693,0.283842 -3.0824,0.7056096 -4.10104,0.9372618 -28.07101,6.38368 -51.54429,24.1902182 -66.73577,50.6249342 -5.87393,10.221232 -11.26724,22.715198 -13.30587,30.823959 -0.10976,0.436562 -0.55564,2.103437 -0.99085,3.704167 -0.43521,1.600729 -1.05092,4.101041 -1.36826,5.55625 -0.31733,1.455208 -0.69942,3.181614 -0.84907,3.836458 -0.69201,3.027952 -1.81528,10.069602 -2.34244,14.684375 -0.83868,7.341974 -1.10325,10.849454 -1.38208,18.323304 l -0.30851,8.26914 0.31142,9.19336 c 0.36744,10.84698 1.19528,20.1276 2.56653,28.77253 0.20774,1.30969 0.45029,2.91703 0.539,3.57187 0.40085,2.95914 1.79969,9.85235 2.81882,13.89063 0.4407,1.74625 0.86096,3.47266 0.93392,3.83646 0.93264,4.65081 5.88201,18.55691 9.78676,27.49758 16.76967,38.39728 41.29638,63.95875 75.75036,78.94619 6.03381,2.6247 7.82177,3.28654 13.36145,4.94593 7.00476,2.09824 12.78982,3.27991 21.29896,4.35057 4.80377,0.60443 5.1721,0.616 17.19792,0.53997 l 10.98021,-0.0694 z m 865.49555,10.00891 -0.5726,-0.72794 v -2.85998 -2.85998 l 0.61237,-0.71192 0.61237,-0.71192 2.89336,-0.23852 c 3.6604,-0.30174 8.41913,-1.5964 13.73791,-3.73752 14.91073,-6.00243 26.23468,-19.35761 36.87727,-43.4921 0.56617,-1.28392 1.4508,-3.24458 1.96583,-4.35702 0.51504,-1.11244 1.31251,-2.89837 1.77217,-3.96875 0.96297,-2.24244 1.36371,-3.16569 1.93572,-4.45968 1.89498,-4.28679 5.11906,-11.83026 5.85755,-13.70505 0.49878,-1.26623 1.45745,-3.61193 2.13038,-5.21266 0.67294,-1.60073 1.74111,-4.16057 2.37372,-5.68854 0.63261,-1.52797 1.64726,-3.96875 2.25477,-5.42396 0.60752,-1.4552 1.49805,-3.59833 1.97896,-4.7625 0.48091,-1.16416 1.19658,-2.83104 1.59037,-3.70416 0.39379,-0.87313 0.87339,-2.00422 1.06578,-2.51354 0.19239,-0.50933 1.02167,-2.53339 1.84283,-4.49792 0.82116,-1.96453 1.89198,-4.58391 2.37959,-5.82084 0.74082,-1.87924 1.99438,-4.87006 3.04965,-7.27604 0.12765,-0.29104 0.96178,-2.25557 1.8536,-4.36562 0.89183,-2.11005 2.25329,-5.32474 3.02546,-7.14375 0.77218,-1.81901 2.08273,-4.91464 2.91234,-6.87917 0.82962,-1.96453 1.91148,-4.52437 2.40415,-5.68854 0.49266,-1.16417 1.38303,-3.30729 1.97859,-4.7625 1.23165,-3.00943 1.99677,-4.85567 4.11181,-9.92188 0.82015,-1.96453 2.02162,-4.88156 2.66994,-6.48229 0.64832,-1.60073 1.33712,-3.2676 1.53066,-3.70416 0.19354,-0.43657 0.67967,-1.62719 1.08029,-2.64584 0.61587,-1.56594 1.87996,-4.57856 2.77548,-6.61458 1.57168,-3.57331 2.49949,-5.79726 5.62951,-13.49375 2.09525,-5.15207 1.56104,-3.89184 5.83217,-13.758335 5.19299,-11.996029 5.70981,-13.208045 6.93691,-16.267922 1.43055,-3.567229 4.89772,-12.061384 11.50345,-28.182078 1.13296,-2.764896 3.90041,-9.551459 6.1499,-15.08125 4.15594,-10.216343 5.64234,-13.835015 7.58041,-18.454688 0.59523,-1.418828 1.5693,-3.740547 2.1646,-5.159375 0.59531,-1.418828 1.74013,-4.187032 2.54406,-6.1515629 0.80392,-1.9645313 1.87921,-4.5839063 2.38952,-5.8208334 0.51031,-1.2369271 1.31715,-3.20145838 1.79296,-4.36562507 1.81057,-4.42986183 2.74807,-6.68376563 3.63175,-8.73125013 1.64926,-3.8213605 5.95054,-14.1261265 7.50985,-17.9916665 0.64571,-1.60073 1.28586,-3.148542 1.42255,-3.439584 0.1367,-0.291041 0.92069,-2.196041 1.74221,-4.233333 1.90313,-4.719579 4.43145,-10.913535 7.18204,-17.594792 0.50923,-1.236927 1.1359,-2.78474 1.3926,-3.439583 2.43669,-6.21604 3.29847,-8.144205 3.87281,-8.665105 l 0.65638,-0.595312 4.81389,0.0084 4.81389,0.0084 0.42436,0.32321 c 0.50503,0.384658 1.16035,1.643689 2.43957,4.687044 3.79011,9.016887 5.06404,12.004341 8.5183,19.976042 2.14392,4.947708 4.34319,10.067396 4.88727,11.377084 0.8785,2.114706 3.08324,7.306173 3.70803,8.73125 0.1276,0.291041 0.60318,1.422135 1.05685,2.513541 0.45367,1.091407 0.92946,2.2225 1.05731,2.513542 0.47302,1.076746 3.49924,8.2630652 4.23391,10.0541669 1.30771,3.1881639 3.18621,7.6173696 3.81528,8.9958335 0.33205,0.7276041 0.91224,2.0372917 1.28932,2.9104167 0.61401,1.42176 5.22171,12.0404989 12.22709,28.1781249 1.35818,3.128698 3.55578,8.248386 4.88357,11.377084 1.32778,3.128698 2.52044,5.926667 2.65035,6.217708 0.1299,0.291042 0.78587,1.838855 1.4577,3.439584 0.67183,1.600729 1.3281,3.148541 1.45839,3.439583 0.3529,0.788343 2.40418,5.66874 3.83664,9.128125 0.69296,1.67349 2.89146,6.793177 4.88556,11.377084 4.26947,9.814395 7.81941,18.052326 9.91936,23.018752 2.50825,5.93205 3.62298,8.51963 4.38835,10.18646 1.71359,3.73184 2.47905,5.44804 4.63326,10.38797 1.25258,2.87234 2.43341,5.57963 2.62408,6.01619 0.47242,1.0817 4.19424,9.82268 5.29487,12.43542 0.49041,1.16417 1.54661,3.66448 2.34712,5.55625 0.8005,1.89177 1.94995,4.63021 2.55434,6.08542 0.60438,1.4552 1.3107,3.12208 1.5696,3.70416 0.2589,0.58209 0.8368,1.9513 1.28422,3.04271 1.47223,3.59123 3.20312,7.58608 4.25925,9.83022 0.57159,1.21458 1.51209,3.27989 2.08998,4.58957 0.5779,1.30969 1.46983,3.27422 1.98208,4.36563 0.51225,1.0914 1.66829,3.71078 2.56899,5.82083 0.90069,2.11005 2.56465,5.97958 3.69769,8.59896 1.13303,2.61937 3.5762,8.33438 5.42925,12.7 1.85306,4.36563 4.48705,10.51429 5.85332,13.6637 1.36627,3.14941 2.48412,5.78754 2.48412,5.86252 0,0.075 0.52739,1.26502 1.17199,2.64452 0.6446,1.3795 2.8576,6.36136 4.9177,11.07081 5.0934,11.64296 5.0814,11.61662 7.8404,17.16158 12.6987,25.52072 23.7825,37.99013 38.4574,43.26504 4.0504,1.45592 8.5869,2.63645 11.1125,2.89178 2.3398,0.23655 3.7716,0.62856 4.1672,1.14094 l 0.3307,0.42838 v 3.05828 c 0,1.68206 -0.1169,3.23688 -0.2548,3.45516 l -0.2506,0.39687 -4.7062,-0.004 c -2.5885,-0.002 -21.4941,-0.10682 -42.0125,-0.23243 l -37.30625,-0.22838 -23.11995,0.30603 -23.11994,0.30604 -0.62641,-0.41044 -0.62641,-0.41043 v -3.2951 -3.29509 l 0.64891,-0.42518 0.64891,-0.42518 5.23807,-0.37726 c 2.88094,-0.20749 5.89292,-0.48629 6.69328,-0.61954 0.80037,-0.13325 2.16958,-0.31425 3.04271,-0.40221 2.88664,-0.29082 8.38276,-1.61689 11.17919,-2.69726 4.9604,-1.91638 7.28615,-4.41305 8.77926,-9.42443 0.81486,-2.73492 0.84901,-3.04682 0.84616,-7.72804 l -0.003,-4.51492 -0.66684,-3.1694 c -1.35779,-6.45338 -10.45641,-30.63831 -16.05302,-42.67035 -0.42609,-0.91603 -0.77471,-1.71268 -0.77471,-1.77031 0,-0.21628 -10.36518,-24.22325 -14.28108,-33.07666 -0.12873,-0.29104 -0.70866,-1.66026 -1.28872,-3.04271 -0.58007,-1.38245 -2.45238,-5.72823 -4.1607,-9.65729 -1.70833,-3.92906 -3.37021,-7.79859 -3.69308,-8.59896 -0.73393,-1.81933 -3.9541,-9.69069 -4.76261,-11.64167 -2.1378,-5.15863 -3.88789,-9.31609 -4.62214,-10.9802 -0.12842,-0.29105 -0.61218,-1.42214 -1.07504,-2.51355 -0.7892,-1.86093 -1.91876,-4.40035 -2.7657,-6.2177 -1.00451,-2.15547 -2.24468,-4.95602 -2.24468,-5.06891 0,-0.0698 -0.90831,-2.2321 -2.01846,-4.80506 -1.11016,-2.57297 -3.32798,-7.71421 -4.9285,-11.42499 -1.60052,-3.71078 -4.24631,-9.8425 -5.87952,-13.62604 -1.63322,-3.78355 -3.36324,-7.83167 -3.84449,-8.99584 -0.48125,-1.164164 -1.28353,-3.069164 -1.78285,-4.23333 -0.49931,-1.164167 -1.30882,-3.142739 -1.79891,-4.396828 -0.4901,-1.254088 -1.56353,-3.813932 -2.38542,-5.688542 -0.82189,-1.874609 -1.64623,-3.825099 -1.83188,-4.334422 -0.18564,-0.509323 -0.64075,-1.580886 -1.01135,-2.38125 -1.16403,-2.513879 -6.59623,-15.170151 -9.31208,-21.695834 -1.69214,-4.065907 -3.24357,-7.697084 -6.83915,-16.007292 -2.67141,-6.174227 -3.86312,-9.008804 -6.11799,-14.552083 -0.76952,-1.891771 -1.84491,-4.511146 -2.38974,-5.820834 -0.54484,-1.309687 -1.25914,-3.036094 -1.58734,-3.836458 -0.75373,-1.838092 -2.78432,-6.629088 -3.98095,-9.3927086 -0.50408,-1.1641667 -0.91554,-2.2014205 -0.91436,-2.3050085 10e-4,-0.1035879 -0.40165,-1.056088 -0.89519,-2.1166667 -0.49354,-1.0605787 -1.20067,-2.70223113 -1.5714,-3.64811656 -0.89041,-2.27179404 -1.13598,-2.18184994 -2.16715,0.79375001 -0.47908,1.38244795 -1.16523,3.22791675 -1.52478,4.10104175 -0.35955,0.873125 -1.66967,4.0878125 -2.91138,7.1437496 -2.54615,6.266251 -3.7561,9.214456 -4.88634,11.906251 -2.3953,5.70468 -6.31805,15.623338 -8.26661,20.902083 -0.83364,2.258389 -1.74528,4.620292 -3.26794,8.466667 -1.77196,4.476145 -3.37322,8.325561 -7.97935,19.182292 -0.83348,1.964531 -2.20204,5.23875 -3.04125,7.276042 -0.83921,2.037291 -2.09091,5.073385 -2.78155,6.746875 -0.69064,1.673489 -1.51744,3.697552 -1.83733,4.497917 -0.31989,0.800364 -0.89016,2.169583 -1.26726,3.042708 -0.37711,0.873125 -1.04223,2.480469 -1.47806,3.571875 -0.43583,1.091406 -1.29035,3.175002 -1.89894,4.630212 -0.97392,2.32874 -2.24255,5.44027 -6.74226,16.53645 -0.61962,1.52797 -1.92878,4.74266 -2.90925,7.14375 -1.60567,3.93217 -2.18449,5.34033 -4.24154,10.31875 -0.3307,0.80037 -1.27811,3.06256 -2.10536,5.02709 -0.82724,1.96453 -1.65958,3.98859 -1.84964,4.49791 -0.19006,0.50933 -0.7578,1.87855 -1.26164,3.04271 -0.50384,1.16417 -1.35721,3.18823 -1.89638,4.49792 -0.53917,1.30969 -1.08904,2.61937 -1.22193,2.91042 -0.24039,0.52645 -1.88561,4.57317 -3.60353,8.86354 -0.49529,1.23692 -1.00951,2.48708 -1.14273,2.77812 -0.58698,1.28235 -2.11776,4.91814 -2.78495,6.61459 -0.40062,1.01864 -0.8828,2.20927 -1.07152,2.64583 -1.77934,4.11626 -3.26328,7.74923 -6.59246,16.13958 -2.13641,5.38427 -4.72711,11.81365 -5.75712,14.2875 -1.03,2.47386 -2.34347,5.62901 -2.91882,7.01146 -0.57534,1.38245 -1.20652,2.87073 -1.40261,3.30729 -0.19608,0.43657 -1.26177,2.99641 -2.36817,5.68855 -1.10641,2.69213 -2.23673,5.43057 -2.51181,6.08541 -0.45398,1.08072 -0.86987,2.16385 -2.81912,7.34219 -0.34237,0.9095 -0.93615,2.45732 -1.31952,3.43958 -2.95168,7.56264 -4.6279,13.17919 -5.38925,18.05782 l -0.51613,3.30729 0.001,3.96875 10e-4,3.96875 0.51349,3.57187 c 2.47127,17.19019 13.45084,25.96005 36.10309,28.83714 1.30219,0.16539 2.44374,0.34776 2.53678,0.40526 0.093,0.0575 2.8376,0.29847 6.09904,0.53549 l 5.92989,0.43095 0.59532,0.3798 0.59531,0.37981 v 3.2688 3.26879 l -0.33073,0.2721 -0.33073,0.2721 -57.54688,0.15391 c -31.65078,0.0847 -60.236,0.22878 -63.52271,0.32027 l -5.97584,0.16635 z m -1431.30703,-2.01577 c -0.83109,-0.50601 -0.90422,-0.61741 -3.71061,-5.65227 -2.53753,-4.55248 -6.91512,-13.54273 -9.7913,-20.10833 -0.76497,-1.74625 -1.86485,-4.18703 -2.44417,-5.42396 -0.57932,-1.23692 -1.498,-3.20146 -2.0415,-4.36562 -0.54351,-1.16417 -1.52483,-3.24776 -2.18072,-4.63021 -0.65588,-1.38245 -1.76127,-3.7637 -2.45642,-5.29167 -0.69514,-1.52797 -1.6481,-3.61156 -2.11769,-4.63021 -0.46958,-1.01864 -1.74475,-3.87614 -2.8337,-6.35 -1.08896,-2.47385 -2.31066,-5.21229 -2.71489,-6.08541 -0.40424,-0.87313 -0.9982,-2.18282 -1.31992,-2.91042 -0.32172,-0.7276 -0.86091,-1.91823 -1.19819,-2.64583 -0.33729,-0.72761 -1.08561,-2.39448 -1.66294,-3.70417 -0.57733,-1.30969 -1.61214,-3.57187 -2.29958,-5.02708 -1.18968,-2.51837 -3.26767,-6.96444 -5.68836,-12.17084 -0.60893,-1.30968 -1.40883,-3.09562 -1.77756,-3.96875 -0.36872,-0.87312 -1.25197,-2.81813 -1.96278,-4.32223 -0.71081,-1.50411 -1.29238,-2.77687 -1.29238,-2.82837 0,-0.0883 -1.1585,-2.5835 -3.43639,-7.40148 -1.87134,-3.95808 -2.97444,-6.3459 -3.97245,-8.59896 -0.5479,-1.23693 -1.38032,-3.08239 -1.84981,-4.10104 -0.46949,-1.01865 -1.84054,-4.05474 -3.04676,-6.74688 -1.20623,-2.69213 -3.17002,-7.03791 -4.36398,-9.65729 -1.19396,-2.61937 -2.67761,-5.89359 -3.297,-7.27604 -0.61939,-1.38245 -1.54537,-3.40651 -2.05774,-4.49792 -0.51238,-1.0914 -1.67171,-3.59171 -2.5763,-5.55625 -0.9046,-1.96453 -1.92152,-4.16718 -2.25983,-4.89479 -2.2269,-4.78941 -4.36057,-9.44963 -4.36057,-9.52406 0,-0.0482 -0.57972,-1.31835 -1.28827,-2.82245 -0.70855,-1.50411 -1.7064,-3.68724 -2.21744,-4.8514 -0.51105,-1.16417 -1.35887,-3.03132 -1.88405,-4.14923 -0.52519,-1.11791 -1.41731,-3.08245 -1.9825,-4.36563 -1.0578,-2.40159 -1.6931,-3.81526 -2.95095,-6.56639 -0.3992,-0.87313 -2.77513,-6.23022 -5.27984,-11.90464 -2.50471,-5.67443 -5.07884,-11.432714 -5.72028,-12.796188 -0.64144,-1.363474 -1.16626,-2.515389 -1.16626,-2.559812 0,-0.04442 -0.52183,-1.191765 -1.15962,-2.54965 -2.42953,-5.172572 -5.98094,-12.882314 -6.98738,-15.168882 -0.57647,-1.309687 -1.40372,-3.155156 -1.83833,-4.101041 -1.25223,-2.725339 -1.92132,-4.213145 -2.9152,-6.482292 -0.50991,-1.164167 -1.50682,-3.347298 -2.21537,-4.851403 -0.70854,-1.504104 -1.28827,-2.776869 -1.28827,-2.828365 0,-0.0515 -0.54957,-1.261646 -1.22128,-2.689222 -0.67171,-1.427577 -2.56224,-5.631687 -4.20117,-9.342469 -1.63894,-3.710781 -3.39648,-7.639844 -3.90564,-8.73125 -0.50916,-1.091406 -1.54731,-3.328877 -2.30698,-4.972156 -0.75968,-1.64328 -1.70776,-3.607811 -2.10685,-4.365625 -0.39909,-0.757814 -1.83384,-3.520969 -3.18835,-6.140344 -5.72462,-11.0704315 -9.51272,-16.7826951 -14.26919,-21.5172469 -4.85491,-4.8325302 -8.78821,-7.0340791 -16.82241,-9.4158511 -1.79941,-0.533443 -7.49303,-1.478361 -8.90789,-1.478361 -3.09129,0 -3.386,-0.361619 -3.39119,-4.161088 l -0.004,-2.970463 0.60819,-0.398501 0.60819,-0.398501 9.909,0.263148 c 5.44995,0.144731 13.00462,0.435981 16.78817,0.647222 14.36025,0.801756 39.85141,0.747931 55.5625,-0.11732 2.61937,-0.144256 9.10828,-0.384491 14.41979,-0.533856 5.31151,-0.149365 10.72885,-0.340896 12.03854,-0.425625 l 2.38125,-0.154052 0.52917,0.399426 0.52917,0.399427 v 3.18675 3.186751 l -0.46294,0.462664 -0.46294,0.462665 -3.63811,0.185729 c -15.65473,0.799194 -24.77997,4.7008337 -27.62711,11.8124049 l -0.6064,1.51467773 0.005,4.23333337 0.005,4.2333334 0.55983,2.1166666 c 0.79319,2.998945 1.3187,4.333042 5.10682,12.964584 1.85208,4.220104 3.9676,9.101666 4.70117,10.847916 0.73357,1.74625 1.86954,4.312397 2.52438,5.702549 0.65485,1.390152 1.49908,3.260392 1.87607,4.15609 0.377,0.895698 2.15728,4.818458 3.95619,8.717243 1.79891,3.898786 4.07517,8.87464 5.05836,11.057452 2.02379,4.493058 4.96918,11.051651 5.76284,12.832292 0.29187,0.654844 1.54341,3.393281 2.78119,6.085417 1.23777,2.692135 2.45813,5.371041 2.71189,5.953125 0.25377,0.582083 0.76328,1.713177 1.13224,2.513542 0.36896,0.800364 2.53922,5.681927 4.82279,10.847916 2.28358,5.16599 4.57016,10.28568 5.0813,11.37708 0.51114,1.09141 1.40217,3.05594 1.98007,4.36563 0.57791,1.30969 1.6949,3.78023 2.48222,5.4901 2.69321,5.84903 4.28245,9.32828 6.13341,13.42761 1.01846,2.25557 2.46076,5.39437 3.20512,6.9751 0.74436,1.58073 1.35337,2.91052 1.35337,2.95508 0,0.0446 0.5252,1.19201 1.16711,2.54989 0.64191,1.35789 1.90314,4.13576 2.80273,6.17305 0.8996,2.03729 1.90593,4.29948 2.2363,5.02709 1.46132,3.21843 1.99236,4.41132 5.34895,12.01548 1.95356,4.42571 4.20098,9.4561 4.99426,11.17865 0.79328,1.72255 2.09717,4.56066 2.89753,6.30691 2.9614,6.46124 4.46432,9.71935 5.59104,12.12059 0.63571,1.35482 1.15584,2.50265 1.15584,2.55074 0,0.0481 1.13109,2.43211 2.51354,5.29782 1.38245,2.86571 2.51354,5.25551 2.51354,5.31067 0,0.0552 0.7255,1.62281 1.61223,3.48367 0.88672,1.86086 2.32399,4.99073 3.19394,6.95526 0.86994,1.96453 1.88849,4.22672 2.26344,5.02708 4.69109,10.01366 8.89782,19.71735 11.6907,26.967 1.15797,3.00581 1.37872,3.12867 2.07382,1.1541 0.29632,-0.84176 1.03712,-2.95922 1.64623,-4.70547 0.60911,-1.74625 1.33263,-3.77032 1.60783,-4.49792 1.3656,-3.6105 4.61139,-11.88577 5.3964,-13.75833 0.86275,-2.05801 7.51823,-18.75329 9.80914,-24.60625 3.88227,-9.91869 5.5236,-14.09194 9.52147,-24.20938 1.06379,-2.69213 2.46924,-6.26401 3.12323,-7.9375 4.10342,-10.50026 10.69718,-27.00394 12.0509,-30.1625 0.26561,-0.61974 3.02638,-7.65473 5.34731,-13.62604 2.31647,-5.95981 8.7941,-22.32554 9.37274,-23.68021 0.64417,-1.50808 4.07488,-10.17566 6.49293,-16.404166 1.33307,-3.433754 7.65667,-19.444637 9.3004,-23.547917 3.8364,-9.576849 5.22477,-13.057585 6.43766,-16.139584 0.77312,-1.964531 3.84995,-9.703594 6.8374,-17.197917 7.58782,-19.034825 8.6389,-22.543677 8.6389,-28.8395836 0,-6.459876 -1.66999,-10.7671176 -5.57713,-14.3845266 l -1.81538,-1.6807696 -2.85218,-1.4446754 c -6.13283,-3.1063748 -12.02603,-4.3892808 -24.15114,-5.2575248 -2.25558,-0.161515 -4.4847,-0.348428 -4.9536,-0.415362 l -0.85256,-0.121699 -0.30055,-1.113867 c -0.16653,-0.617205 -0.25132,-2.148909 -0.19014,-3.435158 l 0.11041,-2.32129 0.43798,-0.437985 0.43799,-0.437985 11.71721,0.326938 c 6.44447,0.179816 13.26503,0.44179 15.1568,0.582164 1.89177,0.140375 7.96396,0.365521 13.49375,0.500325 l 10.05417,0.245098 11.50937,-0.248011 c 6.33016,-0.136407 11.80703,-0.304652 12.17083,-0.373878 0.36381,-0.06923 3.87615,-0.251298 7.80521,-0.404603 3.92907,-0.153305 10.21487,-0.405828 13.96845,-0.561163 l 6.82469,-0.282427 0.67148,0.439972 0.67148,0.439972 -0.0878,3.145966 -0.0878,3.145966 -0.4495,0.448774 -0.4495,0.448773 -2.85779,0.211469 c -6.64169,0.491468 -16.09547,2.486489 -19.79113,4.1764982 -2.95076,1.3493729 -4.40478,2.1160932 -6.15082,3.2433754 l -2.05126,1.324349 -4.51042,3.7378752 -3.69166,4.5566304 -2.07429,2.973532 c -1.95778,2.8065031 -4.22905,6.9656878 -6.24718,11.4399138 -0.49229,1.091406 -1.52317,3.316235 -2.29086,4.944063 -1.60059,3.393948 -5.02884,11.144838 -5.53696,12.518437 -0.1884,0.509323 -0.89365,2.23573 -1.56721,3.836459 -0.67357,1.600729 -2.12299,5.172604 -3.22094,7.9375 -1.09795,2.764896 -2.95146,7.408333 -4.11891,10.31875 -5.31647,13.253794 -7.0547,17.635189 -9.07973,22.886459 -0.53311,1.382448 -1.62511,4.180416 -2.42667,6.217708 -0.80156,2.037292 -2.11183,5.371042 -2.91171,7.408334 -2.41667,6.155206 -5.28485,13.337351 -6.44534,16.139581 -1.61254,3.89382 -5.42757,13.30556 -6.81027,16.80104 -0.66197,1.67349 -3.28157,8.22193 -5.82133,14.55209 -2.53975,6.33015 -5.03113,12.58094 -5.5364,13.89062 -0.50527,1.30969 -1.32386,3.42305 -1.81909,4.69636 -1.19539,3.07356 -2.66579,6.89794 -3.28069,8.53281 -0.775,2.06052 -3.35664,8.66399 -4.75823,12.17083 -3.49041,8.7332 -5.71241,14.27476 -6.68367,16.66875 -0.59039,1.45521 -1.48012,3.7174 -1.97719,5.02709 -0.49706,1.30968 -1.43179,3.7207 -2.07719,5.35781 -0.64539,1.63711 -1.72062,4.37555 -2.3894,6.08542 -0.66879,1.70987 -2.14635,5.43057 -3.28348,8.26823 -3.86463,9.644 -3.38823,8.4296 -6.22766,15.875 -2.60435,6.82896 -8.73295,22.1272 -11.50038,28.70729 -2.47824,5.89247 -4.86142,11.86569 -7.28383,18.25625 -0.94618,2.4961 -2.24564,5.74785 -4.2293,10.58333 -3.12855,7.62632 -5.73586,12.94641 -6.63298,13.53422 l -0.6839,0.44811 -4.14365,0.0971 -4.14365,0.0971 z M 186.4539,308.8875 c -0.3506,-0.1363 -0.7933,-0.45301 -0.98377,-0.70378 l -0.34632,-0.45596 -0.008,-2.16806 -0.008,-2.16806 0.59531,-0.67905 0.59532,-0.67906 6.25922,-0.26059 c 3.44257,-0.14333 6.41913,-0.31513 6.61458,-0.38178 0.19545,-0.0667 1.72458,-0.25083 3.39807,-0.40929 18.74577,-1.77499 25.27624,-7.94979 27.42373,-25.93015 l 0.48982,-4.10105 V 145.40588 19.861088 l -0.47513,-5.556251 c -1.70515,-19.9402763 -7.38811,-25.7004 -27.02119,-27.388071 -1.58953,-0.136637 -4.08985,-0.365959 -5.55625,-0.509604 -1.4664,-0.143644 -4.43539,-0.338069 -6.59774,-0.432056 l -3.93156,-0.170884 -0.50829,-0.508292 -0.5083,-0.508292 0.0742,-3.229979 0.0742,-3.229978 0.66146,-0.304132 0.66146,-0.304131 5.15938,0.216793 c 13.91961,0.584893 18.92585,0.830377 25.13541,1.23253 l 6.74688,0.436951 17.4625,9e-6 17.4625,9e-6 4.7625,-0.315183 c 2.61938,-0.17335 7.14375,-0.430999 10.05417,-0.572554 5.75642,-0.279975 17.43257,-1.05477 28.04583,-1.861038 1.74625,-0.132659 7.04453,-0.318209 11.77396,-0.412332 l 8.59896,-0.171133 5.15937,0.286042 c 7.22636,0.400637 14.556,1.347899 19.71146,2.547454 0.87313,0.203156 2.7186,0.62971 4.10105,0.947899 30.76428,7.080807 50.4747,25.9272247 55.19004,52.770806 l 0.65068,3.704167 0.15305,7.011458 c 0.2613,11.970492 -0.89522,21.424168 -3.70613,30.294792 -1.35146,4.264933 -1.78645,5.534232 -2.66721,7.782852 -7.93266,20.25244 -25.09168,38.26947 -48.8822,51.32646 -1.10828,0.60826 -2.16297,1.28416 -2.34376,1.50199 l -0.3287,0.39607 2.27861,3.36298 c 1.25324,1.84964 4.06462,5.92283 6.24752,9.05152 3.63895,5.21563 6.60658,9.54258 11.88589,17.33021 2.14758,3.16796 6.41352,9.25338 10.04488,14.32917 1.26571,1.76916 4.19925,5.87682 6.51899,9.12812 3.5908,5.0328 16.15612,21.89634 18.79637,25.22605 0.46156,0.58208 2.44558,3.08239 4.40894,5.55625 1.96336,2.47385 5.386,6.81963 7.60586,9.65729 19.632,25.09565 40.65487,46.33702 54.91644,55.48721 1.02581,0.65815 2.28182,1.46814 2.79115,1.79996 10.82765,7.0543 26.39768,13.46179 36.64479,15.08033 0.58208,0.0919 1.89177,0.33108 2.91042,0.53142 1.01864,0.20034 2.7647,0.43893 3.88012,0.53022 l 2.02803,0.16596 0.41472,0.45826 0.41471,0.45825 0.0708,2.65225 0.0708,2.65224 -0.39389,0.47798 -0.39389,0.47798 -11.77694,-0.16899 c -6.47732,-0.093 -19.15882,-0.23758 -28.18111,-0.32139 -9.02229,-0.0838 -18.78542,-0.25341 -21.69584,-0.37686 l -5.29166,-0.22446 -2.38125,-0.53918 c -7.67046,-1.73682 -12.75802,-5.39225 -26.61807,-19.12517 l -7.83266,-7.7608 -5.75897,-6.74688 c -8.09755,-9.48664 -16.19328,-19.64143 -33.1167,-41.53958 -5.04115,-6.52303 -7.4163,-9.78112 -16.15046,-22.15425 -3.87957,-5.49595 -7.83718,-11.09102 -8.7947,-12.4335 -0.95752,-1.34249 -2.3733,-3.36655 -3.14618,-4.49792 -0.77287,-1.13137 -3.01957,-4.37876 -4.99265,-7.21642 -3.1978,-4.59903 -6.81483,-10.02618 -17.10466,-25.66458 -2.82692,-4.29632 -7.03708,-10.37057 -9.50891,-13.71907 l -1.04524,-1.41594 -1.49249,0.17777 c -0.82086,0.0978 -2.26392,0.35261 -3.20678,0.5663 -0.94287,0.2137 -3.56224,0.64768 -5.82084,0.9644 l -4.10653,0.57586 -12.43542,0.009 -12.43542,0.009 -3.41079,-0.37085 c -1.87594,-0.20397 -4.37626,-0.38256 -5.55625,-0.39688 l -2.14546,-0.026 0.0274,59.66354 0.0274,59.66354 0.29615,5.68855 c 1.07394,20.62847 6.69259,27.1597 24.9167,28.96369 0.80037,0.0792 3.06256,0.31656 5.02709,0.5274 1.96453,0.21084 5.69345,0.46549 8.28649,0.56589 l 4.71461,0.18256 0.52644,0.42629 0.52645,0.42628 0.15165,2.00518 0.15165,2.00517 -0.32004,0.96972 -0.32004,0.96972 -0.68642,0.17228 c -1.10625,0.27765 -17.61846,-0.27169 -36.85689,-1.22618 -2.84514,-0.14116 -10.82232,-0.33271 -17.72708,-0.42566 l -12.55412,-0.16901 -8.46666,0.30204 c -4.65667,0.16612 -11.97902,0.4147 -16.27188,0.5524 -4.29286,0.1377 -10.8413,0.36967 -14.55208,0.51548 -11.00968,0.43261 -16.49453,0.51166 -17.17392,0.24753 z M 310.12261,134.02526 c 1.01865,-0.12674 3.16177,-0.3627 4.7625,-0.52436 2.6221,-0.26481 5.93917,-0.85988 11.03354,-1.97937 27.00911,-5.93524 42.57169,-27.39896 45.08692,-62.183358 l 0.4209,-5.820834 -0.14212,-5.688542 C 370.94546,44.264692 369.83407,36.266613 366.89081,26.211088 362.2221,10.260586 346.81,-5.5048479 332.34761,-9.1240343 c -0.43656,-0.109249 -1.96291,-0.5099197 -3.39189,-0.8903797 -3.10787,-0.827459 -8.04044,-1.772771 -12.74769,-2.443056 l -3.43958,-0.489776 -8.73125,0.0074 -8.73126,0.0074 -3.86486,0.582907 c -6.28276,0.94758 -9.87834,1.938291 -13.42894,3.7001538 l -2.00279,0.9938157 -1.78633,1.6775794 c -4.43243,4.162591 -6.43313,10.1838158 -7.13506,21.4734631 l -0.28789,4.630208 -0.11804,55.012412 c -0.0649,30.256827 -0.0534,55.269877 0.0256,55.584557 l 0.14359,0.57214 2.98259,0.5608 c 7.19382,1.35263 13.32171,2.08985 20.3128,2.44376 4.71388,0.23864 17.23597,0.0668 19.97604,-0.27408 z" id="path27" sodipodi:nodetypes="sssssssssscccssssssssssssssssssssscccssssssssssssssssssssssssssscccsssssssssssssssssssssssssscsssssssssscsccccccssssssssssssssssssssssssssssssssssssssssssscccsssssssssssssssssssssssssssssssssssscssscssccscccccccccsssssscsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssscccsssscccccccsscccssssssssssssssssssssssssssssssssssssssssssssssssssscccssssscccccccsscccsssssssssssssssssssssssssssssssssssssssssssssssscssscsscccssscsssscccccccssscccssssssssssssssssssssssssssscccccscccccsssscccsssscccccccsscccsssscsssscssssscssssssssssssscccccccssscsscsssssssscssscccsscccsssscccccccssscsssccsssscssssscccsscsscsscssss" fill="url(#vora-dynamic-grad)"></path></g></g></svg></div>
+                <p class="text-vora-silver font-sans uppercase tracking-[0.5em] text-xs md:text-sm">Business Strategy &amp; High-End Positioning</p>
+                <div class="mt-12 h-20 w-[1px] bg-vora-silver mx-auto animate-pulse"></div>
+                <p class="text-vora-offwhite/60 font-serif italic mt-8">A estrutura por trás da escala.</p>
+            </div>
+        </section>
+
+        <!-- 01. Manifesto -->
+        <section id="manifesto" class="py-24 px-8 md:px-24 bg-white max-w-7xl mx-auto border-b border-vora-taupe/10 relative">
+            <div class="mb-16">
+                <span class="text-vora-silver font-display text-4xl italic block mb-2">01.</span>
+                <h2 class="text-vora-black font-serif text-5xl uppercase tracking-tighter">O Manifesto Vora</h2>
+                <div class="w-24 h-1 bg-vora-silver mt-4"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-12 gap-12 items-start">
+                <div class="md:col-span-7 space-y-8 text-lg leading-relaxed text-vora-black/80">
+                    <p class="text-2xl font-serif text-vora-black italic">O sucesso raramente é fruto do acaso; ele é o resultado de uma intenção desenhada com precisão.</p>
+                    <p class="text-justify-custom">Muitos empreendedores acreditam que escalar um negócio exige mais barulho, mais volume e mais esforço. Na Vora, acreditamos no oposto. Acreditamos que o verdadeiro crescimento acontece no silêncio de uma estratégia bem executada e na clareza de um posicionamento que não precisa gritar para ser notado.</p>
+                    <div class="p-8 border-l-4 border-vora-silver bg-vora-taupe/5 my-12 relative overflow-hidden">
+                        <p class="text-vora-black font-medium italic relative z-10">"Nosso compromisso é com o seu respiro visual e financeiro."</p>
+                    </div>
+                    <p class="text-justify-custom">Você está prestes a transitar do operacional exaustivo para a zona de genialidade da fundadora. Onde cada decisão é estratégica, cada produto é um ativo de alto valor e cada movimento é calculado para gerar não apenas lucro, mas liberdade.</p>
+                    <div class="pt-8">
+                        <p class="font-serif text-xl">Bem-vinda à estrutura.</p>
+                        <p class="font-serif text-3xl text-vora-silver">Bem-vinda à Vora.</p>
+                    </div>
+                </div>
+                <div class="md:col-span-5">
+                    <div class="aspect-[4/5] bg-vora-black overflow-hidden shadow-2xl border border-vora-silver/20 relative">
+                         <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&amp;fit=crop&amp;q=80" alt="Executive Silver Lifestyle" class="w-full h-full object-cover opacity-80 grayscale hover:grayscale-0 transition duration-1000">
+                         <div class="absolute inset-0 bg-vora-black/20 pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02. Sumário (Blueprint) -->
+        <section id="sumario" class="py-24 bg-vora-black text-vora-offwhite px-8 noise-bg">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-20">
+                    <h2 class="font-display text-5xl mb-4 chrome-text">The Strategy Blueprint</h2>
+                    <p class="text-vora-silver tracking-[0.3em] uppercase text-xs font-semibold">A jornada rumo à exclusividade</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="border border-vora-offwhite/10 p-8 hover:border-vora-silver/40 transition flex flex-col group glass-panel">
+                        <span class="text-vora-silver font-serif text-4xl mb-4 group-hover:text-white transition">01</span>
+                        <h3 class="text-xs font-sans uppercase tracking-[0.2em] mb-4 text-vora-offwhite/60">Fundamentos</h3>
+                        <p class="text-sm font-serif italic text-vora-taupe">Sistemas de Escala Consciente</p>
+                    </div>
+                    <div class="border border-vora-offwhite/10 p-8 hover:border-vora-silver/40 transition flex flex-col group glass-panel">
+                        <span class="text-vora-silver font-serif text-4xl mb-4 group-hover:text-white transition">02</span>
+                        <h3 class="text-xs font-sans uppercase tracking-[0.2em] mb-4 text-vora-offwhite/60">Posicionamento</h3>
+                        <p class="text-sm font-serif italic text-vora-taupe">Arquitetura de Percepção</p>
+                    </div>
+                    <div class="border border-vora-offwhite/10 p-8 hover:border-vora-silver/40 transition flex flex-col group glass-panel">
+                        <span class="text-vora-silver font-serif text-4xl mb-4 group-hover:text-white transition">03</span>
+                        <h3 class="text-xs font-sans uppercase tracking-[0.2em] mb-4 text-vora-offwhite/60">Engenharia</h3>
+                        <p class="text-sm font-serif italic text-vora-taupe">Produto e Valor</p>
+                    </div>
+                    <div class="border border-vora-offwhite/10 p-8 hover:border-vora-silver/40 transition flex flex-col group glass-panel">
+                        <span class="text-vora-silver font-serif text-4xl mb-4 group-hover:text-white transition">04</span>
+                        <h3 class="text-xs font-sans uppercase tracking-[0.2em] mb-4 text-vora-offwhite/60">Escala</h3>
+                        <p class="text-sm font-serif italic text-vora-taupe">O Salto Estratégico</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. Fundamentos -->
+        <section id="fundamentos" class="py-32 px-8 md:px-24 bg-white overflow-hidden relative">
+            <div class="max-w-5xl mx-auto">
+                <!-- Highlight Quote Upgrade -->
+                <div class="mb-24 text-center">
+                    <div class="inline-block px-12 py-10 border border-vora-silver/30 relative">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-4">
+                            <span class="text-vora-silver text-xs tracking-[0.4em] uppercase font-semibold">Insight Vora</span>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-serif text-vora-black leading-tight italic">
+                            "A estrutura é o <span class="chrome-text italic font-bold">novo luxo</span>."
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-20 items-center">
+                    <div class="order-2 md:order-1">
+                        <div class="bg-vora-offwhite p-2 border border-vora-silver/20 shadow-xl relative group">
+                             <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&amp;fit=crop&amp;q=80" alt="Architectural Precision" class="w-full h-auto grayscale transition duration-700 group-hover:grayscale-0">
+                             <div class="absolute inset-0 border border-white/20 pointer-events-none"></div>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <p class="text-vora-silver font-sans uppercase tracking-[0.3em] text-xs mb-4 font-bold">Capítulo 03</p>
+                        <h3 class="text-3xl font-serif text-vora-black mb-8 leading-tight font-light">Fundamentos: A base onde a ambição encontra a estrutura.</h3>
+                        <div class="w-16 h-[1px] bg-vora-silver mb-8"></div>
+                        <p class="text-vora-black/70 text-lg leading-relaxed text-justify-custom">
+                            O sucesso de alto valor não aceita improvisos. Nesta etapa, mapeamos o DNA do seu negócio para garantir que a escala não comprometa a sua liberdade. Não se trata de fazer mais, mas de construir processos que permitam que você faça apenas o que é essencial.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04. Posicionamento -->
+        <section id="posicionamento" class="py-32 px-8 md:px-24 bg-vora-offwhite relative">
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-20 items-center">
+                    <div>
+                        <p class="text-vora-silver font-sans uppercase tracking-[0.3em] text-xs mb-4 font-bold">Arquitetura de Percepção</p>
+                        <h2 class="text-4xl font-serif text-vora-black mb-8 leading-tight">Posicionamento: Onde o luxo silencioso encontra a autoridade.</h2>
+                        <div class="w-16 h-[1px] bg-vora-silver mb-8"></div>
+                        <p class="text-vora-black/70 text-lg leading-relaxed text-justify-custom">
+                            No mercado de elite, o que você não diz é tão importante quanto o que você diz. O posicionamento Vora utiliza a psicologia do luxo para criar uma diferenciação editorial única. Trabalhamos a comunicação exclusiva e o design de vanguarda para atrair a persona de alto valor.
+                        </p>
+                    </div>
+                    <div class="relative group">
+                        <div class="aspect-square bg-vora-black overflow-hidden border border-vora-silver/20">
+                             <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&amp;fit=crop&amp;q=80" alt="Detail Macro Luxury" class="w-full h-full object-cover opacity-60 grayscale group-hover:scale-110 transition duration-1000">
+                        </div>
+                        <div class="absolute -bottom-6 -left-6 bg-vora-black border border-vora-silver/40 p-8 hidden lg:block shadow-2xl glass-panel">
+                            <p class="text-vora-silver font-serif italic text-xl">Exclusividade é o novo padrão.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. Engenharia -->
+        <section id="engenharia" class="py-32 px-8 md:px-24 bg-white relative">
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-20 items-center">
+                    <div class="bg-vora-black p-12 text-vora-offwhite order-2 md:order-1 shadow-2xl border border-vora-silver/10 noise-bg">
+                        <h3 class="font-serif text-2xl mb-6 chrome-text font-bold">Metodologia Vora</h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-4 group">
+                                <span class="text-vora-silver font-bold group-hover:text-white transition">/01</span>
+                                <p class="text-sm tracking-wide">Escada de Valor Premium</p>
+                            </li>
+                            <li class="flex items-start gap-4 group">
+                                <span class="text-vora-silver font-bold group-hover:text-white transition">/02</span>
+                                <p class="text-sm tracking-wide">Precificação de Alto Ticket</p>
+                            </li>
+                            <li class="flex items-start gap-4 group">
+                                <span class="text-vora-silver font-bold group-hover:text-white transition">/03</span>
+                                <p class="text-sm tracking-wide">Experiência do Cliente Editorial</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <p class="text-vora-silver font-sans uppercase tracking-[0.3em] text-xs mb-4 font-bold">Capítulo 05</p>
+                        <h2 class="text-4xl font-serif text-vora-black mb-8 leading-tight">Engenharia: Desenho de Produto e Valor.</h2>
+                        <div class="w-16 h-[1px] bg-vora-silver mb-8"></div>
+                        <p class="text-vora-black/70 text-lg leading-relaxed text-justify-custom">
+                            Estruturamos sua escada de valor para que cada oferta seja um degrau lógico rumo à exclusividade. Da precificação estratégica à estruturação da entrega, desenhamos uma experiência de cliente que justifica o seu ticket.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 06. Escala -->
+        <section id="escala" class="py-32 px-8 md:px-24 bg-vora-black text-vora-offwhite noise-bg">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16">
+                    <p class="text-vora-silver font-sans uppercase tracking-[0.3em] text-xs mb-4 font-bold">The Scalability Era</p>
+                    <h2 class="text-5xl font-serif mb-8 chrome-text font-bold">Escala: O Salto Estratégico.</h2>
+                </div>
+                <div class="grid md:grid-cols-12 gap-12">
+                    <div class="md:col-span-8 md:col-start-3">
+                        <p class="text-vora-taupe text-xl leading-relaxed text-center italic">
+                            "Escalar é o ato de remover-se do gargalo. Implementamos fluxos de aquisição e funis de conversão silenciosos que funcionam enquanto você lidera. A escala consciente permite que o seu faturamento cresça sem que sua agenda transborde."
+                        </p>
+                        <div class="mt-16 flex flex-col items-center">
+                            <div class="h-px w-32 bg-vora-silver mb-8"></div>
+                            <p class="text-[10px] uppercase tracking-[0.4em] text-vora-silver italic">Ready for the Next Level</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTAs / Footer Section -->
+        <footer class="bg-white py-24 px-8 border-t border-vora-taupe/10 relative">
+            <div class="max-w-4xl mx-auto">
+                <!-- Strategic CTAs -->
+                <div class="grid md:grid-cols-2 gap-8 mb-24">
+                    <a href="#" class="group border border-vora-black/10 p-10 text-center hover:bg-vora-black hover:text-white transition-all duration-500 rounded-sm">
+                        <span class="text-vora-silver text-[10px] uppercase tracking-[0.3em] mb-4 block font-bold">Asset Management</span>
+                        <h4 class="font-serif text-2xl mb-6">Download PDF Completo</h4>
+                        <div class="inline-block w-12 h-[1px] bg-vora-silver group-hover:w-24 transition-all duration-500"></div>
+                    </a>
+                    <a href="#" class="btn-chrome group p-10 text-center flex flex-col items-center justify-center rounded-sm">
+                        <span class="text-vora-black text-[10px] uppercase tracking-[0.3em] font-bold mb-4 block">High-End Support</span>
+                        <h4 class="font-serif text-vora-black text-2xl mb-6">Falar com Consultora</h4>
+                        <div class="inline-block w-12 h-[2px] bg-vora-black/20 group-hover:bg-vora-black transition-all"></div>
+                    </a>
+                </div>
+
+                <div class="text-center">
+                    <div class="mb-12">
+                        <h2 class="font-serif text-vora-black text-4xl mb-4 tracking-[0.2em] chrome-text font-bold">VORA</h2>
+                        <p class="text-vora-taupe tracking-widest text-xs uppercase font-medium">A Estrutura por trás da Escala</p>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-8 mb-16">
+                        <a href="#" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">Instagram</a>
+                        <a href="#" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">LinkedIn</a>
+                        <a href="#" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">Private Mentoring</a>
+                    </div>
+                    <p class="text-[10px] text-vora-taupe tracking-[0.5em] uppercase">© 2026 VORA STRATEGY. ALL RIGHTS RESERVED.</p>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // Basic Navigation Logic
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.sidebar-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+    <script src="https://www.vellumvisuals.com.br/res/scripts/disclaimer.js"></script>
+</body></html>
