@@ -269,10 +269,19 @@
         // Lógica de clique com animação
         cards.forEach(card => {
             card.addEventListener('click', () => {
-                const url = card.getAttribute('data-url');
+                let url = card.getAttribute('data-url');
                 
                 if (url) {
-                    // Pequeno delay para permitir que o usuário veja o efeito de clique/escala
+                    // Pega a URL atual sem parâmetros ou hashtags
+                    let currentPath = window.location.pathname;
+
+                    // Se o caminho não termina com / e não é um arquivo .htm/.html
+                    // significa que o navegador está tratando a pasta como arquivo
+                    if (!currentPath.endsWith('/') && !currentPath.includes('.htm')) {
+                        // Força o caminho a partir da pasta atual explicitamente
+                        url = './' + currentPath.split('/').pop() + '/' + url;
+                    }
+
                     setTimeout(() => {
                         window.location.href = url;
                     }, 600);
