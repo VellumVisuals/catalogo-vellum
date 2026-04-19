@@ -66,7 +66,7 @@
         overlay.innerHTML = `
             <div class="disclaimer-box">
                 <div class="mb-6 leading-none">
-                    <script>mostrarLogo()</script>
+                    <div class="v-logo-gold"></div>
                 </div>
                 <div class="text-gray-300 text-sm leading-relaxed mb-8">
                     <h2 class="text-white text-lg font-semibold mb-4 uppercase tracking-wider">Uma pequena nota de boas-vindas</h2>
