@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galeria Luxuosa 3D</title>
+    <!-- 
+        Esta tag resolve o problema da barra final automaticamente. 
+        Ela força o navegador a procurar imagens e links sempre a partir da pasta onde este HTML reside.
+    -->
+    <script>
+        // Script dinâmico para definir a base path corretamente independente da URL de acesso
+        (function() {
+            const path = window.location.pathname;
+            const base = path.substring(0, path.lastIndexOf('/') + 1);
+            const baseTag = document.createElement('base');
+            baseTag.href = base;
+            document.head.appendChild(baseTag);
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Adicionando a fonte característica da Vellum -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
@@ -269,19 +284,11 @@
         // Lógica de clique com animação
         cards.forEach(card => {
             card.addEventListener('click', () => {
-                let url = card.getAttribute('data-url');
+                const url = card.getAttribute('data-url');
                 
                 if (url) {
-                    // Pega a URL atual sem parâmetros ou hashtags
-                    let currentPath = window.location.pathname;
-
-                    // Se o caminho não termina com / e não é um arquivo .htm/.html
-                    // significa que o navegador está tratando a pasta como arquivo
-                    if (!currentPath.endsWith('/') && !currentPath.includes('.htm')) {
-                        // Força o caminho a partir da pasta atual explicitamente
-                        url = './' + currentPath.split('/').pop() + '/' + url;
-                    }
-
+                    // Graças à tag <base> no head, o navegador agora sabe 
+                    // que deve navegar a partir da pasta correta automaticamente.
                     setTimeout(() => {
                         window.location.href = url;
                     }, 600);
