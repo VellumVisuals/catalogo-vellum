@@ -25,7 +25,9 @@
     // 1. Definição das 4 categorias de scripts
     
     // Disparam todos ao mesmo tempo no Head
-    const headerScriptsParalelos = [];
+    const headerScriptsParalelos = [
+	"https://www.vellumvisuals.com.br/res/scripts/path_fixer.js"
+    ];
 
     // Disparam todos ao mesmo tempo no Body
     const bodyScriptsParalelos = [
