@@ -4,6 +4,24 @@
  */
 
 (function() {
+    // Captura o nome do projeto via parâmetro na URL do script
+    try {
+        const currentScript = document.currentScript || (function() {
+            const scripts = document.getElementsByTagName('script');
+            return scripts[scripts.length - 1];
+        })();
+        
+        if (currentScript && currentScript.src.includes('?')) {
+            const urlParams = new URLSearchParams(currentScript.src.split('?')[1]);
+            const projectName = urlParams.get('project');
+            if (projectName) {
+                window.VellumProjectName = decodeURIComponent(projectName);
+            }
+        }
+    } catch (e) {
+        console.warn("Erro ao processar parâmetro do projeto:", e);
+    }
+
     // 1. Definição das 4 categorias de scripts
     
     // Disparam todos ao mesmo tempo no Head

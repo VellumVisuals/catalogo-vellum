@@ -159,12 +159,14 @@
             flexShrink: '0'
         });
 
-        // Estrutura interna da barra
+        // Estrutura interna da barra (Dinâmica com window.VellumProjectName)
+        const projectName = window.VellumProjectName || "Stylus 1";
+
         barra.innerHTML = `
             <div class="left-content" id="logo-container-js">
                 <div class="project-title">
                     <span class="label">Estudo de caso</span>
-                    <span class="name">Project name</span>
+                    <span class="name">${projectName}</span>
                 </div>
             </div>
             <button class="gold-button" onclick="window.location.href='../'">
