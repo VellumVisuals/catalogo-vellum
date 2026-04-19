@@ -6,7 +6,7 @@
 (function() {
     // 1. Injetar o script do logo minimalista
     const scriptLogo = document.createElement('script');
-    scriptLogo.src = 'logominimalista.js';
+    scriptLogo.src = 'https://www.vellumvisuals.com.br/res/scripts/logominimalista.js';
     document.head.appendChild(scriptLogo);
 
     // 2. Injetar as fontes necessárias (Playfair Display e Inter)
