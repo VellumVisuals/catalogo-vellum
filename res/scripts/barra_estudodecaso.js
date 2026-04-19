@@ -7,7 +7,8 @@
 (function() {
     const init = () => {
         // 1. Configuração de estilo do BODY e HTML hospedeiro (Lógica barrapreta_scroll.js)
-        document.documentElement.style.height = '100%';
+        document.documentElement.style.setProperty('height', '100%', 'important');
+        document.documentElement.style.setProperty('overflow', 'hidden', 'important');
         document.documentElement.style.margin = '0';
         document.documentElement.style.padding = '0';
 
@@ -19,6 +20,10 @@
             display: 'flex',
             flexDirection: 'column'
         });
+
+        // Reforço via seletor para garantir prioridade sobre estilos externos
+        document.body.style.setProperty('overflow', 'hidden', 'important');
+        document.body.style.setProperty('height', '100vh', 'important');
 
         // 2. Injeção dos Estilos CSS (Convertidos do HTML original)
         const style = document.createElement('style');
