@@ -24,7 +24,10 @@
             font-family: 'Playfair Display', serif;
             font-weight: 700;
             line-height: 1;
-            user-select: none;
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none;    /* Firefox */
+            -ms-user-select: none;     /* IE10+/Edge */
+            user-select: none;         /* Standard */
             pointer-events: none;
         }
         .logo-v-container {
@@ -39,7 +42,7 @@
     /**
      * Função para mostrar o logotipo na tela
      * @param {number} escala - Porcentagem do tamanho original (ex: 50 para metade)
-     * @param {string} seletorPai - (Opcional) ID ou classe do elemento onde o logo será inserido.
+     * @param {string|HTMLElement} seletorPai - (Opcional) ID, classe ou Elemento onde o logo será inserido.
      */
     window.mostrarLogo = function(escala = 100, seletorPai = null) {
         // Captura o script atual no momento da execução para saber a posição da chamada
@@ -63,7 +66,7 @@
 
         // Inserir no DOM
         if (seletorPai) {
-            const pai = document.querySelector(seletorPai);
+            const pai = (typeof seletorPai === 'string') ? document.querySelector(seletorPai) : seletorPai;
             if (pai) pai.appendChild(container);
         } else if (scriptAtual && scriptAtual.parentNode) {
             // Insere o logo exatamente antes do bloco de script que chamou a função
@@ -76,6 +79,24 @@
         return container;
     };
 
-    // Exemplo de uso imediato comentado:
-    // mostrarLogo(50); 
+    // --- AUTO-INICIALIZAÇÃO ---
+    // Esta lógica observa o documento e renderiza o logo em qualquer div com a classe 'v-logo-gold'
+    const observer = new MutationObserver((mutations) => {
+        document.querySelectorAll('.v-logo-gold:not([data-v-ready])').forEach(el => {
+            el.setAttribute('data-v-ready', 'true');
+            const escala = el.getAttribute('data-escala') || 100;
+            window.mostrarLogo(parseInt(escala), el);
+        });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Execução inicial para elementos já presentes no HTML
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.v-logo-gold:not([data-v-ready])').forEach(el => {
+            el.setAttribute('data-v-ready', 'true');
+            const escala = el.getAttribute('data-escala') || 100;
+            window.mostrarLogo(parseInt(escala), el);
+        });
+    });
 })();

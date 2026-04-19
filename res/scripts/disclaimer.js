@@ -4,7 +4,12 @@
  */
 
 (function() {
-    // 1. Injetar as fontes necessárias (Playfair Display e Inter)
+    // 1. Injetar o script do logo minimalista
+    const scriptLogo = document.createElement('script');
+    scriptLogo.src = 'logominimalista.js';
+    document.head.appendChild(scriptLogo);
+
+    // 2. Injetar as fontes necessárias (Playfair Display e Inter)
     const linkFonts = document.createElement('link');
     linkFonts.rel = 'stylesheet';
     linkFonts.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap';
@@ -20,14 +25,6 @@
     // 3. Injetar os estilos específicos do Modal
     const style = document.createElement('style');
     style.textContent = `
-        .disclaimer-gold-gradient {
-            background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .disclaimer-font-playfair {
-            font-family: 'Playfair Display', serif;
-        }
         .disclaimer-modal-overlay {
             position: fixed;
             top: 0;
@@ -68,8 +65,8 @@
 
         overlay.innerHTML = `
             <div class="disclaimer-box">
-                <div class="disclaimer-font-playfair text-8xl disclaimer-gold-gradient mb-6 leading-none">
-                    V
+                <div class="mb-6 leading-none">
+                    <script>mostrarLogo()</script>
                 </div>
                 <div class="text-gray-300 text-sm leading-relaxed mb-8">
                     <h2 class="text-white text-lg font-semibold mb-4 uppercase tracking-wider">Uma pequena nota de boas-vindas</h2>
