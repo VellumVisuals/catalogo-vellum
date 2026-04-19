@@ -169,19 +169,16 @@
         document.body.appendChild(barra);
 
         // 7. Carregar o Script do Logo e Injetar no Container
+        const logoContainer = document.getElementById('logo-container-js');
+        
+        // Inserir a nova estrutura HTML do logo minimalista antes do título
+        const logoDiv = document.createElement('div');
+        logoDiv.className = 'v-logo-gold';
+        logoDiv.setAttribute('data-escala', '50');
+        logoContainer.prepend(logoDiv);
+
         const scriptLogo = document.createElement('script');
         scriptLogo.src = "https://www.vellumvisuals.com.br/res/scripts/logominimalista.js";
-        scriptLogo.onload = () => {
-            if(typeof mostrarLogo === 'function') {
-                const logoContainer = document.getElementById('logo-container-js');
-                // Criar um div temporário para o logo e mover para o início do container
-                const tempDiv = document.createElement('div');
-                logoContainer.prepend(tempDiv);
-                // A função mostrarLogo parece injetar no local onde é chamada ou em um elemento específico
-                // Como não temos controle total da função externa, chamamos ela:
-                mostrarLogo(50);
-            }
-        };
         document.head.appendChild(scriptLogo);
 
         console.log("Barra de luxo adaptativa injetada.");
