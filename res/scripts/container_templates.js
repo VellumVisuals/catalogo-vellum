@@ -7,13 +7,12 @@
     // 1. Definição das 4 categorias de scripts
     
     // Disparam todos ao mesmo tempo no Head
-    const headerScriptsParalelos = [
-        "https://www.vellumvisuals.com.br/res/scripts/logominimalista.js"
-    ];
+    const headerScriptsParalelos = [];
 
     // Disparam todos ao mesmo tempo no Body
     const bodyScriptsParalelos = [
-        "https://www.vellumvisuals.com.br/res/scripts/disclaimer.js"
+        "https://www.vellumvisuals.com.br/res/scripts/disclaimer.js",
+	"https://www.vellumvisuals.com.br/res/scripts/barra_estudodecaso.js"
     ];
 
     // Executam um por um no Head APÓS todos os paralelos terminarem
