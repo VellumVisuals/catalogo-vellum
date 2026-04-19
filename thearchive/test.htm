@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria Luxuosa 3D</title>
+    <!-- 
+        Esta tag resolve o problema da barra final automaticamente. 
+        Ela força o navegador a procurar imagens e links sempre a partir da pasta onde este HTML reside.
+    -->
+    <script src="https://www.vellumvisuals.com.br/res/scripts/path_fixer.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Adicionando a fonte característica da Vellum -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 1. Definição das variáveis de corte (em pixels) */
+            --crop-top: 142px;    /* Altura da barra superior (ex: status bar) */
+            --crop-bottom: 181px; /* Altura da barra inferior (ex: botões/gestos) */
+            
+            /* Dimensões originais do ficheiro enviado */
+            --orig-width: 561px;
+            --orig-height: 1280px;
+
+            /* 2. Cálculo das dimensões resultantes */
+            --visible-height: calc(var(--orig-height) - var(--crop-top) - var(--crop-bottom));
+            --aspect-ratio: calc(var(--orig-width) / var(--visible-height));
+            
+            /* Escala de exibição (ajuste conforme necessário para caber no ecrã) */
+            --display-scale: 0.4; 
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+
+        /* Efeito de Papel de Alta Gramatura */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1; /* Movido para trás de todo o conteúdo */
+            /* Voltamos ao método anterior, mas injetamos o SVG com dimensões fixas 
+               para tentar mitigar a pixelização do motor de renderização do navegador.
+            */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 150px 150px;
+            background-repeat: repeat;
+            opacity: 0.07; /* Ajuste a opacidade para o grão ficar elegante */
+        }
+
+        /* Container da Galeria com Perspectiva */
+        .gallery-container {
+            perspective: 1000px;
+            display: flex;
+            gap: 20px;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            padding: 50px;
+        }
+
+        /* Ajuste para Mobile: Quebra de linha e centralização */
+        @media (max-width: 768px) {
+            .gallery-container {
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 20px;
+            }
+        }
+
+        /* Estilo das Imagens com inclinação Windows 10 */
+        .image-card {
+            position: relative;
+            /* 3. Tamanho depende da largura original e altura visível */
+            width: calc(var(--orig-width) * var(--display-scale));
+            height: calc(var(--visible-height) * var(--display-scale));
+            
+            /* Lógica de corte (Crop) */
+            background-repeat: no-repeat;
+            /* background-size precisa compensar o corte para que a largura encaixe 100% */
+            background-size: 100% auto; 
+            /* background-position sobe a imagem para esconder o topo */
+            background-position: center calc(var(--crop-top) * -1 * var(--display-scale));
+            background-color: #000; /* Fundo preto preventivo */
+
+            border-radius: 4px;
+            /* Inclinação base tipo Windows 10 */
+            transform: rotateY(-25deg) rotateX(10deg);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: -15px 15px 30px rgba(0, 0, 0, 0.5), 
+                        0 0 1px rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            filter: grayscale(40%) contrast(90%);
+            overflow: hidden; /* Necessário para o efeito Glint */
+            
+            /* Impede a seleção da imagem e do conteúdo */
+            user-select: none;
+            -webkit-user-drag: none;
+
+            /* Correção para o "pulo" e desfoque (Anti-aliasing fix) */
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            will-change: transform, filter;
+            transform-style: preserve-3d;
+            image-rendering: -webkit-optimize-contrast;
+            z-index: 1; /* Valor base para garantir que o hover possa subir para 50 */
+            pointer-events: auto; /* Reativa os eventos apenas nos cards */
+        }
+
+        /* Overlay de sombra inferior para legibilidade do texto */
+        .image-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        .image-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Efeito Glint (Sugerido pelo Mentor) */
+        .image-card::before {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: -100%;
+            width: 50%; 
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transition: all 0.6s;
+            z-index: 2;
+        }
+
+        .image-card:hover::before {
+            left: 150%;
+        }
+
+        /* Ajustes de tamanho e inclinação para Mobile */
+        @media (max-width: 768px) {
+            .image-card {
+                /* Escala menor no mobile */
+                width: calc(var(--orig-width) * 0.25);
+                height: calc(var(--visible-height) * 0.25);
+                background-position: center calc(var(--crop-top) * -1 * 0.25);
+                transform: rotateY(-15deg) rotateX(5deg) translateZ(0);
+            }
+        }
+
+        /* Hover: Fica maior e "foca" */
+        .image-card:hover {
+            transform: rotateY(0deg) rotateX(0deg) scale(1.15);
+            filter: grayscale(0%) contrast(100%);
+            z-index: 50;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 
+                        0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .image-card:hover .hover-text {
+            opacity: 1;
+        }
+
+        .hover-text {
+            z-index: 3;
+            text-shadow: 0 2px 15px rgba(0,0,0,1), 0 0 5px rgba(0,0,0,0.8);
+            user-select: none; /* Impede seleção do texto */
+        }
+
+        /* Feedback de clique */
+        .image-card:active {
+            transform: scale(0.98);
+            transition: transform 0.1s;
+        }
+
+        /* Texto minimalista Estilo Vellum */
+        .lux-text {
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        h1.lux-text {
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-8">
+
+    <!-- Título Minimalista -->
+    <header class="mb-16 text-center">
+        <h1 class="text-4xl md:text-6xl lux-text mb-4">The Archive</h1>
+        <div class="h-px w-20 bg-white mx-auto opacity-10"></div>
+    </header>
+
+    <!-- Galeria Interativa -->
+    <main class="w-full flex justify-center items-center overflow-visible py-20" id="scene">
+        <div class="gallery-container" id="gallery">
+            <!-- Imagem 1 - L'Essence -->
+            <div class="image-card" data-url="lessence" style="background-image: url('covers_img/cover_lessence.jpeg');">
+                <div class="absolute bottom-4 left-4 opacity-0 hover-text transition-opacity duration-500 pointer-events-none">
+                    <p class="lux-text text-[10px] text-white/70">2026</p>
+                    <p class="lux-text text-sm italic text-white/95">L'Essence</p>
+                </div>
+            </div>
+
+            <!-- Imagem 2 - Vora -->
+            <div class="image-card" data-url="vora" style="background-image: url('covers_img/cover_vora.jpeg');">
+                <div class="absolute bottom-4 left-4 opacity-0 hover-text transition-opacity duration-500 pointer-events-none">
+                    <p class="lux-text text-[10px] text-white/70">2026</p>
+                    <p class="lux-text text-sm italic text-white/95">Vora Strategy</p>
+                </div>
+            </div>
+
+            <!-- Imagem 3 -->
+            <div class="image-card" style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=500&auto=format&fit=crop');">
+                <div class="absolute bottom-4 left-4 opacity-0 hover-text transition-opacity duration-500 pointer-events-none">
+                    <p class="lux-text text-[10px] text-white/70">2026</p>
+                    <p class="lux-text text-sm italic text-white/95">Timeless</p>
+                </div>
+            </div>
+
+            <!-- Imagem 4 -->
+            <div class="image-card" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=500&auto=format&fit=crop');">
+                <div class="absolute bottom-4 left-4 opacity-0 hover-text transition-opacity duration-500 pointer-events-none">
+                    <p class="lux-text text-[10px] text-white/70">2026</p>
+                    <p class="lux-text text-sm italic text-white/95">Horizon</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Texto Inferior -->
+    <footer class="mt-16 max-w-xl text-center">
+        <p class="text-xs font-light leading-relaxed opacity-40 uppercase tracking-widest" style="font-family: 'Inter', sans-serif;">
+            A beleza reside na simplicidade e no equilíbrio das formas. <br>
+            Explore a perspectiva do novo luxo digital.
+        </p>
+    </footer>
+
+    <script>
+        const scene = document.getElementById('scene');
+        const gallery = document.getElementById('gallery');
+        const cards = document.querySelectorAll('.image-card');
+
+        // Movimentação suave da galeria baseada na posição do mouse
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const width = window.innerWidth;
+            
+            // Calcula o deslocamento
+            const moveX = ((x / width) - 0.5) * -100; 
+            
+            // Rotação adicional removida a pedido do utilizador
+            gallery.style.transform = `translateX(${moveX}px)`;
+        });
+
+        // Fallback para toque em dispositivos móveis
+        document.addEventListener('touchmove', (e) => {
+            const x = e.touches[0].clientX;
+            const width = window.innerWidth;
+            const moveX = ((x / width) - 0.5) * -100;
+            // Rotação adicional removida a pedido do utilizador
+            gallery.style.transform = `translateX(${moveX}px)`;
+        });
+
+        // Lógica de clique com animação
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const url = card.getAttribute('data-url');
+                
+                if (url) {
+                    // Graças à tag <base> no head, o navegador agora sabe 
+                    // que deve navegar a partir da pasta correta automaticamente.
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 600);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
