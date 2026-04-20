@@ -1,27 +1,27 @@
 /**
- * Script dinâmico para definir a base path corretamente.
- * Resolve o problema de caminhos relativos quando a URL não termina em barra (/).
- * * Como usar:
- * No HTML, adicionar <script src="path_fixer.js"></script> 
- * logo no início do <head>, antes de carregar outros recursos.
+ * Script dinâmico para definir a base path corretamente e padronizar a URL.
+ * Resolve o problema de caminhos relativos e evita recarregamento de disclaimer em âncoras.
  */
 (function() {
     let path = window.location.pathname;
+    let origin = window.location.origin;
 
-    // Se o path não termina em / e não parece ser um arquivo (não tem ponto), adiciona a barra
+    // 1. Normalização da URL (Evita o problema da âncora)
+    // Se não termina com / e não é um arquivo físico, força a barra na URL do navegador
     if (!path.endsWith('/') && !path.includes('.')) {
-        path += '/';
-    } else {
-        // Se for um arquivo (ex: index.html), pega apenas a pasta pai
-        path = path.substring(0, path.lastIndexOf('/') + 1);
+        const newPath = path + '/';
+        // Substitui a URL na barra de endereços sem recarregar a página
+        window.history.replaceState(null, null, origin + newPath + window.location.search + window.location.hash);
+        path = newPath; 
     }
 
-    // Cria a tag <base>
+    // 2. Lógica original da tag <base> para recursos relativos
+    let baseDir = path;
+    if (path.includes('.') || !path.endsWith('/')) {
+        baseDir = path.substring(0, path.lastIndexOf('/') + 1);
+    }
+
     const baseTag = document.createElement('base');
-    
-    // Define o href absoluto baseado na origem do site + o path calculado
-    baseTag.href = window.location.origin + path;
-    
-    // Insere no topo do head para garantir que afete todos os recursos subsequentes
+    baseTag.href = origin + baseDir;
     document.head.appendChild(baseTag);
 })();
