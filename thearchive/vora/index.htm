@@ -407,6 +407,38 @@ window.addEventListener("message",a=>t(function*(){if(za.some(d=>a.origin.includ
         .effect-emboss { filter: url(#vora-emboss-filter); }
         .effect-custom-shadow { filter: url(#vora-custom-shadow-filter); }
 
+        /* Custom Toast for Demo (Adaptado para VORA) */
+        #demo-toast {
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(192, 192, 192, 0.3);
+            color: #F4F4F4;
+            padding: 15px 30px;
+            border-radius: 2px;
+            z-index: 10000;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            opacity: 0;
+            pointer-events: none;
+            width: max-content;
+            max-width: 90vw;
+            text-align: center;
+        }
+
+        #demo-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         @keyframes vora-pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.8; transform: scale(1.03); }
@@ -676,12 +708,12 @@ window.addEventListener("message",a=>t(function*(){if(za.some(d=>a.origin.includ
             <div class="max-w-4xl mx-auto">
                 <!-- Strategic CTAs -->
                 <div class="grid md:grid-cols-2 gap-8 mb-24">
-                    <a href="#" class="group border border-vora-black/10 p-10 text-center hover:bg-vora-black hover:text-white transition-all duration-500 rounded-sm">
+                    <a href="#" onclick="triggerToast(); event.preventDefault();" class="group border border-vora-black/10 p-10 text-center hover:bg-vora-black hover:text-white transition-all duration-500 rounded-sm">
                         <span class="text-vora-silver text-[10px] uppercase tracking-[0.3em] mb-4 block font-bold">Asset Management</span>
                         <h4 class="font-serif text-2xl mb-6">Download PDF Completo</h4>
                         <div class="inline-block w-12 h-[1px] bg-vora-silver group-hover:w-24 transition-all duration-500"></div>
                     </a>
-                    <a href="#" class="btn-chrome group p-10 text-center flex flex-col items-center justify-center rounded-sm">
+                    <a href="#" onclick="triggerToast(); event.preventDefault();" class="btn-chrome group p-10 text-center flex flex-col items-center justify-center rounded-sm">
                         <span class="text-vora-black text-[10px] uppercase tracking-[0.3em] font-bold mb-4 block">High-End Support</span>
                         <h4 class="font-serif text-vora-black text-2xl mb-6">Falar com Consultora</h4>
                         <div class="inline-block w-12 h-[2px] bg-vora-black/20 group-hover:bg-vora-black transition-all"></div>
@@ -694,9 +726,9 @@ window.addEventListener("message",a=>t(function*(){if(za.some(d=>a.origin.includ
                         <p class="text-vora-taupe tracking-widest text-xs uppercase font-medium">A Estrutura por trás da Escala</p>
                     </div>
                     <div class="flex flex-wrap justify-center gap-8 mb-16">
-                        <a href="#" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">Instagram</a>
-                        <a href="#" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">LinkedIn</a>
-                        <a href="#" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">Private Mentoring</a>
+                        <a href="#" onclick="triggerToast(); event.preventDefault();" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">Instagram</a>
+                        <a href="#" onclick="triggerToast(); event.preventDefault();" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">LinkedIn</a>
+                        <a href="#" onclick="triggerToast(); event.preventDefault();" class="text-xs uppercase tracking-widest hover:text-vora-silver transition">Private Mentoring</a>
                     </div>
                     <p class="text-[10px] text-vora-taupe tracking-[0.5em] uppercase">© 2026 VORA STRATEGY. ALL RIGHTS RESERVED.</p>
                 </div>
@@ -704,6 +736,9 @@ window.addEventListener("message",a=>t(function*(){if(za.some(d=>a.origin.includ
         </footer>
 
     </main>
+
+    <!-- Toast de Demonstração adaptado para VORA -->
+    <div id="demo-toast">Apenas demonstração. Obrigado pela visita!</div>
 
     <script>
         // Basic Navigation Logic
