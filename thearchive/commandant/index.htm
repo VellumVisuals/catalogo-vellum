@@ -119,7 +119,6 @@
             position: relative;
             z-index: 1;
             /*filter: drop-shadow(0 30px 40px rgba(0,0,0,0.25));*/
-            pointer-events: none;
             transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
         }
         
@@ -165,9 +164,6 @@
             letter-spacing: -0.04em;
             font-weight: 800;
             color: #1a1a1a;
-            overflow-wrap: break-word; /* Evita quebra de layout no mobile */
-            word-wrap: break-word;
-            max-width: 100%;
         }
 
         /* --- Carousel Enhanced --- */
@@ -176,9 +172,6 @@
             overflow: hidden;
             padding: 100px 0;
             background-color: #0a0a0a;
-            position: relative;
-            overflow: visible; /* Garante que não bloqueie o scroll da página */
-            touch-action: pan-y; /* Permite scroll vertical nativo em toda a seção preta */
         }
 
         .carousel-track {
@@ -339,18 +332,22 @@
             header { padding: 30px 10px 0 10px; }
             nav { gap: 20px; padding: 12px 25px; flex-wrap: wrap; margin-bottom: 20px; }
             .nav-link { font-size: 0.55rem; letter-spacing: 0.2em; }
-            .logo-main { width: 95%; max-height: 200px; }
+            .logo-main { width: 95%; max-height: 240px; margin-top: 10px; }
             .logo-wrapper { padding: 10px 0; }
             footer { padding: 60px 24px 40px; }
             .carousel-item { flex: 0 0 85vw; }
             .lightbox-nav { font-size: 2rem; padding: 10px; }
             .lightbox-prev { left: 10px; }
             .lightbox-next { right: 10px; }
-            .big-statement { font-size: 2.2rem; }
+            .big-statement { font-size: 2.5rem; }
+            
+            /* Ajuste de espaçamento mobile entre Hero e Urban */
+            .mobile-tight-spacing { padding-bottom: 2.5rem !important; }
+            .mobile-tight-spacing-top { padding-top: 2.5rem !important; }
         }
 
         @media (max-width: 480px) {
-            .logo-main { max-height: 150px; }
+            .logo-main { max-height: 200px; }
             .section-label { font-size: 0.5rem; }
             .footer-link { font-size: 0.7rem; }
             #demo-toast { width: 90%; font-size: 0.6rem; bottom: 100px; }
@@ -391,7 +388,7 @@
         </header>
 
         <!-- Hero: The Movement -->
-        <section class="pb-20 md:pb-32 pt-10 md:pt-16 px-6 md:px-20"> <!-- Ajustado padding-top para aproximar do logo -->
+        <section class="pb-20 md:pb-32 pt-10 md:pt-16 px-6 md:px-20 mobile-tight-spacing"> <!-- Ajustado padding-top para aproximar do logo -->
             <div class="max-w-5xl mx-auto text-center">
                 <span class="section-label">The Kinetic Vanguard</span>
                 <h1 class="big-statement syne reveal">Onde a Engenharia <br> <span class="serif-italic font-normal">Encontra o Tato.</span></h1>
@@ -405,7 +402,7 @@
         </section>
 
         <!-- Narrative: City & Speed -->
-        <section class="py-20 md:py-32 px-6 md:px-20 grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center">
+        <section class="py-20 md:py-32 px-6 md:px-20 grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center mobile-tight-spacing-top">
             <div class="lg:col-span-7 reveal img-container">
                 <img id="side-img" src="" alt="Urban" class="img-16-9">
             </div>
@@ -655,7 +652,7 @@
             viewport.addEventListener('touchend', () => { isDown = false; });
             viewport.addEventListener('touchmove', (e) => {
                 if(!isDown) return;
-                e.preventDefault();
+                // e.preventDefault(); // Removido para permitir scroll vertical da página no mobile
                 const x = e.touches[0].pageX - track.offsetLeft;
                 const walk = (x - startX) * 2;
                 targetX = scrollLeft - walk;
