@@ -50,16 +50,18 @@
 
         /* --- Header & Navigation --- */
         header {
-            padding: 60px 20px;
+            padding: 40px 20px 30px 20px; /* Reduzido padding inferior */
             text-align: center;
-            /*background: linear-gradient(to bottom, #fcfcfc, #ffffff);*/
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         nav {
             display: inline-flex;
             justify-content: center;
             gap: 48px;
-            margin-bottom: 80px;
+            margin-bottom: 100px;
             padding: 18px 50px;
             background: linear-gradient(145deg, #1a1a1a, #050505);
             border-radius: 100px; /* Estilo pill mais moderno */
@@ -88,9 +90,13 @@
         /* Logo Destaque */
         .logo-wrapper {
             position: relative;
-            display: inline-block;
-            margin-top: 50px;
-            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px; /* Limite para não estourar em telas ultra-wide */
+            margin: 0 auto;
+            padding: 20px 0;
         }
 
         .silver-glow {
@@ -106,9 +112,10 @@
         }
 
         .logo-main {
-            height: 420px;
-            width: auto;
-            display: inline-block;
+            width: 90%; /* Aproveita o espaço horizontal */
+            height: auto;
+            max-height: 380px; /* Teto para não ficar alto demais */
+            display: block;
             position: relative;
             z-index: 1;
             /*filter: drop-shadow(0 30px 40px rgba(0,0,0,0.25));*/
@@ -223,19 +230,6 @@
             color: var(--accent-gold);
         }
 
-        /* Cursor Customizado (Simples) */
-        #custom-cursor {
-            width: 10px;
-            height: 10px;
-            background: var(--accent-gold);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transition: transform 0.2s ease;
-        }
-
         /* --- Lightbox System --- */
         #lightbox {
             position: fixed;
@@ -318,29 +312,45 @@
             text-transform: uppercase;
             letter-spacing: 0.2em;
             z-index: 10001;
-            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+            transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.4;
         }
 
         #demo-toast.show {
             transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
         }
 
         @media (max-width: 768px) {
-            header { padding: 40px 10px; }
-            nav { gap: 20px; padding: 12px 25px; }
-            .logo-main { height: 220px; }
-            footer { padding: 80px 20px 40px; }
+            header { padding: 30px 10px 0 10px; }
+            nav { gap: 20px; padding: 12px 25px; flex-wrap: wrap; margin-bottom: 20px; }
+            .nav-link { font-size: 0.55rem; letter-spacing: 0.2em; }
+            .logo-main { width: 95%; max-height: 200px; }
+            .logo-wrapper { padding: 10px 0; }
+            footer { padding: 60px 24px 40px; }
             .carousel-item { flex: 0 0 85vw; }
             .lightbox-nav { font-size: 2rem; padding: 10px; }
             .lightbox-prev { left: 10px; }
             .lightbox-next { right: 10px; }
+            .big-statement { font-size: 2.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .logo-main { max-height: 150px; }
+            .section-label { font-size: 0.5rem; }
+            .footer-link { font-size: 0.7rem; }
+            #demo-toast { width: 90%; font-size: 0.6rem; bottom: 100px; }
         }
     </style>
 </head>
 <body>
-
-    <div id="custom-cursor"></div>
 
     <!-- Lightbox Structure -->
     <div id="lightbox">
@@ -351,18 +361,21 @@
     </div>
 
     <!-- Demo Toast -->
-    <div id="demo-toast">Apenas demonstração. Obrigado pela visita!</div>
+    <div id="demo-toast">
+        <span>Apenas demonstração.</span>
+        <span style="opacity: 0.8; font-weight: 400;">Obrigado pela visita!</span>
+    </div>
 
     <div class="main-wrapper">
         <!-- Header -->
         <header>
             <nav class="reveal">
-                <a href="#" class="nav-link">Atelier</a>
-                <a href="#" class="nav-link">Arquivos</a>
-                <a href="#" class="nav-link">Manifesto</a>
-                <a href="#" class="nav-link">Privé</a>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="nav-link">Atelier</a>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="nav-link">Arquivos</a>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="nav-link">Manifesto</a>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="nav-link">Privé</a>
             </nav>
-            <div class="reveal">
+            <div class="reveal w-full">
                 <div class="logo-wrapper">
                     <div class="silver-glow"></div>
                     <img id="logo-top" src="" alt="COMMANDANT" class="logo-main">
@@ -371,41 +384,41 @@
         </header>
 
         <!-- Hero: The Movement -->
-        <section class="py-32 px-6 md:px-20">
+        <section class="pb-20 md:pb-32 pt-10 md:pt-16 px-6 md:px-20"> <!-- Ajustado padding-top para aproximar do logo -->
             <div class="max-w-5xl mx-auto text-center">
                 <span class="section-label">The Kinetic Vanguard</span>
                 <h1 class="big-statement syne reveal">Onde a Engenharia <br> <span class="serif-italic font-normal">Encontra o Tato.</span></h1>
-                <p class="mt-12 max-w-xl mx-auto text-gray-400 text-lg font-light leading-relaxed reveal">
+                <p class="mt-8 md:mt-12 max-w-xl mx-auto text-gray-400 text-base md:text-lg font-light leading-relaxed reveal">
                     Para aqueles que entendem que não é sobre ostentação, mas sobre a precisão de um encaixe, o aroma do couro legítimo e a perenidade de um acessório que guarda o seu caminho.
                 </p>
             </div>
-            <div class="mt-24 reveal img-container">
+            <div class="mt-16 md:mt-24 reveal img-container">
                 <img id="hero-img" src="" alt="Hero" class="img-16-9">
             </div>
         </section>
 
         <!-- Narrative: City & Speed -->
-        <section class="py-32 px-6 md:px-20 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <section class="py-20 md:py-32 px-6 md:px-20 grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center">
             <div class="lg:col-span-7 reveal img-container">
                 <img id="side-img" src="" alt="Urban" class="img-16-9">
             </div>
             <div class="lg:col-span-5 reveal">
                 <span class="section-label">01. Urban Dynamics</span>
-                <h2 class="serif-italic text-5xl md:text-7xl mb-10 leading-tight">A Fluidez do Couro em suas mãos.</h2>
-                <p class="text-gray-500 text-lg mb-8 font-light">
+                <h2 class="serif-italic text-4xl md:text-7xl mb-6 md:mb-10 leading-tight">A Fluidez do Couro em suas mãos.</h2>
+                <p class="text-gray-500 text-base md:text-lg mb-8 font-light">
                     O design das carteiras Commandant é uma ode à funcionalidade. Cada compartimento é planejado como o cockpit de um clássico: acessível, intuitivo e revestido com o que há de mais nobre em curtume.
                 </p>
-                <div class="h-[1px] w-20 bg-gold-500 mb-8" style="background-color: var(--accent-gold);"></div>
-                <p class="text-black font-bold uppercase tracking-tighter text-sm">
+                <div class="h-[1px] w-20 mb-8" style="background-color: var(--accent-gold);"></div>
+                <p class="text-black font-bold uppercase tracking-tighter text-xs md:text-sm">
                     Handmade. Performance-driven. Timeless.
                 </p>
             </div>
         </section>
 
         <!-- Emotional Quote -->
-        <section class="py-40 bg-white text-center px-6">
+        <section class="py-24 md:py-40 bg-white text-center px-6">
             <div class="reveal">
-                <p class="serif-italic text-4xl md:text-6xl text-gray-900 max-w-5xl mx-auto leading-tight">
+                <p class="serif-italic text-3xl md:text-6xl text-gray-900 max-w-5xl mx-auto leading-tight">
                     "Uma Commandant é o último item que você confere antes de partir. Óculos, chaves, <span class="text-gray-300">legado</span>. Tudo o que importa, guardado com classe."
                 </p>
             </div>
@@ -413,9 +426,9 @@
 
         <!-- Carousel Gallery: The Essentials -->
         <section class="carousel-viewport">
-            <div class="px-6 md:px-20 mb-16 reveal">
+            <div class="px-6 md:px-20 mb-10 md:mb-16 reveal">
                 <span class="section-label" style="color: #666;">Object d'Art</span>
-                <h3 class="syne text-4xl text-white font-extrabold uppercase italic tracking-tighter">Galeria <span class="serif-italic font-light lowercase text-gray-400">Essentials</span></h3>
+                <h3 class="syne text-3xl md:text-4xl text-white font-extrabold uppercase italic tracking-tighter">Galeria <span class="serif-italic font-light lowercase text-gray-400">Essentials</span></h3>
             </div>
             <div class="carousel-track" id="carousel-track">
                 <div class="carousel-item">
@@ -443,17 +456,17 @@
         </section>
 
         <!-- Heritage & Home Storytelling -->
-        <section class="py-32 px-6 md:px-20 grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+        <section class="py-20 md:py-32 px-6 md:px-20 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20 items-center">
             <div class="lg:col-span-5 reveal order-2 lg:order-1">
                 <span class="section-label">02. Emotional Port</span>
-                <h2 class="serif-italic text-5xl md:text-7xl mb-8 leading-tight text-gray-900">Seu patrimônio, <br> em qualquer lugar.</h2>
-                <p class="text-gray-500 text-lg mb-8 font-light">
+                <h2 class="serif-italic text-4xl md:text-7xl mb-6 md:mb-8 leading-tight text-gray-900">Seu patrimônio, <br> em qualquer lugar.</h2>
+                <p class="text-gray-500 text-base md:text-lg mb-8 font-light">
                     Nossas carteiras são desenhadas para proteger mais do que apenas cartões. Elas guardam os registros da sua <span class="text-black font-semibold">família</span> e a história de quem sabe onde quer chegar. 
                 </p>
-                <div class="bg-gray-50 p-10 border-l-4 border-gray-900 mb-8 italic text-gray-600 font-light">
+                <div class="bg-gray-50 p-6 md:p-10 border-l-4 border-gray-900 mb-8 italic text-gray-600 font-light text-sm md:text-base">
                     "O couro conhaque remete ao volante de um clássico e à solidez de um escritório. É o toque que confirma que você está no controle da sua jornada."
                 </div>
-                <p class="text-xs uppercase tracking-widest text-gray-400 font-bold">
+                <p class="text-[10px] md:text-xs uppercase tracking-widest text-gray-400 font-bold">
                     Engenharia em couro para o homem contemporâneo.
                 </p>
             </div>
@@ -463,11 +476,11 @@
         </section>
 
         <!-- Final CTA / Statement -->
-        <section class="py-40 bg-black text-white text-center">
+        <section class="py-32 md:py-40 bg-black text-white text-center px-6">
             <div class="reveal">
                 <span class="section-label" style="color: var(--accent-gold);">Join the Vanguard</span>
-                <h2 class="syne text-5xl md:text-8xl font-extrabold uppercase tracking-tighter mb-12">Command Your Style.</h2>
-                <a href="#" class="inline-block px-12 py-5 border border-white hover:bg-white hover:text-black transition-all duration-500 uppercase text-xs tracking-widest font-bold">
+                <h2 class="syne text-4xl md:text-8xl font-extrabold uppercase tracking-tighter mb-12 leading-none">Command Your Style.</h2>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="inline-block px-10 md:px-12 py-4 md:py-5 border border-white hover:bg-white hover:text-black transition-all duration-500 uppercase text-[10px] md:text-xs tracking-widest font-bold">
                     Ver Coleção Bespoke
                 </a>
             </div>
@@ -475,32 +488,32 @@
 
         <!-- Footer -->
         <footer>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20 reveal">
-                <div class="md:col-span-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 md:gap-16 mb-20 reveal">
+                <div class="sm:col-span-2">
                     <h4 class="syne font-bold text-xl mb-6 tracking-tighter uppercase">Commandant®</h4>
-                    <p class="text-gray-500 font-light max-w-sm">
+                    <p class="text-gray-500 font-light max-w-sm text-sm">
                         Um atelier dedicado à criação de carteiras masculinas de requinte. A tradição artesanal brasileira em contato com o rigor estético da engenharia moderna.
                     </p>
                 </div>
                 <div>
-                    <span class="footer-label">Navigation</span>
-                    <a href="#" class="footer-link">Coleções Limitadas</a>
-                    <a href="#" class="footer-link">Serviço Bespoke</a>
-                    <a href="#" class="footer-link">Herança e Couros</a>
-                    <a href="#" class="footer-link">Privé Login</a>
+                    <span class="section-label" style="color: #444; margin-bottom: 1rem;">Navigation</span>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Coleções Limitadas</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Serviço Bespoke</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Herança e Couros</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Privé Login</a>
                 </div>
                 <div>
-                    <span class="footer-label">Connect</span>
-                    <a href="#" class="footer-link">Instagram</a>
-                    <a href="#" class="footer-link">WhatsApp Concierge</a>
-                    <a href="#" class="footer-link">The Journal</a>
+                    <span class="section-label" style="color: #444; margin-bottom: 1rem;">Connect</span>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Instagram</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">WhatsApp Concierge</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">The Journal</a>
                 </div>
             </div>
-            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center reveal">
-                <p class="text-[9px] uppercase tracking-[0.5em] text-gray-600 mb-4 md:mb-0">© 2026 COMMANDANT ATELIER • Fine Leather Goods</p>
+            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center reveal text-center md:text-left">
+                <p class="text-[8px] md:text-[9px] uppercase tracking-[0.5em] text-gray-600 mb-6 md:mb-0">© 2026 COMMANDANT ATELIER • Fine Leather Goods</p>
                 <div class="flex gap-8">
-                    <span class="text-[9px] uppercase tracking-widest text-gray-600">Privacy</span>
-                    <span class="text-[9px] uppercase tracking-widest text-gray-600">Terms</span>
+                    <span class="text-[9px] uppercase tracking-widest text-gray-600"><a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Privacy</a></span>
+                    <span class="text-[9px] uppercase tracking-widest text-gray-600"><a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Terms</a></span>
                 </div>
             </div>
         </footer>
@@ -529,24 +542,19 @@
         let galleryImages = [];
         let currentGalleryIndex = 0;
 
-        function getLocalFileUrl(fullPath) {
-            //return `file:///${fullPath.replace(/\\/g, '/')}`; // Desabilitado!
-            return fullPath;
-        }
-
         function initAssets() {
-            document.getElementById('logo-top').src = getLocalFileUrl(ASSETS.logo);
-            document.getElementById('hero-img').src = getLocalFileUrl(ASSETS.images[0]);
-            document.getElementById('side-img').src = getLocalFileUrl(ASSETS.images[1]);
+            document.getElementById('logo-top').src = ASSETS.logo;
+            document.getElementById('hero-img').src = ASSETS.images[0];
+            document.getElementById('side-img').src = ASSETS.images[1];
             
             // Atribuindo imagens da galeria e populando array para lightbox
-            const g1 = getLocalFileUrl(ASSETS.images[2]);
-            const g2 = getLocalFileUrl(ASSETS.images[3]);
-            const g3 = getLocalFileUrl(ASSETS.images[4]);
-            const g4 = getLocalFileUrl(ASSETS.images[5]);
-            const g5 = getLocalFileUrl(ASSETS.images[6]);
-            const g6 = getLocalFileUrl(ASSETS.images[8]);
-            const g7 = getLocalFileUrl(ASSETS.images[9]);
+            const g1 = ASSETS.images[2];
+            const g2 = ASSETS.images[3];
+            const g3 = ASSETS.images[4];
+            const g4 = ASSETS.images[5];
+            const g5 = ASSETS.images[6];
+            const g6 = ASSETS.images[8];
+            const g7 = ASSETS.images[9];
 
             document.getElementById('gallery-1').src = g1;
             document.getElementById('gallery-2').src = g2;
@@ -558,7 +566,7 @@
 
             galleryImages = [g1, g2, g3, g4, g5, g6, g7];
             
-            document.getElementById('heritage-img').src = getLocalFileUrl(ASSETS.images[7]);
+            document.getElementById('heritage-img').src = ASSETS.images[7];
         }
 
         // --- Lightbox Logic ---
@@ -610,27 +618,6 @@
             });
         }
 
-        // --- Demo Links Notification ---
-        function initDemoLinks() {
-            const toast = document.getElementById('demo-toast');
-            const links = document.querySelectorAll('a');
-
-            links.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    toast.classList.add('show');
-                    setTimeout(() => toast.classList.remove('show'), 3000);
-                });
-            });
-        }
-
-        // Smooth Cursor
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
         // Enhanced Carousel Lerp
         function initCarousel() {
             const viewport = document.querySelector('.carousel-viewport');
@@ -646,6 +633,25 @@
                 const viewportWidth = rect.width;
                 const maxDelta = trackWidth - viewportWidth + 200;
                 targetX = percentage * maxDelta;
+            });
+            
+            // Support for touch devices in carousel
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            viewport.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - track.offsetLeft;
+                scrollLeft = currentX;
+            });
+            viewport.addEventListener('touchend', () => { isDown = false; });
+            viewport.addEventListener('touchmove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.touches[0].pageX - track.offsetLeft;
+                const walk = (x - startX) * 2;
+                targetX = scrollLeft - walk;
             });
 
             function update() {
@@ -674,7 +680,6 @@
             initAssets();
             initCarousel();
             initLightbox();
-            initDemoLinks();
             
             // Força um reveal inicial após um curto delay para garantir que os scripts 
             // externos já tenham feito a reestruturação do DOM/CSS
@@ -694,5 +699,4 @@
     <script src="https://www.vellumvisuals.com.br/res/scripts/container_templates.js?project=Commandant"></script>
 
 </body>
-
 </html>
