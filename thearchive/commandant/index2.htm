@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMMANDANT | The Urban Vanguard</title>
+    <!-- Google Fonts: Syne, Instrument Serif e Inter para textos de leitura -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-site: #ffffff;
+            --text-main: #0a0a0a;
+            --accent-gold: #c5a059;
+            --max-width: 1440px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000; /* Fundo externo escuro para profundidade */
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Container Principal */
+        .main-wrapper {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            background-color: var(--bg-site);
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+        }
+
+        .serif-italic {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+        }
+
+        .syne {
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            padding: 40px 20px 30px 20px; /* Reduzido padding inferior */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav {
+            display: inline-flex;
+            justify-content: center;
+            gap: 48px;
+            margin-bottom: 100px;
+            padding: 18px 50px;
+            background: linear-gradient(145deg, #1a1a1a, #050505);
+            border-radius: 100px; /* Estilo pill mais moderno */
+            box-shadow: 0 25px 15px -12px rgba(0, 0, 0, 0.4);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-link {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-gold);
+            transform: translateY(-1px);
+        }
+
+        /* Logo Destaque */
+        .logo-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px; /* Limite para não estourar em telas ultra-wide */
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .silver-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140%;
+            height: 140%;
+            /*background: radial-gradient(circle, rgba(197, 160, 89, 0.08) 0%, rgba(255,255,255,0) 70%);*/
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .logo-main {
+            width: 90%; /* Aproveita o espaço horizontal */
+            height: auto;
+            max-height: 380px; /* Teto para não ficar alto demais */
+            display: block;
+            position: relative;
+            z-index: 1;
+            /*filter: drop-shadow(0 30px 40px rgba(0,0,0,0.25));*/
+            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        
+        .logo-wrapper:hover .logo-main {
+            transform: scale(1.02) translateY(-10px);
+        }
+
+        /* --- Imagens e Antialiasing --- */
+        .img-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-16-9 {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: auto;
+            transform: translateZ(0) scale(1.01);
+            transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+            backface-visibility: hidden;
+        }
+
+        .img-container:hover .img-16-9 {
+            transform: scale(1.08);
+        }
+
+        /* --- Seções Customizadas --- */
+        .section-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--accent-gold);
+            font-weight: 800;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+
+        .big-statement {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+
+        /* --- Carousel Enhanced --- */
+        .carousel-viewport {
+            width: 100%;
+            overflow: hidden;
+            padding: 100px 0;
+            background-color: #0a0a0a;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 40px;
+            padding: 0 10vw;
+            will-change: transform;
+        }
+
+        .carousel-item {
+            flex: 0 0 600px;
+            position: relative;
+            cursor: zoom-in;
+        }
+
+        .carousel-item img {
+            border-radius: 2px;
+            filter: grayscale(20%);
+            transition: filter 0.5s ease;
+        }
+
+        .carousel-item:hover img {
+            filter: grayscale(0%);
+        }
+
+        /* --- Reveal Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #050505;
+            color: #fff;
+            padding: 60px 80px 40px;
+        }
+
+        .footer-link {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 300;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-gold);
+        }
+
+        /* --- Lightbox System --- */
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        #lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            object-fit: contain;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        #lightbox.active img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            font-family: 'Syne', sans-serif;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .lightbox-close:hover { opacity: 1; }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            padding: 20px;
+            font-family: 'Instrument Serif', serif;
+            opacity: 0.3;
+            transition: opacity 0.3s, transform 0.3s;
+            user-select: none;
+        }
+
+        .lightbox-nav:hover { opacity: 1; transform: translateY(-50%) scale(1.1); }
+        .lightbox-prev { left: 40px; }
+        .lightbox-next { right: 40px; }
+
+        /* --- Toast Notification --- */
+        #demo-toast {
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent-gold);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            z-index: 10001;
+            transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.4;
+        }
+
+        #demo-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 30px 10px 0 10px; }
+            nav { gap: 20px; padding: 12px 25px; flex-wrap: wrap; margin-bottom: 20px; }
+            .nav-link { font-size: 0.55rem; letter-spacing: 0.2em; }
+            .logo-main { width: 95%; max-height: 240px; margin-top: 10px; }
+            .logo-wrapper { padding: 10px 0; }
+            footer { padding: 60px 24px 40px; }
+            .carousel-item { flex: 0 0 85vw; }
+            
+            /* Ajustes Mobile Lightbox Nav */
+            .lightbox-nav { 
+                font-size: 2.5rem; 
+                padding: 15px; 
+                top: auto; 
+                bottom: 40px; 
+                transform: none; 
+                opacity: 0.8; 
+                background: rgba(255,255,255,0.1);
+                border-radius: 50%;
+                width: 60px;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1;
+            }
+            .lightbox-nav:hover { transform: scale(1.1); }
+            .lightbox-prev { left: calc(50% - 70px); }
+            .lightbox-next { right: calc(50% - 70px); }
+            
+            .big-statement { font-size: 2.5rem; }
+            
+            /* Ajuste de espaçamento mobile entre Hero e Urban */
+            .mobile-tight-spacing { padding-bottom: 2.5rem !important; }
+            .mobile-tight-spacing-top { padding-top: 2.5rem !important; }
+        }
+
+        @media (max-width: 480px) {
+            .logo-main { max-height: 200px; }
+            .section-label { font-size: 0.5rem; }
+            .footer-link { font-size: 0.7rem; }
+            #demo-toast { width: 90%; font-size: 0.6rem; bottom: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Lightbox Structure -->
+    <div id="lightbox">
+        <div class="lightbox-close">×</div>
+        <div class="lightbox-nav lightbox-prev"><</div>
+        <img src="" alt="Zoomed View" id="lightbox-img">
+        <div class="lightbox-nav lightbox-next">></div>
+    </div>
+
+    <!-- Demo Toast -->
+    <div id="demo-toast">
+        <span>Apenas demonstração.</span>
+        <span style="opacity: 0.8; font-weight: 400;">Obrigado pela visita!</span>
+    </div>
+
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header>
+            <nav class="reveal">
+                <a href="javascript:void(0)" onclick="triggerToast()" class="nav-link">Atelier</a>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="nav-link">Arquivos</a>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="nav-link">Manifesto</a>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="nav-link">Privé</a>
+            </nav>
+            <div class="reveal w-full">
+                <div class="logo-wrapper">
+                    <div class="silver-glow"></div>
+                    <img id="logo-top" src="" alt="COMMANDANT" class="logo-main">
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero: The Movement -->
+        <section class="pb-20 md:pb-32 pt-10 md:pt-16 px-6 md:px-20 mobile-tight-spacing"> <!-- Ajustado padding-top para aproximar do logo -->
+            <div class="max-w-5xl mx-auto text-center">
+                <span class="section-label">The Kinetic Vanguard</span>
+                <h1 class="big-statement syne reveal">Onde a Engenharia <br> <span class="serif-italic font-normal">Encontra o Tato.</span></h1>
+                <p class="mt-8 md:mt-12 max-w-xl mx-auto text-gray-400 text-base md:text-lg font-light leading-relaxed reveal">
+                    Para aqueles que entendem que não é sobre ostentação, mas sobre a precisão de um encaixe, o aroma do couro legítimo e a perenidade de um acessório que guarda o seu caminho.
+                </p>
+            </div>
+            <div class="mt-16 md:mt-24 reveal img-container">
+                <img id="hero-img" src="" alt="Hero" class="img-16-9">
+            </div>
+        </section>
+
+        <!-- Narrative: City & Speed -->
+        <section class="py-20 md:py-32 px-6 md:px-20 grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center mobile-tight-spacing-top">
+            <div class="lg:col-span-7 reveal img-container">
+                <img id="side-img" src="" alt="Urban" class="img-16-9">
+            </div>
+            <div class="lg:col-span-5 reveal">
+                <span class="section-label">01. Urban Dynamics</span>
+                <h2 class="serif-italic text-4xl md:text-7xl mb-6 md:mb-10 leading-tight">A Fluidez do Couro em suas mãos.</h2>
+                <p class="text-gray-500 text-base md:text-lg mb-8 font-light">
+                    O design das carteiras Commandant é uma ode à funcionalidade. Cada compartimento é planejado como o cockpit de um clássico: acessível, intuitivo e revestido com o que há de mais nobre em curtume.
+                </p>
+                <div class="h-[1px] w-20 mb-8" style="background-color: var(--accent-gold);"></div>
+                <p class="text-black font-bold uppercase tracking-tighter text-xs md:text-sm">
+                    Handmade. Performance-driven. Timeless.
+                </p>
+            </div>
+        </section>
+
+        <!-- Emotional Quote -->
+        <section class="py-24 md:py-40 bg-white text-center px-6">
+            <div class="reveal">
+                <p class="serif-italic text-3xl md:text-6xl text-gray-900 max-w-5xl mx-auto leading-tight">
+                    "Uma Commandant é o último item que você confere antes de partir. Óculos, chaves, <span class="text-gray-300">legado</span>. Tudo o que importa, guardado com classe."
+                </p>
+            </div>
+        </section>
+
+        <!-- Carousel Gallery: The Essentials -->
+        <section class="carousel-viewport">
+            <div class="px-6 md:px-20 mb-10 md:mb-16 reveal">
+                <span class="section-label" style="color: #666;">Object d'Art</span>
+                <h3 class="syne text-3xl md:text-4xl text-white font-extrabold uppercase italic tracking-tighter">Galeria <span class="serif-italic font-light lowercase text-gray-400">Essentials</span></h3>
+            </div>
+            <div class="carousel-track" id="carousel-track">
+                <div class="carousel-item">
+                    <img id="gallery-1" src="" alt="Gallery" class="img-16-9">
+                </div>
+                <div class="carousel-item">
+                    <img id="gallery-2" src="" alt="Gallery" class="img-16-9">
+                </div>
+                <div class="carousel-item">
+                    <img id="gallery-3" src="" alt="Gallery" class="img-16-9">
+                </div>
+                <div class="carousel-item">
+                    <img id="gallery-4" src="" alt="Gallery" class="img-16-9">
+                </div>
+                <div class="carousel-item">
+                    <img id="gallery-5" src="" alt="Gallery" class="img-16-9">
+                </div>
+                <div class="carousel-item">
+                    <img id="gallery-6" src="" alt="Gallery" class="img-16-9">
+                </div>
+                <div class="carousel-item">
+                    <img id="gallery-7" src="" alt="Gallery" class="img-16-9">
+                </div>                
+            </div>
+        </section>
+
+        <!-- Heritage & Home Storytelling -->
+        <section class="py-20 md:py-32 px-6 md:px-20 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20 items-center">
+            <div class="lg:col-span-5 reveal order-2 lg:order-1">
+                <span class="section-label">02. Emotional Port</span>
+                <h2 class="serif-italic text-4xl md:text-7xl mb-6 md:mb-8 leading-tight text-gray-900">Seu patrimônio, <br> em qualquer lugar.</h2>
+                <p class="text-gray-500 text-base md:text-lg mb-8 font-light">
+                    Nossas carteiras são desenhadas para proteger mais do que apenas cartões. Elas guardam os registros da sua <span class="text-black font-semibold">família</span> e a história de quem sabe onde quer chegar. 
+                </p>
+                <div class="bg-gray-50 p-6 md:p-10 border-l-4 border-gray-900 mb-8 italic text-gray-600 font-light text-sm md:text-base">
+                    "O couro conhaque remete ao volante de um clássico e à solidez de um escritório. É o toque que confirma que você está no controle da sua jornada."
+                </div>
+                <p class="text-[10px] md:text-xs uppercase tracking-widest text-gray-400 font-bold">
+                    Engenharia em couro para o homem contemporâneo.
+                </p>
+            </div>
+            <div class="lg:col-span-7 reveal order-1 lg:order-2 img-container">
+                <img id="heritage-img" src="" alt="Heritage" class="img-16-9">
+            </div>
+        </section>
+
+        <!-- Final CTA / Statement -->
+        <section class="py-32 md:py-40 bg-black text-white text-center px-6">
+            <div class="reveal">
+                <span class="section-label" style="color: var(--accent-gold);">Join the Vanguard</span>
+                <h2 class="syne text-4xl md:text-8xl font-extrabold uppercase tracking-tighter mb-12 leading-none">Command Your Style.</h2>
+                <a href="javascript:void(0)" onclick="triggerToast()" class="inline-block px-10 md:px-12 py-4 md:py-5 border border-white hover:bg-white hover:text-black transition-all duration-500 uppercase text-[10px] md:text-xs tracking-widest font-bold">
+                    Ver Coleção Bespoke
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 md:gap-16 mb-20 reveal">
+                <div class="sm:col-span-2">
+                    <h4 class="syne font-bold text-xl mb-6 tracking-tighter uppercase">Commandant®</h4>
+                    <p class="text-gray-500 font-light max-w-sm text-sm">
+                        Um atelier dedicado à criação de carteiras masculinas de requinte. A tradição artesanal brasileira em contato com o rigor estético da engenharia moderna.
+                    </p>
+                </div>
+                <div>
+                    <span class="section-label" style="color: #444; margin-bottom: 1rem;">Navigation</span>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Coleções Limitadas</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Serviço Bespoke</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Herança e Couros</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Privé Login</a>
+                </div>
+                <div>
+                    <span class="section-label" style="color: #444; margin-bottom: 1rem;">Connect</span>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Instagram</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">WhatsApp Concierge</a>
+                    <a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">The Journal</a>
+                </div>
+            </div>
+            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center reveal text-center md:text-left">
+                <p class="text-[8px] md:text-[9px] uppercase tracking-[0.5em] text-gray-600 mb-6 md:mb-0">© 2026 COMMANDANT ATELIER • Fine Leather Goods</p>
+                <div class="flex gap-8">
+                    <span class="text-[9px] uppercase tracking-widest text-gray-600"><a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Privacy</a></span>
+                    <span class="text-[9px] uppercase tracking-widest text-gray-600"><a href="javascript:void(0)" onclick="triggerToast()" class="footer-link">Terms</a></span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const PATH = "images/";
+        
+        const ASSETS = {
+            logo: PATH + "logo.svg",
+            images: [
+                PATH + "01.jpg",
+                PATH + "02.jpg",
+                PATH + "03.jpg",
+                PATH + "04.jpg",
+                PATH + "05.jpg",
+                PATH + "06.jpg",
+                PATH + "07.jpg",
+                PATH + "08.jpg",
+                PATH + "09.jpg",
+                PATH + "10.jpg"                
+            ]
+        };
+
+        // Estado do Carrossel/Gallery
+        let galleryImages = [];
+        let currentGalleryIndex = 0;
+
+        function initAssets() {
+            document.getElementById('logo-top').src = ASSETS.logo;
+            document.getElementById('hero-img').src = ASSETS.images[0];
+            document.getElementById('side-img').src = ASSETS.images[1];
+            
+            // Atribuindo imagens da galeria e populando array para lightbox
+            const g1 = ASSETS.images[2];
+            const g2 = ASSETS.images[3];
+            const g3 = ASSETS.images[4];
+            const g4 = ASSETS.images[5];
+            const g5 = ASSETS.images[6];
+            const g6 = ASSETS.images[8];
+            const g7 = ASSETS.images[9];
+
+            document.getElementById('gallery-1').src = g1;
+            document.getElementById('gallery-2').src = g2;
+            document.getElementById('gallery-3').src = g3;
+            document.getElementById('gallery-4').src = g4;
+            document.getElementById('gallery-5').src = g5;
+            document.getElementById('gallery-6').src = g6;
+            document.getElementById('gallery-7').src = g7;
+
+            galleryImages = [g1, g2, g3, g4, g5, g6, g7];
+            
+            document.getElementById('heritage-img').src = ASSETS.images[7];
+        }
+
+        // --- Lightbox Logic ---
+        function initLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const closeBtn = document.querySelector('.lightbox-close');
+            const prevBtn = document.querySelector('.lightbox-prev');
+            const nextBtn = document.querySelector('.lightbox-next');
+
+            const openLightbox = (index) => {
+                currentGalleryIndex = index;
+                lightboxImg.src = galleryImages[currentGalleryIndex];
+                lightbox.style.display = 'flex';
+                setTimeout(() => lightbox.classList.add('active'), 10);
+            };
+
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+                setTimeout(() => lightbox.style.display = 'none', 500);
+            };
+
+            const navigate = (step) => {
+                currentGalleryIndex = (currentGalleryIndex + step + galleryImages.length) % galleryImages.length;
+                lightboxImg.style.opacity = '0';
+                setTimeout(() => {
+                    lightboxImg.src = galleryImages[currentGalleryIndex];
+                    lightboxImg.style.opacity = '1';
+                }, 200);
+            };
+
+            carouselItems.forEach((item, index) => {
+                item.addEventListener('click', () => openLightbox(index));
+            });
+
+            closeBtn.addEventListener('click', closeLightbox);
+            prevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
+            nextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
+            lightbox.addEventListener('click', closeLightbox);
+            lightboxImg.addEventListener('click', (e) => e.stopPropagation());
+
+            // Atalhos teclado
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === "Escape") closeLightbox();
+                if (e.key === "ArrowLeft") navigate(-1);
+                if (e.key === "ArrowRight") navigate(1);
+            });
+        }
+
+        // Enhanced Carousel Lerp
+        function initCarousel() {
+            const viewport = document.querySelector('.carousel-viewport');
+            const track = document.getElementById('carousel-track');
+            let targetX = 0;
+            let currentX = 0;
+            const isMobile = window.innerWidth <= 768;
+
+            viewport.addEventListener('mousemove', (e) => {
+                if (isMobile) return;
+                const rect = viewport.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = x / rect.width;
+                const trackWidth = track.scrollWidth;
+                const viewportWidth = rect.width;
+                const maxDelta = trackWidth - viewportWidth + 200;
+                targetX = percentage * maxDelta;
+            });
+            
+            // Support for touch devices in carousel
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            viewport.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - track.offsetLeft;
+                scrollLeft = currentX;
+            });
+            viewport.addEventListener('touchend', () => { isDown = false; });
+            viewport.addEventListener('touchmove', (e) => {
+                if(!isDown) return;
+                // e.preventDefault(); // Removido para permitir scroll vertical da página no mobile
+                const x = e.touches[0].pageX - track.offsetLeft;
+                // Sensibilidade aumentada para mobile (3.5x em vez de 2x)
+                const walk = (x - startX) * 3.5;
+                targetX = scrollLeft - walk;
+            });
+
+            function update() {
+                // Interpolação mais rápida no mobile para fluidez (0.08) vs desktop (0.04)
+                const lerpFactor = isMobile ? 0.08 : 0.04;
+                currentX += (targetX - currentX) * lerpFactor;
+                
+                // Constraints para não scrollar infinitamente no vazio
+                const trackWidth = track.scrollWidth;
+                const viewportWidth = viewport.offsetWidth;
+                const limit = trackWidth - viewportWidth + (isMobile ? 50 : 200);
+                
+                if (targetX < 0) targetX = 0;
+                if (targetX > limit) targetX = limit;
+
+                track.style.transform = `translateX(-${currentX}px)`;
+                requestAnimationFrame(update);
+            }
+            update();
+        }
+
+        // Scroll Observer corrigido para suportar containers de terceiros
+        const reveal = () => {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                // Ajuste de threshold para disparo mais sensível
+                if (elementTop < windowHeight - 100) el.classList.add("active");
+            });
+        };
+
+        // Monitora tanto o window quanto possíveis containers de scroll injetados
+        window.addEventListener("scroll", reveal, true); 
+        
+        window.onload = () => {
+            initAssets();
+            initCarousel();
+            initLightbox();
+            
+            // Força um reveal inicial após um curto delay para garantir que os scripts 
+            // externos já tenham feito a reestruturação do DOM/CSS
+            setTimeout(() => {
+            reveal();
+                
+                // Se o script barra_estudodecaso criou um container, ouvimos ele também
+                const scrollContainer = document.querySelector('[style*="overflow-y: auto"]');
+                if (scrollContainer) {
+                    scrollContainer.addEventListener('scroll', reveal);
+                }
+            }, 500);
+        };
+    </script>
+
+    <!-- Container de Scripts para Templates -->
+    <script src="https://www.vellumvisuals.com.br/res/scripts/container_templates.js?project=Commandant"></script>
+
+</body>
+</html>
