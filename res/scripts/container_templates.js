@@ -32,7 +32,8 @@
     // Disparam todos ao mesmo tempo no Body
     const bodyScriptsParalelos = [
         "https://www.vellumvisuals.com.br/res/scripts/disclaimer.js",
-	"https://www.vellumvisuals.com.br/res/scripts/barra_estudodecaso.js"
+	"https://www.vellumvisuals.com.br/res/scripts/barra_estudodecaso.js",
+	"https://www.vellumvisuals.com.br/res/scripts/toaster.js"
     ];
 
     // Executam um por um no Head APÓS todos os paralelos terminarem

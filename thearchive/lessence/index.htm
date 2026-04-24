@@ -133,19 +133,20 @@
 
         nav {
             background: linear-gradient(to bottom, var(--deep-eggplant) 20%, transparent 100%);
+            user-select: none; /* Evita seleção de texto nos itens da navbar */
         }
 
         /* Custom Toast for Demo */
         #demo-toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 110px; /* Ajustado para ficar acima da barra preta de 80px */
             left: 50%;
-            transform: translateX(-50%) translateY(200%); /* Esconde completamente para baixo */
+            transform: translateX(-50%) translateY(100px); /* Esconde usando valor fixo para evitar problemas em iframes */
             background: white;
             color: var(--deep-eggplant);
             padding: 15px 30px;
             border-radius: 2px;
-            z-index: 300;
+            z-index: 10000; /* Superior ao z-index 9999 da barra preta injetada */
             font-size: 10px;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -173,6 +174,7 @@
             transition: all 0.5s ease;
             cursor: pointer;
             line-height: 1.2;
+            user-select: none; /* Evita seleção de texto */
         }
 
         /* Ajuste apenas para Mobile */
@@ -198,6 +200,10 @@
         #modal-content-container::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.1);
         }
+
+        footer h2 {
+            user-select: none; /* Evita seleção de texto no L'Essence do rodapé */
+        }
     </style>
 </head>
 <body>
@@ -211,13 +217,13 @@
     </div>
 
     <!-- Navegação -->
-    <nav class="fixed top-0 w-full z-[100] px-6 py-8 md:px-12 flex justify-between items-center transition-all duration-500" id="navbar">
-        <div class="flex items-center gap-4 cursor-pointer group" onclick="toggleModal()">
+    <nav class="fixed top-0 w-full z-[100] px-6 py-8 md:px-12 flex justify-between items-center transition-all duration-500 pointer-events-none" id="navbar">
+        <div class="flex items-center gap-4 cursor-pointer group pointer-events-auto" onclick="toggleModal()">
             <div class="w-8 h-[1px] bg-white group-hover:w-12 transition-all"></div>
             <span class="technical-label text-white">Coleções</span>
         </div>
         
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col items-center pointer-events-auto cursor-default">
             <span class="serif text-lg md:text-2xl tracking-[0.4em] font-light">L'ESSENCE</span>
             <span class="text-[7px] tracking-[0.5em] opacity-50 hidden md:block">HAUTE JOAILLERIE</span>
         </div>
@@ -382,16 +388,17 @@
         <div id="modal-content-container" class="flex-1 overflow-y-auto px-6 pb-24 md:px-24">
             <div class="w-full flex flex-col items-start pt-12 md:pt-24 reveal">
                 <div class="flex flex-col gap-4 md:gap-6"> <!-- Gap reduzido acompanhando o texto menor -->
-                <a class="menu-link" onclick="triggerDemo('Coleções Privées')">Coleções Privées</a>
-                <a class="menu-link" onclick="triggerDemo('Alta Joalheria')">Alta Joalheria</a>
-                    <a class="menu-link" onclick="triggerDemo('Diamantes Raros')">Diamantes Raros</a>
-                <a class="menu-link" onclick="triggerDemo('O Atelier')">O Atelier</a>
-                    <a class="menu-link" onclick="triggerDemo('Processo Criativo')">Processo Criativo</a>
-                <a class="menu-link" onclick="triggerDemo('Relojoaria de Luxo')">Relojoaria de Luxo</a>
-                    <a class="menu-link" onclick="triggerDemo('Herança e História')">Herança e História</a>
-                    <a class="menu-link" onclick="triggerDemo('Garantia Vitalícia')">Garantia Vitalícia</a>
-                <a class="menu-link" onclick="triggerDemo('Agendar Consultoria')">Agendar Consultoria</a>
-                    <a class="menu-link" onclick="triggerDemo('Localizar Boutique')">Localizar Boutique</a>
+                    <!-- As chamadas agora usam triggerToast() que virá do seu script externo -->
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Coleções Privées</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Alta Joalheria</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Diamantes Raros</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">O Atelier</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Processo Criativo</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Relojoaria de Luxo</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Herança e História</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Garantia Vitalícia</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Agendar Consultoria</a>
+                    <a class="menu-link" onclick="triggerToast(); toggleModal();">Localizar Boutique</a>
                 </div>
             </div>
         </div>
@@ -434,23 +441,6 @@
                 document.body.style.overflow = 'auto';
                 modal.querySelector('.reveal').classList.remove('active');
             }
-        }
-
-        // Demo Toast Trigger
-        function triggerDemo(sectionName) {
-            console.log(`Navegando para: ${sectionName}`);
-            const toast = document.getElementById('demo-toast');
-            toast.classList.add('show');
-            
-            // Fecha o modal após o clique para mostrar o site
-            setTimeout(() => {
-                toggleModal();
-            }, 300);
-
-            // Remove o toast após 3 segundos
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
         }
 
         // Navbar Scroll Effect
