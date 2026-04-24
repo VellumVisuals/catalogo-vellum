@@ -656,23 +656,37 @@
             update();
         }
 
-        // Scroll Observer
+        // Scroll Observer corrigido para suportar containers de terceiros
         const reveal = () => {
             const reveals = document.querySelectorAll(".reveal");
             reveals.forEach(el => {
                 const windowHeight = window.innerHeight;
                 const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 150) el.classList.add("active");
+                // Ajuste de threshold para disparo mais sensível
+                if (elementTop < windowHeight - 100) el.classList.add("active");
             });
         };
 
-        window.addEventListener("scroll", reveal);
+        // Monitora tanto o window quanto possíveis containers de scroll injetados
+        window.addEventListener("scroll", reveal, true); 
+        
         window.onload = () => {
             initAssets();
             initCarousel();
             initLightbox();
             initDemoLinks();
+            
+            // Força um reveal inicial após um curto delay para garantir que os scripts 
+            // externos já tenham feito a reestruturação do DOM/CSS
+            setTimeout(() => {
             reveal();
+                
+                // Se o script barra_estudodecaso criou um container, ouvimos ele também
+                const scrollContainer = document.querySelector('[style*="overflow-y: auto"]');
+                if (scrollContainer) {
+                    scrollContainer.addEventListener('scroll', reveal);
+                }
+            }, 500);
         };
     </script>
 
