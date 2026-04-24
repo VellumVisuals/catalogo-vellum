@@ -177,7 +177,8 @@
         .carousel-track {
             display: flex;
             gap: 40px;
-            padding: 0 10vw;
+            /* Padding igual esquerda e direita */
+            padding: 0 6vw; 
             will-change: transform;
         }
 
@@ -240,16 +241,30 @@
             background: rgba(0,0,0,0.95);
             z-index: 10000;
             display: none;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 0;
             transition: opacity 0.5s ease;
             backdrop-filter: blur(10px);
+            touch-action: none; /* Previne scroll da página no fundo */
         }
 
         #lightbox.active {
             display: flex;
             opacity: 1;
+        }
+
+        /* Container que sofre o zoom sem afetar os botões */
+        .lightbox-zoom-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
 
         #lightbox img {
@@ -259,10 +274,22 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.5);
             transform: scale(0.9);
             transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            will-change: transform;
         }
 
         #lightbox.active img {
             transform: scale(1);
+        }
+
+        /* Botões em camada fixa superior */
+        .lightbox-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Permite clicar através da UI na imagem se necessário */
+            z-index: 10;
         }
 
         .lightbox-close {
@@ -273,8 +300,9 @@
             font-size: 2rem;
             cursor: pointer;
             font-family: 'Syne', sans-serif;
-            opacity: 0.5;
+            opacity: 0.8;
             transition: opacity 0.3s;
+            pointer-events: auto;
         }
 
         .lightbox-close:hover { opacity: 1; }
@@ -288,9 +316,10 @@
             cursor: pointer;
             padding: 20px;
             font-family: 'Instrument Serif', serif;
-            opacity: 0.3;
+            opacity: 0.5;
             transition: opacity 0.3s, transform 0.3s;
             user-select: none;
+            pointer-events: auto;
         }
 
         .lightbox-nav:hover { opacity: 1; transform: translateY(-50%) scale(1.1); }
@@ -336,9 +365,10 @@
             .logo-wrapper { padding: 10px 0; }
             footer { padding: 60px 24px 40px; }
             .carousel-item { flex: 0 0 85vw; }
-            .lightbox-nav { font-size: 2rem; padding: 10px; }
+            .lightbox-nav { font-size: 2rem; padding: 10px; opacity: 0.9; }
             .lightbox-prev { left: 10px; }
             .lightbox-next { right: 10px; }
+            .lightbox-close { top: 20px; right: 20px; }
             .big-statement { font-size: 2.5rem; }
             
             /* Ajuste de espaçamento mobile entre Hero e Urban */
@@ -358,10 +388,14 @@
 
     <!-- Lightbox Structure -->
     <div id="lightbox">
+        <div class="lightbox-ui">
         <div class="lightbox-close">×</div>
         <div class="lightbox-nav lightbox-prev">←</div>
-        <img src="" alt="Zoomed View" id="lightbox-img">
         <div class="lightbox-nav lightbox-next">→</div>
+    </div>
+        <div class="lightbox-zoom-container" id="zoom-container">
+            <img src="" alt="Zoomed View" id="lightbox-img">
+        </div>
     </div>
 
     <!-- Demo Toast -->
@@ -577,13 +611,24 @@
         function initLightbox() {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
+            const zoomContainer = document.getElementById('zoom-container');
             const carouselItems = document.querySelectorAll('.carousel-item');
             const closeBtn = document.querySelector('.lightbox-close');
             const prevBtn = document.querySelector('.lightbox-prev');
             const nextBtn = document.querySelector('.lightbox-next');
 
+            // Estado para Zoom Manual (Touch)
+            let currentScale = 1;
+            let startDist = 0;
+
+            const resetZoom = () => {
+                currentScale = 1;
+                lightboxImg.style.transform = `scale(1) translate(0, 0)`;
+            };
+
             const openLightbox = (index) => {
                 currentGalleryIndex = index;
+                resetZoom();
                 lightboxImg.src = galleryImages[currentGalleryIndex];
                 lightbox.style.display = 'flex';
                 setTimeout(() => lightbox.classList.add('active'), 10);
@@ -591,11 +636,15 @@
 
             const closeLightbox = () => {
                 lightbox.classList.remove('active');
-                setTimeout(() => lightbox.style.display = 'none', 500);
+                setTimeout(() => {
+                    lightbox.style.display = 'none';
+                    resetZoom();
+                }, 500);
             };
 
             const navigate = (step) => {
                 currentGalleryIndex = (currentGalleryIndex + step + galleryImages.length) % galleryImages.length;
+                resetZoom();
                 lightboxImg.style.opacity = '0';
                 setTimeout(() => {
                     lightboxImg.src = galleryImages[currentGalleryIndex];
@@ -611,6 +660,31 @@
             prevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
             nextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
             lightbox.addEventListener('click', closeLightbox);
+            
+            // Lógica de Zoom por Gesto (Pinch) - Mobile Only
+            zoomContainer.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 2) {
+                    startDist = Math.hypot(
+                        e.touches[0].pageX - e.touches[1].pageX,
+                        e.touches[0].pageY - e.touches[1].pageY
+                    );
+                }
+            });
+
+            zoomContainer.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const dist = Math.hypot(
+                        e.touches[0].pageX - e.touches[1].pageX,
+                        e.touches[0].pageY - e.touches[1].pageY
+                    );
+                    const delta = dist / startDist;
+                    currentScale = Math.min(Math.max(1, currentScale * delta), 4);
+                    lightboxImg.style.transform = `scale(${currentScale})`;
+                    startDist = dist;
+                }
+            });
+
             lightboxImg.addEventListener('click', (e) => e.stopPropagation());
 
             // Atalhos teclado
