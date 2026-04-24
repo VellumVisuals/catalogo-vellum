@@ -172,13 +172,21 @@
             overflow: hidden;
             padding: 100px 0;
             background-color: #0a0a0a;
+            touch-action: pan-y; /* Permite scroll vertical, mas controla o horizontal via JS */
         }
 
         .carousel-track {
             display: flex;
             gap: 40px;
-            padding: 0 10vw;
+            /* Padding igual esquerda e direita */
+            padding: 0 6vw; 
             will-change: transform;
+        }
+
+        /* Pseudo-elemento para forçar o espaço após a última foto */
+        .carousel-track::after {
+            content: '';
+            flex: 0 0 6vw;
         }
 
         .carousel-item {
@@ -240,16 +248,30 @@
             background: rgba(0,0,0,0.95);
             z-index: 10000;
             display: none;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 0;
             transition: opacity 0.5s ease;
             backdrop-filter: blur(10px);
+            touch-action: none; /* Previne scroll da página no fundo */
         }
 
         #lightbox.active {
             display: flex;
             opacity: 1;
+        }
+
+        /* Container que sofre o zoom sem afetar os botões */
+        .lightbox-zoom-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
         }
 
         #lightbox img {
@@ -259,10 +281,22 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.5);
             transform: scale(0.9);
             transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            will-change: transform;
         }
 
         #lightbox.active img {
             transform: scale(1);
+        }
+
+        /* Botões em camada fixa superior */
+        .lightbox-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Permite clicar através da UI na imagem se necessário */
+            z-index: 10;
         }
 
         .lightbox-close {
@@ -273,8 +307,10 @@
             font-size: 2rem;
             cursor: pointer;
             font-family: 'Syne', sans-serif;
-            opacity: 0.5;
+            opacity: 0.8;
             transition: opacity 0.3s;
+            pointer-events: auto;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8); /* Visibilidade em fundos brancos */
         }
 
         .lightbox-close:hover { opacity: 1; }
@@ -288,9 +324,11 @@
             cursor: pointer;
             padding: 20px;
             font-family: 'Instrument Serif', serif;
-            opacity: 0.3;
+            opacity: 0.5;
             transition: opacity 0.3s, transform 0.3s;
             user-select: none;
+            pointer-events: auto;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.8); /* Visibilidade em fundos brancos */
         }
 
         .lightbox-nav:hover { opacity: 1; transform: translateY(-50%) scale(1.1); }
@@ -336,9 +374,10 @@
             .logo-wrapper { padding: 10px 0; }
             footer { padding: 60px 24px 40px; }
             .carousel-item { flex: 0 0 85vw; }
-            .lightbox-nav { font-size: 2rem; padding: 10px; }
+            .lightbox-nav { font-size: 2rem; padding: 10px; opacity: 0.9; }
             .lightbox-prev { left: 10px; }
             .lightbox-next { right: 10px; }
+            .lightbox-close { top: 20px; right: 20px; }
             .big-statement { font-size: 2.5rem; }
             
             /* Ajuste de espaçamento mobile entre Hero e Urban */
@@ -358,10 +397,14 @@
 
     <!-- Lightbox Structure -->
     <div id="lightbox">
+        <div class="lightbox-ui">
         <div class="lightbox-close">×</div>
         <div class="lightbox-nav lightbox-prev">←</div>
-        <img src="" alt="Zoomed View" id="lightbox-img">
         <div class="lightbox-nav lightbox-next">→</div>
+    </div>
+        <div class="lightbox-zoom-container" id="zoom-container">
+            <img src="" alt="Zoomed View" id="lightbox-img">
+        </div>
     </div>
 
     <!-- Demo Toast -->
@@ -577,13 +620,24 @@
         function initLightbox() {
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
+            const zoomContainer = document.getElementById('zoom-container');
             const carouselItems = document.querySelectorAll('.carousel-item');
             const closeBtn = document.querySelector('.lightbox-close');
             const prevBtn = document.querySelector('.lightbox-prev');
             const nextBtn = document.querySelector('.lightbox-next');
 
+            // Estado para Zoom Manual (Touch)
+            let currentScale = 1;
+            let startDist = 0;
+
+            const resetZoom = () => {
+                currentScale = 1;
+                lightboxImg.style.transform = `scale(1) translate(0, 0)`;
+            };
+
             const openLightbox = (index) => {
                 currentGalleryIndex = index;
+                resetZoom();
                 lightboxImg.src = galleryImages[currentGalleryIndex];
                 lightbox.style.display = 'flex';
                 setTimeout(() => lightbox.classList.add('active'), 10);
@@ -591,11 +645,15 @@
 
             const closeLightbox = () => {
                 lightbox.classList.remove('active');
-                setTimeout(() => lightbox.style.display = 'none', 500);
+                setTimeout(() => {
+                    lightbox.style.display = 'none';
+                    resetZoom();
+                }, 500);
             };
 
             const navigate = (step) => {
                 currentGalleryIndex = (currentGalleryIndex + step + galleryImages.length) % galleryImages.length;
+                resetZoom();
                 lightboxImg.style.opacity = '0';
                 setTimeout(() => {
                     lightboxImg.src = galleryImages[currentGalleryIndex];
@@ -611,6 +669,31 @@
             prevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
             nextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
             lightbox.addEventListener('click', closeLightbox);
+            
+            // Lógica de Zoom por Gesto (Pinch) - Mobile Only
+            zoomContainer.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 2) {
+                    startDist = Math.hypot(
+                        e.touches[0].pageX - e.touches[1].pageX,
+                        e.touches[0].pageY - e.touches[1].pageY
+                    );
+                }
+            });
+
+            zoomContainer.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const dist = Math.hypot(
+                        e.touches[0].pageX - e.touches[1].pageX,
+                        e.touches[0].pageY - e.touches[1].pageY
+                    );
+                    const delta = dist / startDist;
+                    currentScale = Math.min(Math.max(1, currentScale * delta), 4);
+                    lightboxImg.style.transform = `scale(${currentScale})`;
+                    startDist = dist;
+                }
+            });
+
             lightboxImg.addEventListener('click', (e) => e.stopPropagation());
 
             // Atalhos teclado
@@ -629,37 +712,60 @@
             let targetX = 0;
             let currentX = 0;
 
+            // Função para calcular limites (impede rolar além das fotos)
+            const getLimits = () => {
+                const trackWidth = track.scrollWidth;
+                const viewportWidth = viewport.offsetWidth;
+                const { max } = { max: trackWidth - viewportWidth };
+                return { min: 0, max: Math.max(0, max) };
+            };
+
+            // Monitora o mouse apenas para desktop
             viewport.addEventListener('mousemove', (e) => {
+                if (window.innerWidth <= 768) return; // Ignora no mobile para não conflitar
                 const rect = viewport.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const percentage = x / rect.width;
-                const trackWidth = track.scrollWidth;
-                const viewportWidth = rect.width;
-                const maxDelta = trackWidth - viewportWidth + 200;
-                targetX = percentage * maxDelta;
+                const { max } = getLimits();
+                targetX = percentage * max;
             });
             
-            // Support for touch devices in carousel
+            // Variáveis para física mobile
             let isDown = false;
             let startX;
-            let scrollLeft;
+            let initialTargetX;
 
+            // O listener agora é no viewport todo, incluindo os vãos
             viewport.addEventListener('touchstart', (e) => {
                 isDown = true;
-                startX = e.touches[0].pageX - track.offsetLeft;
-                scrollLeft = currentX;
-            });
-            viewport.addEventListener('touchend', () => { isDown = false; });
-            viewport.addEventListener('touchmove', (e) => {
-                if(!isDown) return;
-                // e.preventDefault(); // Removido para permitir scroll vertical da página no mobile
-                const x = e.touches[0].pageX - track.offsetLeft;
-                const walk = (x - startX) * 2;
-                targetX = scrollLeft - walk;
+                startX = e.touches[0].pageX;
+                initialTargetX = targetX;
+            }, { passive: true });
+
+            viewport.addEventListener('touchend', () => { 
+                isDown = false; 
             });
 
+            viewport.addEventListener('touchmove', (e) => {
+                if(!isDown) return;
+                const x = e.touches[0].pageX;
+                
+                // No mobile, removemos a sensação de "lama" tornando o movimento 
+                // proporcional direto ao arrasto (1:1), eliminando a latência artificial.
+                const walk = (startX - x) * 1.5; // Multiplicador levemente maior para agilidade
+                targetX = initialTargetX + walk;
+                
+                // Aplicar Clamping (Limites)
+                const { min, max } = getLimits();
+                if (targetX < min) targetX = min;
+                if (targetX > max) targetX = max;
+            }, { passive: true });
+
             function update() {
-                currentX += (targetX - currentX) * 0.04; // Um pouco mais pesado/lento para ar de luxo
+                // Interpolação mantida para suavidade ao soltar (inércia)
+                // Aumentamos o fator (0.08 -> 0.12) para que o movimento seja mais "esperto"
+                const lerpFactor = window.innerWidth <= 768 ? 0.12 : 0.08;
+                currentX += (targetX - currentX) * lerpFactor; 
                 track.style.transform = `translateX(-${currentX}px)`;
                 requestAnimationFrame(update);
             }
