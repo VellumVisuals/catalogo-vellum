@@ -82,14 +82,6 @@
             width: calc(var(--orig-width) * var(--display-scale));
             height: calc(var(--visible-height) * var(--display-scale));
             
-            /* Lógica de corte (Crop) */
-            background-repeat: no-repeat;
-            /* background-size precisa compensar o corte para que a largura encaixe 100% */
-            background-size: 100% auto; 
-            /* background-position sobe a imagem para esconder o topo */
-            background-position: center calc(var(--crop-top) * -1 * var(--display-scale));
-            background-color: #000; /* Fundo preto preventivo */
-
             border-radius: 4px;
             /* Inclinação base tipo Windows 10 */
             transform: rotateY(-25deg) rotateX(10deg);
@@ -97,25 +89,49 @@
             box-shadow: -15px 15px 30px rgba(0, 0, 0, 0.5), 
                         0 0 1px rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            filter: grayscale(40%) contrast(90%);
-            overflow: hidden; /* Necessário para o efeito Glint */
             
             /* Impede a seleção da imagem e do conteúdo */
             user-select: none;
             -webkit-user-drag: none;
 
             /* Correção para o "pulo" e desfoque (Anti-aliasing fix) */
+            /* Adicionado translateZ(0) e forçado o rendering para evitar perda de qualidade */
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            will-change: transform, filter;
+            will-change: transform, filter, opacity;
             transform-style: preserve-3d;
-            image-rendering: -webkit-optimize-contrast;
+            image-rendering: auto; 
             z-index: 1; /* Valor base para garantir que o hover possa subir para 50 */
             pointer-events: auto; /* Reativa os eventos apenas nos cards */
         }
 
+        /* Novo container interno para a imagem que respeita o overflow: hidden */
+        .card-image-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            overflow: hidden; /* O BRILHO FICA PRESO AQUI */
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            background-color: #000;
+            filter: grayscale(40%) contrast(90%);
+            transition: filter 0.5s ease;
+            z-index: 1;
+            /* Garante que o rendering interno também seja preservado */
+            transform: translateZ(0);
+        }
+
+        /* Lógica de corte aplicada ao background do container interno */
+        .image-card[data-img="lessence"] .card-image-bg { background-image: url('covers_img/cover_lessence.jpeg'); background-position: center calc(var(--crop-top) * -1 * var(--display-scale)); }
+        .image-card[data-img="vora"] .card-image-bg { background-image: url('covers_img/cover_vora.jpeg'); background-position: center calc(var(--crop-top) * -1 * var(--display-scale)); }
+        .image-card[data-img="commandant"] .card-image-bg { background-image: url('covers_img/cover_commandant.jpeg'); background-position: center calc(var(--crop-top) * -1 * var(--display-scale)); }
+        .image-card[data-img="horizon"] .card-image-bg { background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=500&auto=format&fit=crop'); background-position: center calc(var(--crop-top) * -1 * var(--display-scale)); }
+
         /* Overlay de sombra inferior para legibilidade do texto */
-        .image-card::after {
+        .card-image-bg::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -125,15 +141,15 @@
             background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
             opacity: 0;
             transition: opacity 0.5s ease;
-            z-index: 1;
+            z-index: 2;
         }
 
-        .image-card:hover::after {
+        .image-card:hover .card-image-bg::after {
             opacity: 1;
         }
 
-        /* Efeito Glint (Sugerido pelo Mentor) */
-        .image-card::before {
+        /* Efeito Glint (Agora dentro do card-image-bg para ser cortado) */
+        .card-image-bg::before {
             content: '';
             position: absolute;
             top: 0; 
@@ -142,10 +158,11 @@
             height: 100%;
             background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
             transition: all 0.6s;
-            z-index: 2;
+            z-index: 3;
+            pointer-events: none;
         }
 
-        .image-card:hover::before {
+        .image-card:hover .card-image-bg::before {
             left: 150%;
         }
 
@@ -155,18 +172,26 @@
                 /* Escala menor no mobile */
                 width: calc(var(--orig-width) * 0.25);
                 height: calc(var(--visible-height) * 0.25);
-                background-position: center calc(var(--crop-top) * -1 * 0.25);
                 transform: rotateY(-15deg) rotateX(5deg) translateZ(0);
             }
+            /* Ajuste de background-position no mobile para cada imagem */
+            .image-card[data-img="lessence"] .card-image-bg { background-position: center calc(var(--crop-top) * -1 * 0.25); }
+            .image-card[data-img="vora"] .card-image-bg { background-position: center calc(var(--crop-top) * -1 * 0.25); }
+            .image-card[data-img="commandant"] .card-image-bg { background-position: center calc(var(--crop-top) * -1 * 0.25); }
+            .image-card[data-img="horizon"] .card-image-bg { background-position: center calc(var(--crop-top) * -1 * 0.25); }
         }
 
         /* Hover: Fica maior e "foca" */
         .image-card:hover {
-            transform: rotateY(0deg) rotateX(0deg) scale(1.15);
-            filter: grayscale(0%) contrast(100%);
+            /* Adicionado translateZ para manter a camada ativa e nítida */
+            transform: rotateY(0deg) rotateX(0deg) scale(1.15) translateZ(10px);
             z-index: 50;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 
                         0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .image-card:hover .card-image-bg {
+            filter: grayscale(0%) contrast(100%);
         }
 
         .image-card:hover .hover-text {
@@ -174,9 +199,22 @@
         }
 
         .hover-text {
-            z-index: 3;
+            position: absolute;
+            bottom: 1rem; /* bottom-4 */
+            left: 1rem;   /* left-4 */
+            z-index: 10;  /* Acima do card-image-bg */
             text-shadow: 0 2px 15px rgba(0,0,0,1), 0 0 5px rgba(0,0,0,0.8);
-            user-select: none; /* Impede seleção do texto */
+            user-select: none;
+            
+            /* Ajuste para priorizar quebra de linha: */
+            white-space: normal; 
+            max-width: 90%; 
+            word-break: keep-all; /* Tenta manter as palavras inteiras */
+            overflow-wrap: normal; /* Não quebra palavras a menos que seja estritamente necessário */
+
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
         }
 
         /* Feedback de clique */
@@ -209,32 +247,36 @@
     <main class="w-full flex justify-center items-center overflow-visible py-20" id="scene">
         <div class="gallery-container" id="gallery">
             <!-- Imagem 1 - L'Essence -->
-            <div class="image-card" data-url="lessence" style="background-image: url('covers_img/cover_lessence.jpeg');">
-                <div class="absolute bottom-4 left-4 opacity-0 hover-text transition-opacity duration-500 pointer-events-none">
+            <div class="image-card" data-url="lessence" data-img="lessence">
+                <div class="card-image-bg"></div>
+                <div class="hover-text">
                     <p class="lux-text text-[10px] text-white/70">2026</p>
                     <p class="lux-text text-sm italic text-white/95">L'Essence</p>
                 </div>
             </div>
 
             <!-- Imagem 2 - Vora -->
-            <div class="image-card" data-url="vora" style="background-image: url('covers_img/cover_vora.jpeg');">
-                <div class="absolute bottom-4 left-4 opacity-0 hover-text transition-opacity duration-500 pointer-events-none">
+            <div class="image-card" data-url="vora" data-img="vora">
+                <div class="card-image-bg"></div>
+                <div class="hover-text">
                     <p class="lux-text text-[10px] text-white/70">2026</p>
                     <p class="lux-text text-sm italic text-white/95">Vora Strategy</p>
                 </div>
             </div>
 
             <!-- Imagem 3 -->
-            <div class="image-card" data-url="commandant" style="background-image: url('covers_img/cover_commandant.jpeg');">
-                <div class="absolute bottom-4 left-4 opacity-0 hover-text transition-opacity duration-500 pointer-events-none">
+            <div class="image-card" data-url="commandant" data-img="commandant">
+                <div class="card-image-bg"></div>
+                <div class="hover-text">
                     <p class="lux-text text-[10px] text-white/70">2026</p>
                     <p class="lux-text text-sm italic text-white/95">Commandant</p>
                 </div>
             </div>
 
             <!-- Imagem 4 -->
-            <div class="image-card" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=500&auto=format&fit=crop');">
-                <div class="absolute bottom-4 left-4 opacity-0 hover-text transition-opacity duration-500 pointer-events-none">
+            <div class="image-card" data-img="horizon">
+                <div class="card-image-bg"></div>
+                <div class="hover-text">
                     <p class="lux-text text-[10px] text-white/70">2026</p>
                     <p class="lux-text text-sm italic text-white/95">Horizon</p>
                 </div>
