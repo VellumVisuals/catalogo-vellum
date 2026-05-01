@@ -518,7 +518,7 @@
         async function fetchShopifyProducts() {
             try {
                 // Agora chamamos a nossa própria API, não a Shopify diretamente
-                const response = await fetch('/api/shopify'); 
+                const response = await fetch('/api/get-products'); 
                 const result = await response.json();
                 
                 allProducts = result.data.products.edges.map(edge => ({
