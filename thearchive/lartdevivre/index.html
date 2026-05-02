@@ -576,7 +576,9 @@
             modalPrice.innerText = `R$ ${parseFloat(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
             modalDescription.innerHTML = product.descriptionHtml || '<p>Peça sob curadoria exclusiva.</p>';
             
-            // Ajuste PIL: Aplicação do Snap Scroll para EXIBIR TODAS AS FOTOS retornadas pela API
+            /**
+             * AJUSTE PIL: Mapeamento de TODAS AS FOTOS para o modalGallery
+             */
             modalGallery.innerHTML = product.images.map(imgUrl => `
                 <div class="snap-center shrink-0 w-full md:min-w-0 md:w-full">
                     <img src="${imgUrl}" class="w-full aspect-square md:aspect-[4/5] object-cover border-b border-gray-50 last:border-0" alt="${product.title}">
