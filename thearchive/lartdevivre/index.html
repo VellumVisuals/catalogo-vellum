@@ -517,8 +517,8 @@
 
         async function fetchShopifyProducts() {
             try {
-                // Agora chamamos a nossa própria API, não a Shopify diretamente
-                const response = await fetch('https://catalogo-vellum-lartdevivre.vercel.app/api/get-products'); 
+                // Ajuste PIL: Adicionada a flag first: 250 para carregar todos os produtos (limite Shopify)
+                const response = await fetch('https://catalogo-vellum-lartdevivre.vercel.app/api/get-products?first=250'); 
                 const result = await response.json();
                 
                 allProducts = result.data.products.edges.map(edge => ({
@@ -576,7 +576,7 @@
             modalPrice.innerText = `R$ ${parseFloat(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
             modalDescription.innerHTML = product.descriptionHtml || '<p>Peça sob curadoria exclusiva.</p>';
             
-            // Ajuste PIL: Aplicação do Snap Scroll solicitado
+            // Ajuste PIL: Aplicação do Snap Scroll para EXIBIR TODAS AS FOTOS retornadas pela API
             modalGallery.innerHTML = product.images.map(imgUrl => `
                 <div class="snap-center shrink-0 w-full md:min-w-0 md:w-full">
                     <img src="${imgUrl}" class="w-full aspect-square md:aspect-[4/5] object-cover border-b border-gray-50 last:border-0" alt="${product.title}">
