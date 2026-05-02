@@ -3,6 +3,16 @@ export default async function handler(req, res) {
   // Captura o parâmetro 'first' da URL, definindo 10 como padrão caso não exista
   const first = req.query.first ? parseInt(req.query.first) : 10;
 
+      // PERMISSÕES DE CORS - Liberam o acesso para o seu site (Para não dar problçema de cross origin)
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Shopify-Storefront-Access-Token');
+
+    // Resposta rápida para o "preflight" do navegador (requisição OPTIONS)
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
   const query = `
     {
       products(first: ${first}) {
