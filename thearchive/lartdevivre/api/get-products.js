@@ -14,29 +14,34 @@ export default async function handler(req, res) {
     }
 
   const query = `
-    {
-      products(first: ${first}) {
-        edges {
-          node {
-            id
-            title
-            variants(first: 1) {
-              edges {
-                node {
-                  id
-                  priceV2 { amount }
+  {
+    products(first: ${first}) {
+      edges {
+        node {
+          id
+          title
+          descriptionHtml
+          variants(first: 1) {
+            edges {
+              node {
+                id
+                priceV2 {
+                  amount
                 }
               }
             }
-            images(first: 1) {
-              edges {
-                node { url }
+          }
+          images(first: 5) {
+            edges {
+              node {
+                url
               }
             }
           }
         }
       }
     }
+  }
   `;
 
   try {
