@@ -517,17 +517,16 @@
 
         async function fetchShopifyProducts() {
             try {
-                // Ajuste PIL: Adicionada a flag first: 250 para carregar todos os produtos (limite Shopify)
-                const response = await fetch('https://catalogo-vellum-lartdevivre.vercel.app/api/get-products?first=250'); 
+                const response = await fetch('https://catalogo-vellum-lartdevivre.vercel.app/api/get-products'); 
                 const result = await response.json();
                 
                 allProducts = result.data.products.edges.map(edge => ({
                     id: edge.node.variants.edges[0].node.id, 
                     title: edge.node.title,
-                    descriptionHtml: edge.node.descriptionHtml,
+                    descriptionHtml: edge.node.descriptionHtml, // Inclusão da descrição
                     price: edge.node.variants.edges[0].node.priceV2.amount,
                     image: edge.node.images.edges[0]?.node.url || 'https://via.placeholder.com/600',
-                    images: edge.node.images.edges.map(img => img.node.url)
+                    images: edge.node.images.edges.map(img => img.node.url) // Captura de todas as fotos
                 }));
 
                 renderProducts(allProducts);
@@ -574,11 +573,11 @@
             
             modalTitle.innerText = product.title;
             modalPrice.innerText = `R$ ${parseFloat(product.price).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-            modalDescription.innerHTML = product.descriptionHtml || '<p>Peça sob curadoria exclusiva.</p>';
             
-            /**
-             * AJUSTE PIL: Mapeamento de TODAS AS FOTOS para o modalGallery
-             */
+            // Injeção da descrição HTML capturada da API
+            modalDescription.innerHTML = product.descriptionHtml || '<p class="italic text-gray-400">Curadoria exclusiva.</p>';
+            
+            // Loop para exibir todas as fotos na galeria do modal
             modalGallery.innerHTML = product.images.map(imgUrl => `
                 <div class="snap-center shrink-0 w-full md:min-w-0 md:w-full">
                     <img src="${imgUrl}" class="w-full aspect-square md:aspect-[4/5] object-cover border-b border-gray-50 last:border-0" alt="${product.title}">
