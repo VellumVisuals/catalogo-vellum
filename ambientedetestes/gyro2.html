@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D Gyroscope View</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: sans-serif;
+        }
+
+        /* Overlay para permissão e início */
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            margin-top: 20px;
+        }
+
+        #status {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #0f0;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Painel de Controles UI */
+        #controls-ui {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            grid-gap: 10px;
+            z-index: 20;
+        }
+
+        .ui-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .ui-btn:active {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        #special-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 20;
+        }
+
+        .toggle-btn {
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid white;
+            color: white;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .active-toggle {
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h1>Experiência 3D Imersiva</h1>
+        <p>Aperte o botão para iniciar. Use os botões na tela para ajustar a visão e andar.</p>
+        <button id="startBtn">Iniciar Experiência</button>
+    </div>
+
+    <div id="status">Aguardando início...</div>
+
+    <!-- Interface do Usuário -->
+    <div id="special-controls">
+        <button id="flipBtn" class="toggle-btn">Flip: Paisagem</button>
+        <button id="walkToggleBtn" class="toggle-btn">Real Walk: OFF</button>
+    </div>
+
+    <div id="controls-ui">
+        <div></div>
+        <div class="ui-btn" id="btnUp">↑</div>
+        <div></div>
+        
+        <div class="ui-btn" id="btnW">W</div>
+        <div class="ui-btn" id="btnDown">↓</div>
+        <div class="ui-btn" id="btnS">S</div>
+    </div>
+
+    <!-- Importando Three.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        let scene, camera, renderer, cube, sphere, torus;
+        let deviceOrientation = {};
+        const statusEl = document.getElementById('status');
+
+        // Novas variáveis de estado
+        let pitchOffset = 0; // Correção manual do horizonte
+        let moveForward = false;
+        let moveBackward = false;
+        let realWalkActive = false;
+        let isPortrait = false;
+        let lastAccel = 0;
+        let stepCooldown = 0;
+
+        function init() {
+            // 1. Cena e Câmera
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x111122);
+            
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.rotation.order = 'YXZ'; 
+            camera.position.y = 1.6; // Altura dos olhos
+
+            // 2. Renderizador
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.body.appendChild(renderer.domElement);
+
+            // 3. Luzes
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const light = new THREE.PointLight(0xffffff, 1);
+            light.position.set(10, 10, 10);
+            scene.add(light);
+
+            // 4. Objetos de Teste
+            const gridHelper = new THREE.GridHelper(100, 50, 0x4444ff, 0x222244);
+            gridHelper.position.y = 0;
+            scene.add(gridHelper);
+
+            const geometryCube = new THREE.BoxGeometry(1, 1, 1);
+            const materialCube = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+            cube = new THREE.Mesh(geometryCube, materialCube);
+            cube.position.set(0, 1, -5);
+            scene.add(cube);
+
+            const geometrySphere = new THREE.SphereGeometry(0.7, 32, 32);
+            const materialSphere = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+            sphere = new THREE.Mesh(geometrySphere, materialSphere);
+            sphere.position.set(5, 1, 0);
+            scene.add(sphere);
+
+            const geometryTorus = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
+            const materialTorus = new THREE.MeshPhongMaterial({ color: 0xffff00 });
+            torus = new THREE.Mesh(geometryTorus, materialTorus);
+            torus.position.set(-5, 1, -3);
+            scene.add(torus);
+
+            setupControls();
+            window.addEventListener('resize', onWindowResize, false);
+            animate();
+        }
+
+        function setupControls() {
+            // Ajuste de Pitch (Olhar para cima/baixo correção)
+            document.getElementById('btnUp').onpointerdown = () => pitchOffset += 0.1;
+            document.getElementById('btnDown').onpointerdown = () => pitchOffset -= 0.1;
+
+            // Movimento W/S
+            document.getElementById('btnW').onpointerdown = () => moveForward = true;
+            document.getElementById('btnW').onpointerup = () => moveForward = false;
+            document.getElementById('btnS').onpointerdown = () => moveBackward = true;
+            document.getElementById('btnS').onpointerup = () => moveBackward = false;
+
+            // Toggles
+            document.getElementById('flipBtn').onclick = (e) => {
+                isPortrait = !isPortrait;
+                e.target.innerText = isPortrait ? "Flip: Vertical" : "Flip: Paisagem";
+            };
+
+            document.getElementById('walkToggleBtn').onclick = (e) => {
+                realWalkActive = !realWalkActive;
+                e.target.innerText = realWalkActive ? "Real Walk: ON" : "Real Walk: OFF";
+                e.target.classList.toggle('active-toggle');
+            };
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function handleOrientation(event) {
+            if (event.alpha !== null) {
+                deviceOrientation = event;
+                statusEl.innerText = `Pitch Offset: ${pitchOffset.toFixed(1)} | RealWalk: ${realWalkActive ? 'ON' : 'OFF'}`;
+            }
+        }
+
+        // Simulação básica de passos usando acelerômetro
+        function handleMotion(event) {
+            if (!realWalkActive) return;
+            
+            const acc = event.accelerationIncludingGravity;
+            if (!acc) return;
+
+            // Magnitude da aceleração (vetor 3D)
+            const magnitude = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z);
+            const delta = Math.abs(magnitude - lastAccel);
+            lastAccel = magnitude;
+
+            // Se houver um "pico" de aceleração e não estiver em cooldown, simula passo
+            if (delta > 3 && stepCooldown <= 0) {
+                stepForward(0.3);
+                stepCooldown = 20; // Evita múltiplos passos em um único movimento
+            }
+        }
+
+        function stepForward(distance) {
+            const direction = new THREE.Vector3();
+            camera.getWorldDirection(direction);
+            direction.y = 0; // Manter no chão
+            direction.normalize();
+            camera.position.addScaledVector(direction, distance);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            torus.rotation.z += 0.02;
+
+            if (stepCooldown > 0) stepCooldown--;
+
+            // Movimento manual W/S
+            if (moveForward) stepForward(0.1);
+            if (moveBackward) stepForward(-0.1);
+
+            if (deviceOrientation.alpha !== undefined) {
+                let alpha = THREE.MathUtils.degToRad(deviceOrientation.alpha);
+                let beta = THREE.MathUtils.degToRad(deviceOrientation.beta);
+                let gamma = THREE.MathUtils.degToRad(deviceOrientation.gamma);
+
+                // Ajuste de orientação Flip (Vertical vs Horizontal)
+                if (!isPortrait) {
+                    // Lógica para modo Paisagem (Landscape)
+                    const euler = new THREE.Euler(beta + pitchOffset, alpha, -gamma, 'YXZ');
+                    const quaternion = new THREE.Quaternion().setFromEuler(euler);
+                    camera.quaternion.copy(quaternion);
+                } else {
+                    // Lógica simplificada para modo Vertical
+                    const euler = new THREE.Euler(beta + pitchOffset, alpha, -gamma, 'YXZ');
+                    const quaternion = new THREE.Quaternion().setFromEuler(euler);
+                    camera.quaternion.copy(quaternion);
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        document.getElementById('startBtn').addEventListener('click', function() {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation, true);
+                            window.addEventListener('devicemotion', handleMotion, true);
+                            document.getElementById('overlay').style.display = 'none';
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                window.addEventListener('deviceorientation', handleOrientation, true);
+                window.addEventListener('devicemotion', handleMotion, true);
+                document.getElementById('overlay').style.display = 'none';
+            }
+            
+            init();
+        });
+
+    </script>
+</body>
+</html>
