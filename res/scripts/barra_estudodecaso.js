@@ -68,8 +68,6 @@
                 overflow: hidden;
                 white-space: nowrap;
                 width: 100%;
-                mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
-                -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
             }
 
             .name-marquee-content {
@@ -230,7 +228,8 @@
 
             // Só anima se o nome for maior que o espaço disponível
             if (contentWidth > maskWidth) {
-                const diff = maskWidth - contentWidth - 10; // 10px de folga
+                // Ajustado para remover o espaço adicional no final (diff exato)
+                const diff = maskWidth - contentWidth; 
                 mover.style.setProperty('--scroll-dist', `${diff}px`);
                 mover.style.animation = `shuttle 7s ease-in-out infinite alternate`;
             } else {
