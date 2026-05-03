@@ -52,16 +52,39 @@
                 line-height: 1.1;
                 white-space: nowrap;
                 color: #ffffff;
+                overflow: hidden;
+                flex-grow: 1;
             }
 
             .project-title .label {
                 font-size: 10px;
                 letter-spacing: 1px;
                 opacity: 0.8;
+                flex-shrink: 0;
+            }
+
+            /* Novo container para o nome com efeito de letreiro */
+            .name-marquee-container {
+                overflow: hidden;
+                white-space: nowrap;
+                width: 100%;
+                mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+            }
+
+            .name-marquee-content {
+                display: inline-block;
+                transition: transform 0.1s linear;
+            }
+
+            @keyframes shuttle {
+                0%, 15% { transform: translateX(0); }
+                85%, 100% { transform: translateX(var(--scroll-dist)); }
             }
 
             .project-title .name {
                 font-size: 24px;
+                display: inline-block;
             }
 
             /* Botão com degradê dourado */
@@ -102,7 +125,7 @@
                 }
                 .project-title .name {
                     font-size: 18px;
-                    display: block;
+                    display: inline-block;
                     width: auto;
                 }
                 .gold-button {
@@ -166,7 +189,11 @@
             <div class="left-content" id="logo-container-js">
                 <div class="project-title">
                     <span class="label">Estudo de caso</span>
-                    <span class="name">${projectName}</span>
+                    <div class="name-marquee-container" id="name-mask">
+                        <div class="name-marquee-content" id="name-mover">
+                            <span class="name">${projectName}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <button class="gold-button" onclick="window.location.href='../'">
@@ -191,6 +218,30 @@
         const scriptLogo = document.createElement('script');
         scriptLogo.src = "https://www.vellumvisuals.com.br/res/scripts/logominimalista.js";
         document.head.appendChild(scriptLogo);
+
+        // 8. Lógica de Letreiro para o Nome do Projeto
+        const updateProjectNameMarquee = () => {
+            const mask = document.getElementById('name-mask');
+            const mover = document.getElementById('name-mover');
+            if (!mask || !mover) return;
+
+            const maskWidth = mask.offsetWidth;
+            const contentWidth = mover.scrollWidth;
+
+            // Só anima se o nome for maior que o espaço disponível
+            if (contentWidth > maskWidth) {
+                const diff = maskWidth - contentWidth - 10; // 10px de folga
+                mover.style.setProperty('--scroll-dist', `${diff}px`);
+                mover.style.animation = `shuttle 7s ease-in-out infinite alternate`;
+            } else {
+                mover.style.animation = 'none';
+                mover.style.transform = 'translateX(0)';
+            }
+        };
+
+        window.addEventListener('resize', updateProjectNameMarquee);
+        // Timeout para aguardar o carregamento de fontes e renderização inicial
+        setTimeout(updateProjectNameMarquee, 600);
 
         console.log("Barra de luxo adaptativa injetada.");
     };
