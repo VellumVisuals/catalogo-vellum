@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>3D Gyroscope View</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+            font-family: sans-serif;
+        }
+
+        /* Overlay para permissão e início */
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            margin-top: 20px;
+        }
+
+        #status {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #0f0;
+            font-size: 12px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h1>Experiência 3D Imersiva</h1>
+        <p>Coloque o celular em modo paisagem e clique no botão para ativar os sensores de movimento.</p>
+        <button id="startBtn">Iniciar Sensores</button>
+    </div>
+
+    <div id="status">Aguardando início...</div>
+
+    <!-- Importando Three.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        let scene, camera, renderer, cube, sphere, torus;
+        let deviceOrientation = {};
+        const statusEl = document.getElementById('status');
+
+        function init() {
+            // 1. Cena e Câmera
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x111122);
+            
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            // A câmera começa olhando para frente (eixo -Z)
+            camera.rotation.order = 'YXZ'; 
+
+            // 2. Renderizador
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.body.appendChild(renderer.domElement);
+
+            // 3. Luzes
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const light = new THREE.PointLight(0xffffff, 1);
+            light.position.set(10, 10, 10);
+            scene.add(light);
+
+            // 4. Objetos de Teste
+            
+            // Chão (Grid)
+            const gridHelper = new THREE.GridHelper(100, 50, 0x4444ff, 0x222244);
+            gridHelper.position.y = -2;
+            scene.add(gridHelper);
+
+            // Cubo
+            const geometryCube = new THREE.BoxGeometry(1, 1, 1);
+            const materialCube = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+            cube = new THREE.Mesh(geometryCube, materialCube);
+            cube.position.set(0, 0, -5);
+            scene.add(cube);
+
+            // Esfera
+            const geometrySphere = new THREE.SphereGeometry(0.7, 32, 32);
+            const materialSphere = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+            sphere = new THREE.Mesh(geometrySphere, materialSphere);
+            sphere.position.set(5, 0, 0);
+            scene.add(sphere);
+
+            // Torus (Rosca)
+            const geometryTorus = new THREE.TorusGeometry(0.5, 0.2, 16, 100);
+            const materialTorus = new THREE.MeshPhongMaterial({ color: 0xffff00 });
+            torus = new THREE.Mesh(geometryTorus, materialTorus);
+            torus.position.set(-5, 0, -3);
+            scene.add(torus);
+
+            window.addEventListener('resize', onWindowResize, false);
+            animate();
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Função de captura do movimento
+        function handleOrientation(event) {
+            // alpha: rotação em torno do eixo Z (0 a 360) - Bússola/Yaw
+            // beta: rotação em torno do eixo X (-180 a 180) - Pitch
+            // gamma: rotação em torno do eixo Y (-90 a 90) - Roll
+            
+            if (event.alpha !== null) {
+                deviceOrientation = event;
+                statusEl.innerText = `Alpha: ${Math.round(event.alpha)} | Beta: ${Math.round(event.beta)} | Gamma: ${Math.round(event.gamma)}`;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Animação leve dos objetos
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            torus.rotation.z += 0.02;
+
+            // Atualização da Câmera baseada no giroscópio
+            if (deviceOrientation.alpha !== undefined) {
+                // Converter graus para radianos
+                const alpha = THREE.MathUtils.degToRad(deviceOrientation.alpha); // Yaw
+                const beta = THREE.MathUtils.degToRad(deviceOrientation.beta);   // Pitch
+                const gamma = THREE.MathUtils.degToRad(deviceOrientation.gamma); // Roll
+
+                // Lógica usando Quaternion para maior precisão e evitar Gimbal Lock
+                const euler = new THREE.Euler(beta, alpha, -gamma, 'YXZ');
+                const quaternion = new THREE.Quaternion().setFromEuler(euler);
+
+                camera.quaternion.copy(quaternion);
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // Lógica de Permissão (Necessária para iOS e Chrome moderno)
+        document.getElementById('startBtn').addEventListener('click', function() {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                // iOS 13+
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation, true);
+                            document.getElementById('overlay').style.display = 'none';
+                        } else {
+                            alert("Permissão negada para o acelerômetro.");
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                // Outros dispositivos (Android)
+                window.addEventListener('deviceorientation', handleOrientation, true);
+                document.getElementById('overlay').style.display = 'none';
+            }
+            
+            init();
+        });
+
+    </script>
+</body>
+</html>
