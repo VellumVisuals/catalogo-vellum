@@ -131,7 +131,7 @@
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 99999; /* Aumentado para ficar acima da barra de estudo de caso */
             transition: transform 0.2s ease, background-color 0.3s ease, width 0.3s ease, height 0.3s ease;
             mix-blend-mode: multiply;
         }
@@ -211,9 +211,52 @@
         .snap-center {
             scroll-snap-align: center;
         }
+
+        /* Toast Styles (Luxo) */
+        #demo-toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 2px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            text-align: center;
+            z-index: 10030;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            border: 1px solid rgba(181, 148, 97, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
+
+        #demo-toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #demo-toast .toast-accent {
+            display: block;
+            color: var(--gold);
+            font-size: 9px;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body class="text-gray-800">
+
+    <!-- Toast Component -->
+    <div id="demo-toast">
+        Apenas demonstração.
+        <span class="toast-accent">Obrigado pela visita!</span>
+    </div>
 
     <!-- Cursor Element -->
     <div id="customCursor"></div>
@@ -231,10 +274,10 @@
             <div class="text-base md:text-xl font-light tracking-[0.2em] md:tracking-[0.4em] serif uppercase whitespace-nowrap">L'Art de Vivre</div>
 
                 <div class="hidden md:flex space-x-12">
-                    <a href="#" class="nav-link hover:text-gold interactive">Adentrar o Acervo</a>
-                    <a href="#" class="nav-link hover:text-gold interactive">Coleções Individuais</a>
-                    <a href="#" class="nav-link hover:text-gold interactive">A Casa</a>
-                    <a href="#" class="nav-link hover:text-gold interactive">Contato</a>
+                    <a href="#" onclick="triggerToast(); event.preventDefault();" class="nav-link hover:text-gold interactive">Adentrar o Acervo</a>
+                    <a href="#" onclick="triggerToast(); event.preventDefault();" class="nav-link hover:text-gold interactive">Coleções Individuais</a>
+                    <a href="#" onclick="triggerToast(); event.preventDefault();" class="nav-link hover:text-gold interactive">A Casa</a>
+                    <a href="#" onclick="triggerToast(); event.preventDefault();" class="nav-link hover:text-gold interactive">Contato</a>
                 </div>
 
 
@@ -311,7 +354,7 @@
     </section>
 
     <!-- Product Modal -->
-    <div id="productModal" class="fixed inset-0 z-[110] invisible">
+    <div id="productModal" class="fixed inset-0 z-[10010] invisible">
         <div id="modalOverlay" class="absolute inset-0 bg-black/40 backdrop-blur-md transition-opacity duration-700 opacity-0"></div>
         <div id="modalContent" class="absolute inset-0 md:inset-10 lg:inset-20 bg-[#F9F7F2] shadow-2xl transform scale-95 opacity-0 transition-all duration-700 overflow-hidden">
             <button id="closeModal" aria-label="Fechar detalhes" class="absolute top-6 right-6 z-20 text-gray-400 hover:text-black transition-colors interactive">
@@ -351,7 +394,7 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobileMenuContainer" class="fixed inset-0 z-[100] invisible md:hidden">
+    <div id="mobileMenuContainer" class="fixed inset-0 z-[10010] invisible md:hidden">
         <div id="mobileMenuOverlay" class="absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-700 opacity-0"></div>
         <div id="mobileMenuContent" class="absolute left-0 top-0 h-full w-full max-w-md bg-[#F9F7F2] shadow-2xl transform -translate-x-full transition-transform duration-700 flex flex-col">
             <div class="p-10 border-b border-gray-100 flex justify-between items-center">
@@ -364,10 +407,10 @@
             </div>
             
             <nav class="flex flex-col p-10 space-y-8 flex-1 overflow-y-auto">
-                <a href="#" aria-label="Acessar acervo" class="serif text-2xl text-dark tracking-widest border-b border-gray-100 pb-4" onclick="toggleMobileMenu(false)">Acervo</a>
-                <a href="#" aria-label="Ver coleções" class="serif text-2xl text-dark tracking-widest border-b border-gray-100 pb-4" onclick="toggleMobileMenu(false)">Coleções</a>
-                <a href="#" aria-label="Sobre a marca" class="serif text-2xl text-dark tracking-widest border-b border-gray-100 pb-4" onclick="toggleMobileMenu(false)">Sobre</a>
-                <a href="#" aria-label="Contato" class="serif text-2xl text-dark tracking-widest border-b border-gray-100 pb-4" onclick="toggleMobileMenu(false)">Contato</a>
+                <a href="#" aria-label="Acessar acervo" class="serif text-2xl text-dark tracking-widest border-b border-gray-100 pb-4" onclick="triggerToast(); event.preventDefault(); toggleMobileMenu(false)">Acervo</a>
+                <a href="#" aria-label="Ver coleções" class="serif text-2xl text-dark tracking-widest border-b border-gray-100 pb-4" onclick="triggerToast(); event.preventDefault(); toggleMobileMenu(false)">Coleções</a>
+                <a href="#" aria-label="Sobre a marca" class="serif text-2xl text-dark tracking-widest border-b border-gray-100 pb-4" onclick="triggerToast(); event.preventDefault(); toggleMobileMenu(false)">Sobre</a>
+                <a href="#" aria-label="Contato" class="serif text-2xl text-dark tracking-widest border-b border-gray-100 pb-4" onclick="triggerToast(); event.preventDefault(); toggleMobileMenu(false)">Contato</a>
             </nav>
 
             <div class="p-10 mt-auto border-t border-gray-100 bg-[#F9F7F2]">
@@ -378,7 +421,7 @@
     </div>
 
     <!-- Cart Sidebar -->
-    <div id="cartSidebar" class="fixed inset-0 z-[100] invisible">
+    <div id="cartSidebar" class="fixed inset-0 z-[10010] invisible">
         <div id="cartOverlay" class="absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-700 opacity-0"></div>
         <div id="cartContent" class="absolute right-0 top-0 h-full w-full max-w-md bg-[#F9F7F2] shadow-2xl transform translate-x-full transition-transform duration-700 flex flex-col">
             <div class="p-10 border-b border-gray-100 flex justify-between items-center">
@@ -407,9 +450,9 @@
             <div class="text-2xl serif mb-8 tracking-[0.3em] uppercase">L'Art de Vivre</div>
             <p class="text-gray-400 text-xs max-w-sm mx-auto mb-12 font-light italic leading-relaxed">"A verdadeira sofisticação reside na escolha consciente de cada fragmento que compõe o seu espaço."</p>
             <div class="flex justify-center space-x-10 mb-16 text-[10px] uppercase tracking-[0.2em]">
-                <a href="#" class="text-gray-400 hover:text-gold transition-colors interactive">Instagram</a>
-                <a href="#" class="text-gray-400 hover:text-gold transition-colors interactive">Journal</a>
-                <a href="#" class="text-gray-400 hover:text-gold transition-colors interactive">Privacidade</a>
+                <a href="#" onclick="triggerToast(); event.preventDefault();" class="text-gray-400 hover:text-gold transition-colors interactive">Instagram</a>
+                <a href="#" onclick="triggerToast(); event.preventDefault();" class="text-gray-400 hover:text-gold transition-colors interactive">Journal</a>
+                <a href="#" onclick="triggerToast(); event.preventDefault();" class="text-gray-400 hover:text-gold transition-colors interactive">Privacidade</a>
             </div>
             <p class="text-[9px] text-gray-300 uppercase tracking-[0.4em]">&copy; 2024 L'Art de Vivre &mdash; Estúdio de Curadoria</p>
         </div>
@@ -743,7 +786,8 @@
             // Criamos o HTML do Modal de Conceito dinamicamente
             const conceitoModal = document.createElement('div');
             conceitoModal.id = "conceitoModalElement";
-            conceitoModal.className = "fixed inset-0 z-[200] flex items-center justify-center p-6 transition-opacity duration-700";
+            // Z-index ultra-alto para sobrepor o layout do estudo de caso
+            conceitoModal.className = "fixed inset-0 z-[10020] flex items-center justify-center p-6 transition-opacity duration-700";
             conceitoModal.innerHTML = `
                 <div class="absolute inset-0 bg-black/60 backdrop-blur-md"></div>
                 <div class="relative bg-[#F4F1EA] max-w-lg w-full p-12 shadow-2xl reveal active" style="opacity: 1; transform: translateY(0);">
