@@ -68,6 +68,7 @@
                 overflow: hidden;
                 white-space: nowrap;
                 width: 100%;
+                padding-left: 2px; /* Correção para não cortar o primeiro caractere */
                 mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
                 -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
             }
@@ -230,7 +231,8 @@
 
             // Só anima se o nome for maior que o espaço disponível
             if (contentWidth > maskWidth) {
-                const diff = maskWidth - contentWidth - 10; // 10px de folga
+                // Ajuste de diff para -2px para evitar o espaço extra no final
+                const diff = maskWidth - contentWidth - 2; 
                 mover.style.setProperty('--scroll-dist', `${diff}px`);
                 mover.style.animation = `shuttle 7s ease-in-out infinite alternate`;
             } else {
