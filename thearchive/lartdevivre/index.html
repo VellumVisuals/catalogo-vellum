@@ -62,7 +62,10 @@
         /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--cream); }
-        ::-webkit-scrollbar-thumb { background: var(--gold); }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--gold); 
+            min-height: 100px; /* Aumenta o tamanho mínimo do rastreador */
+        }
 
         /* Animação de Luxo para os Cards */
         .product-card img {
@@ -127,13 +130,14 @@
         #customCursor {
             width: 12px;
             height: 12px;
-            background-color: var(--gold);
+            background-color: #FFFFFF; /* Cor alterada para branco para funcionar com Difference */
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 2147483647; /* Garantido para ficar acima de qualquer script injetado */
             transition: transform 0.2s ease, background-color 0.3s ease, width 0.3s ease, height 0.3s ease;
-            mix-blend-mode: multiply;
+            mix-blend-mode: difference; /* Inverte a cor baseada no fundo (garante visibilidade em preto e branco) */
+            /*border: 1px solid rgba(255, 255, 255, 0.2); ---> Borda sutil de segurança */
         }
 
         #customCursor.expand {
