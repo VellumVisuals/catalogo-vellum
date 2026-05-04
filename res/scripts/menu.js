@@ -202,6 +202,7 @@
                 <span class="vmh-hamburguer"></span>
             </label>
             <div class="vmh-mobile-nav">
+                <a href="/" class="vmh-nav-link" onclick="document.getElementById('vmh-menu-toggle').checked = false">Início</a>    
                 <a href="/#metodologia" class="vmh-nav-link" onclick="document.getElementById('vmh-menu-toggle').checked = false">Método</a>
                 <a href="/#experiencias" class="vmh-nav-link" onclick="document.getElementById('vmh-menu-toggle').checked = false">Signature</a>
                 <a href="/#essentials" class="vmh-nav-link" onclick="document.getElementById('vmh-menu-toggle').checked = false">Stewardship</a>
