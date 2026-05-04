@@ -158,6 +158,16 @@
             border-color: var(--gold);
             background: rgba(212, 175, 55, 0.02);
         }
+
+        /* Estilo Específico para o botão Archive para evitar conflito global */
+        .btn-archive {
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+        .btn-archive:hover {
+            background-color: var(--gold);
+            color: #000 !important;
+        }
     </style>
 </head>
 <body>
@@ -171,7 +181,8 @@
             <a href="#metodologia" class="nav-link">Método</a>
             <a href="#experiencias" class="nav-link">Signature</a>
             <a href="#essentials" class="nav-link">Stewardship</a>
-            <a href="/briefing" class="nav-link text-gold font-semibold tracking-[0.4em]">Briefing</a>
+            <a href="thearchive/" class="nav-link font-bold text-white border-b border-gold/30">The Archive</a>
+            <a href="briefing/" class="nav-link text-gold font-semibold tracking-[0.4em]">Briefing</a>
         </div>
     </nav>
 
@@ -186,7 +197,7 @@
                 Projetamos ecossistemas digitais e ativos de luxo para marcas que não aceitam o comum.
             </p>
             <div class="mt-16 animate-hero" style="animation-delay: 1.1s;">
-                <a href="/briefing" class="cta-gold">Solicitar Curadoria</a>
+                <a href="briefing/" class="cta-gold">Solicitar Curadoria</a>
             </div>
         </div>
     </header>
@@ -247,6 +258,12 @@
                 Seja na curadoria estratégica do seu ecossistema (Stewardship), 
                 nossa obsessão pela precisão técnica e estética permanece inavalável.
             </p>
+
+            <div class="mt-12 mb-16">
+                <a href="thearchive/" class="btn-archive text-[0.6rem] tracking-[0.5em] uppercase px-8 py-4 transition-all duration-700">
+                    Explorar a Coleção: The Archive
+                </a>
+            </div>
             
             <div class="grid md:grid-cols-2 gap-8 text-left">
                 <div class="bridge-card p-10 rounded-xl">
@@ -294,6 +311,10 @@
                         <div class="md:col-span-2 text-base text-gray-300 leading-relaxed">
                             <strong class="gold-text font-medium text-sm tracking-widest uppercase">Onde o portfólio encontra o editorial de luxo.</strong><br>
                             Jornadas imersivas que utilizam psicologia visual para tornar sua oferta inquestionável.
+                            <br><br>
+                            <a href="thearchive/" class="text-[0.6rem] text-gold uppercase tracking-widest hover:underline">
+                                Visualizar Estudo de Caso (The Archive) →
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -412,7 +433,7 @@
     <!-- FOOTER -->
     <footer class="py-32 px-6 text-center reveal border-t border-white/5">
         <h2 class="text-4xl font-bold text-white mb-12 playfair italic leading-tight">Materialize sua Autoridade.</h2>
-        <a href="/briefing" class="cta-gold">Solicitar Curadoria</a>
+        <a href="briefing/" class="cta-gold">Solicitar Curadoria</a>
         <div class="mt-24 pt-8">
             <p class="text-[0.65rem] text-gray-400 mb-6 uppercase tracking-[0.2em] max-w-xl mx-auto">Atendimento restrito a marcas que compreendem o design como um ativo de capital e o código como uma ferramenta de soberania.</p>
             <p class="text-[0.6rem] tracking-[0.5em] text-gray-600 uppercase">© 2026 VELLUM VISUALS STUDIO. ALL RIGHTS RESERVED.</p>
