@@ -11,6 +11,7 @@
     <script src="https://www.vellumvisuals.com.br/res/scripts/path_fixer.js"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/res/scripts/menu.js"></script>
     <!-- Adicionando a fonte característica da Vellum -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
@@ -237,14 +238,14 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-8">
 
-    <!-- Título Minimalista -->
-    <header class="mb-16 text-center">
+    <!-- Título Minimalista - Adicionado mt-28 para dar espaço ao menu fixo -->
+    <header class="md:mt-28 mb-16 text-center py-2">
         <h1 class="text-4xl md:text-6xl lux-text mb-4">The Archive</h1>
         <div class="h-px w-20 bg-white mx-auto opacity-10"></div>
     </header>
 
     <!-- Galeria Interativa -->
-    <main class="w-full flex justify-center items-center overflow-visible py-20" id="scene">
+    <main class="w-full flex justify-center items-center overflow-visible py-2" id="scene">
         <div class="gallery-container" id="gallery">
             <!-- Imagem 1 - L'Essence -->
             <div class="image-card" data-url="lessence" data-img="lessence">
@@ -285,7 +286,7 @@
     </main>
 
     <!-- Texto Inferior -->
-    <footer class="mt-16 max-w-xl text-center">
+    <footer class="mt-16 max-w-xl text-center py-2">
         <p class="text-xs font-light leading-relaxed opacity-40 uppercase tracking-widest" style="font-family: 'Inter', sans-serif;">
             A beleza reside na simplicidade e no equilíbrio das formas. <br>
             Explore a perspectiva do novo luxo digital.

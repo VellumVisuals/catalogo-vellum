@@ -14,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/res/scripts/menu.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -129,18 +130,6 @@
             animation: heroFadeUp 1.2s ease-out 0.3s forwards;
         }
 
-        .nav-link {
-            font-size: 0.65rem;
-            letter-spacing: 0.3em;
-            color: #888;
-            transition: color 0.3s;
-            text-transform: uppercase;
-        }
-        
-        .nav-link:hover {
-            color: var(--gold);
-        }
-
         .fase-number {
             font-size: 0.6rem;
             letter-spacing: 0.5em;
@@ -181,94 +170,16 @@
                 margin: 0 auto;
             }
         }
-
-        /* MENU MOBILE MINIMALISTA */
-        #menu-toggle { display: none; }
-        .mobile-menu-btn {
-            display: none;
-            cursor: pointer;
-            z-index: 100;
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-        }
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            height: 100vh;
-            background: rgba(10, 10, 10, 0.98);
-            z-index: 90;
-            transition: right 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-        }
-        #menu-toggle:checked ~ .mobile-nav { right: 0; }
-        #menu-toggle:checked ~ .mobile-menu-btn .hamburguer { background: transparent; }
-        #menu-toggle:checked ~ .mobile-menu-btn .hamburguer::before { transform: rotate(45deg); top: 0; }
-        #menu-toggle:checked ~ .mobile-menu-btn .hamburguer::after { transform: rotate(-45deg); top: 0; }
-
-        .hamburguer {
-            display: block;
-            width: 20px;
-            height: 1px;
-            background: var(--gold);
-            position: relative;
-            transition: all 0.3s;
-        }
-        .hamburguer::before, .hamburguer::after {
-            content: '';
-            width: 20px;
-            height: 1px;
-            background: var(--gold);
-            position: absolute;
-            transition: all 0.3s;
-        }
-        .hamburguer::before { top: -6px; }
-        .hamburguer::after { top: 6px; }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn { display: block; }
-        }
     </style>
 </head>
 <body>
 
     <canvas id="bg-canvas"></canvas>
 
-    <!-- MOBILE NAVIGATION STRUCTURE -->
-    <input type="checkbox" id="menu-toggle">
-    <label for="menu-toggle" class="mobile-menu-btn">
-        <span class="hamburguer"></span>
-    </label>
-    <div class="mobile-nav">
-        <a href="#metodologia" class="nav-link text-lg" onclick="document.getElementById('menu-toggle').checked = false">Método</a>
-        <a href="#experiencias" class="nav-link text-lg" onclick="document.getElementById('menu-toggle').checked = false">Signature</a>
-        <a href="#essentials" class="nav-link text-lg" onclick="document.getElementById('menu-toggle').checked = false">Stewardship</a>
-        <a href="thearchive/" class="nav-link text-lg" onclick="document.getElementById('menu-toggle').checked = false">The Archive</a>
-        <a href="briefing/" class="nav-link text-gold font-bold text-lg" onclick="document.getElementById('menu-toggle').checked = false">Briefing</a>
-    </div>
-
-    <!-- NAVIGATION (DESKTOP) -->
-    <nav class="fixed top-0 w-full z-50 py-8 px-12 hidden md:flex justify-between items-center bg-black/20 backdrop-blur-sm">
-        <div class="text-gold font-bold tracking-[0.4em] text-xs">VELLUM</div>
-        <div class="flex gap-10">
-            <a href="#metodologia" class="nav-link">Método</a>
-            <a href="#experiencias" class="nav-link">Signature</a>
-            <a href="#essentials" class="nav-link">Stewardship</a>
-            <a href="thearchive/" class="nav-link font-bold text-white border-b border-gold/30">The Archive</a>
-            <a href="briefing/" class="nav-link text-gold font-semibold tracking-[0.4em]">Briefing</a>
-        </div>
-    </nav>
-
     <!-- HERO -->
     <header class="min-h-screen flex items-center justify-center text-center px-6">
         <div class="max-w-5xl">
-            <span class="animate-hero text-[0.6rem] tracking-[0.8em] uppercase text-gray-500 mb-8 block" style="animation-delay: 0.5s;">Vellum Visuals Studio</span>
+            <span class="animate-hero text-[0.6rem] tracking-[0.8em] uppercase text-gray-500 mb-8 block pt-[10px] md:pt-0" style="animation-delay: 0.5s;">Vellum Visuals Studio</span>
             <h1 class="animate-hero text-5xl md:text-7xl font-bold mb-8 gold-text leading-tight tracking-tight" style="animation-delay: 0.7s;">
                 A Engenharia da <br> Autoridade Impecável.
             </h1>
