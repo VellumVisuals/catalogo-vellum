@@ -22,11 +22,20 @@
             transition: color 0.3s;
             text-transform: uppercase;
             text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
         }
         
         .vellum-nav-link:hover {
             color: var(--gold);
         }
+
+        /* Classes de utilidade para simular Tailwind no componente isolado */
+        .vellum-text-lg { font-size: 1.125rem; }
+        .vellum-font-bold { font-weight: 700; }
+        .vellum-font-semibold { font-weight: 600; }
+        .vellum-text-white { color: #ffffff !important; }
+        .vellum-text-gold { color: var(--gold) !important; }
+        .vellum-tracking-widest { letter-spacing: 0.4em; }
 
         /* Menu Mobile */
         #vellum-menu-toggle { display: none; }
@@ -96,22 +105,22 @@
     </label>
     
     <div class="vellum-mobile-nav">
-        <a href="/#metodologia" class="vellum-nav-link text-lg" onclick="closeVellumMenu()">Método</a>
-        <a href="/#experiencias" class="vellum-nav-link text-lg" onclick="closeVellumMenu()">Signature</a>
-        <a href="/#essentials" class="vellum-nav-link text-lg" onclick="closeVellumMenu()">Stewardship</a>
-        <a href="/thearchive/" class="vellum-nav-link text-lg" onclick="closeVellumMenu()">The Archive</a>
-        <a href="/briefing/" class="vellum-nav-link text-[var(--gold)] font-bold text-lg" onclick="closeVellumMenu()">Briefing</a>
+        <a href="/#metodologia" class="vellum-nav-link vellum-text-lg" onclick="closeVellumMenu()">Método</a>
+        <a href="/#experiencias" class="vellum-nav-link vellum-text-lg" onclick="closeVellumMenu()">Signature</a>
+        <a href="/#essentials" class="vellum-nav-link vellum-text-lg" onclick="closeVellumMenu()">Stewardship</a>
+        <a href="/thearchive/" class="vellum-nav-link vellum-text-lg" onclick="closeVellumMenu()">The Archive</a>
+        <a href="/briefing/" class="vellum-nav-link vellum-text-gold vellum-font-bold vellum-text-lg" onclick="closeVellumMenu()">Briefing</a>
     </div>
 
     <!-- NAVEGAÇÃO DESKTOP -->
-    <nav class="vellum-desktop-nav fixed top-0 w-full z-50 py-8 px-12 flex justify-between items-center bg-black/20 backdrop-blur-sm">
-        <div class="text-[var(--gold)] font-bold tracking-[0.4em] text-xs">VELLUM</div>
-        <div class="flex gap-10">
+    <nav class="vellum-desktop-nav fixed top-0 w-full z-50 py-8 px-12 flex justify-between items-center bg-black/20 backdrop-blur-sm" style="display: flex; position: fixed; top: 0; width: 100%; z-index: 50; padding: 2rem 3rem; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); backdrop-filter: blur(4px);">
+        <div class="vellum-text-gold vellum-font-bold vellum-tracking-widest" style="font-size: 0.75rem; letter-spacing: 0.4em;">VELLUM</div>
+        <div class="flex gap-10" style="display: flex; gap: 2.5rem;">
             <a href="/#metodologia" class="vellum-nav-link">Método</a>
             <a href="/#experiencias" class="vellum-nav-link">Signature</a>
             <a href="/#essentials" class="vellum-nav-link">Stewardship</a>
-            <a href="/thearchive/" class="vellum-nav-link font-bold text-white border-b border-[var(--gold)]/30">The Archive</a>
-            <a href="/briefing/" class="vellum-nav-link text-[var(--gold)] font-semibold tracking-[0.4em]">Briefing</a>
+            <a href="/thearchive/" class="vellum-nav-link vellum-font-bold vellum-text-white" style="border-bottom: 1px solid rgba(212, 175, 55, 0.3);">The Archive</a>
+            <a href="/briefing/" class="vellum-nav-link vellum-text-gold vellum-font-semibold vellum-tracking-widest">Briefing</a>
         </div>
     </nav>
     `;
